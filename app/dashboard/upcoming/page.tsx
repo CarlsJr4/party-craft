@@ -1,5 +1,5 @@
 import React from 'react';
-import EventCard from '@/components/ui/eventcard';
+import EventCard from '@/components/custom/eventcard';
 
 const page = () => {
   return (
