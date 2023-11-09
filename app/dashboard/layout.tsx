@@ -1,5 +1,5 @@
 import React from 'react';
-import DashNav from '@/components/custom/dashnav';
+import DashNav from '@/components/custom/Dashnav';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
