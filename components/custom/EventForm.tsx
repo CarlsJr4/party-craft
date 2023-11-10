@@ -49,7 +49,7 @@ const EventForm = () => {
                 <FormItem>
                   <FormLabel>Event name</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +64,7 @@ const EventForm = () => {
                 <FormItem>
                   <FormLabel>Event description</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
