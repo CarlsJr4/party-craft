@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
-  username: z.string().min(3, {
+  eventname: z.string().min(3, {
     message: 'Event name must be at least 3 characters.',
   }),
 });
@@ -26,7 +25,7 @@ const EventForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      eventname: '',
     },
   });
 
@@ -40,7 +39,7 @@ const EventForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="mb-5">
           <FormField
             control={form.control}
-            name="username"
+            name="eventname"
             render={({ field }) => {
               return (
                 <FormItem>
