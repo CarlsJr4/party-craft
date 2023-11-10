@@ -19,6 +19,9 @@ const formSchema = z.object({
   eventname: z.string().min(3, {
     message: 'Event name must be at least 3 characters.',
   }),
+  eventdesc: z.string().min(1, {
+    message: 'Event description cannot be blank',
+  }),
 });
 
 const EventForm = () => {
@@ -26,6 +29,7 @@ const EventForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: '',
+      eventdesc: '',
     },
   });
 
@@ -44,6 +48,21 @@ const EventForm = () => {
               return (
                 <FormItem>
                   <FormLabel>Event name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="eventdesc"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Event description</FormLabel>
                   <FormControl>
                     <Input placeholder="shadcn" {...field} />
                   </FormControl>

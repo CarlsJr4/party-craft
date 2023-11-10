@@ -16,13 +16,15 @@ const setup = () => {
 };
 
 describe('Event form validation', () => {
-  it('Displays errors when an empty event name is submitted', async () => {
+  it('Displays errors when an empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
-    const errorMessage = screen.getByText(
+    const errEventName = screen.getByText(
       /Event name must be at least 3 characters./i
     );
-    expect(errorMessage).toBeInTheDocument();
+    const errEventDesc = screen.getByText(/Event description cannot be blank/i);
+    expect(errEventName).toBeInTheDocument();
+    expect(errEventDesc).toBeInTheDocument();
   });
 
   it('Displays errors when a one-letter event name is submitted', async () => {
