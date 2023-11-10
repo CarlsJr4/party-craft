@@ -19,7 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 const formSchema = z.object({
   eventname: z
     .string({
-      required_error: 'Event name is required.',
+      required_error: 'Event name cannot be blank.',
     })
     .min(3, {
       message: 'Event name must be at least 3 characters.',

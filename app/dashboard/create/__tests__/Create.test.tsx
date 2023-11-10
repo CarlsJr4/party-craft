@@ -19,7 +19,9 @@ describe('Event form validation', () => {
   it('Displays errors when an empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
-    const errEventNameRequired = screen.getByText(/Event name is required./i);
+    const errEventNameRequired = screen.getByText(
+      /Event name cannot be blank./i
+    );
     const errEventDesc = screen.getByText(
       /Event description cannot be blank./i
     );
