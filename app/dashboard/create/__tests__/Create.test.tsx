@@ -16,25 +16,39 @@ const setup = () => {
 };
 
 describe('Event form validation', () => {
-  it('Displays errors when an empty username is submitted', async () => {
+  it('Displays errors when an empty event name is submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
     const errorMessage = screen.getByText(
-      /Username must be at least 2 characters./i
+      /Event name must be at least 3 characters./i
     );
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it('Displays errors when a one-letter username is submitted', async () => {
+  it('Displays errors when a one-letter event name is submitted', async () => {
     const { submitButton, user } = setup();
-    const usernameField = screen.getByLabelText('Username');
+    const usernameField = screen.getByLabelText('Event name');
     expect(usernameField).toBeInTheDocument();
     await user.click(usernameField);
     await user.keyboard('a');
     await user.click(submitButton);
     const errorMessage = screen.getByText(
-      /Username must be at least 2 characters./i
+      /Event name must be at least 3 characters./i
     );
     expect(errorMessage).toBeInTheDocument();
+  });
+
+  describe('Form submission', () => {
+    it('Displays success state when validated form is submitted', async () => {
+      const { submitButton, user } = setup();
+      // Submit all the form fields
+      await user.click(submitButton);
+      // Assert if the UI renders a success message
+    });
+    it('Displays failure state when invalidated form is submitted', async () => {
+      const { submitButton, user } = setup();
+      await user.click(submitButton);
+      // Some assertion that tests an incorrect form response
+    });
   });
 });
