@@ -16,7 +16,7 @@ const setup = () => {
 };
 
 describe('Event form validation', () => {
-  it('Displays errors when an empty fields are submitted', async () => {
+  it('Displays errors when empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
     const errEventNameRequired = screen.getByText(
@@ -25,7 +25,12 @@ describe('Event form validation', () => {
     const errEventDescRequired = screen.getByText(
       /Event description cannot be blank./i
     );
-    const errors = [errEventNameRequired, errEventDescRequired];
+    const errDateRequired = screen.getByText(/Please pick a date./i);
+    const errors = [
+      errEventNameRequired,
+      errEventDescRequired,
+      errDateRequired,
+    ];
     errors.forEach(error => {
       expect(error).toBeInTheDocument();
     });
