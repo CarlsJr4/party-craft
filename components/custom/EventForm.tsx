@@ -17,21 +17,21 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
-  eventname: z.string().min(3, {
-    message: 'Event name must be at least 3 characters.',
-  }),
-  eventdesc: z.string().min(1, {
-    message: 'Event description cannot be blank',
+  eventname: z
+    .string({
+      required_error: 'Event name is required.',
+    })
+    .min(3, {
+      message: 'Event name must be at least 3 characters.',
+    }),
+  eventdesc: z.string({
+    required_error: 'Event description cannot be blank.',
   }),
 });
 
 const EventForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      eventname: '',
-      eventdesc: '',
-    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {

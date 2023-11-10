@@ -19,12 +19,14 @@ describe('Event form validation', () => {
   it('Displays errors when an empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
-    const errEventName = screen.getByText(
-      /Event name must be at least 3 characters./i
+    const errEventNameRequired = screen.getByText(/Event name is required./i);
+    const errEventDesc = screen.getByText(
+      /Event description cannot be blank./i
     );
-    const errEventDesc = screen.getByText(/Event description cannot be blank/i);
-    expect(errEventName).toBeInTheDocument();
-    expect(errEventDesc).toBeInTheDocument();
+    const errors = [errEventNameRequired, errEventDesc];
+    errors.forEach(error => {
+      expect(error).toBeInTheDocument();
+    });
   });
 
   it('Displays errors when a one-letter event name is submitted', async () => {
@@ -40,17 +42,17 @@ describe('Event form validation', () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  describe('Form submission', () => {
-    it('Displays success state when validated form is submitted', async () => {
-      const { submitButton, user } = setup();
-      // Submit all the form fields
-      await user.click(submitButton);
-      // Assert if the UI renders a success message
-    });
-    it('Displays failure state when invalidated form is submitted', async () => {
-      const { submitButton, user } = setup();
-      await user.click(submitButton);
-      // Some assertion that tests an incorrect form response
-    });
-  });
+  // describe('Form submission', () => {
+  //   it('Displays success state when validated form is submitted', async () => {
+  //     const { submitButton, user } = setup();
+  //     // Submit all the form fields
+  //     await user.click(submitButton);
+  //     // Assert if the UI renders a success message
+  //   });
+  //   it('Displays failure state when invalidated form is submitted', async () => {
+  //     const { submitButton, user } = setup();
+  //     await user.click(submitButton);
+  //     // Some assertion that tests an incorrect form response
+  //   });
+  // });
 });
