@@ -22,10 +22,10 @@ describe('Event form validation', () => {
     const errEventNameRequired = screen.getByText(
       /Event name cannot be blank./i
     );
-    const errEventDesc = screen.getByText(
+    const errEventDescRequired = screen.getByText(
       /Event description cannot be blank./i
     );
-    const errors = [errEventNameRequired, errEventDesc];
+    const errors = [errEventNameRequired, errEventDescRequired];
     errors.forEach(error => {
       expect(error).toBeInTheDocument();
     });
