@@ -23,8 +23,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useToast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/utils';
+import { Toaster } from '../ui/toaster';
 
 const formSchema = z.object({
   eventname: z.string().min(3, {
@@ -39,6 +41,7 @@ const formSchema = z.object({
 });
 
 const EventForm = () => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +50,13 @@ const EventForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // Only reset form on successful submit
+    // form.reset();
+    console.log('foo');
+    toast({
+      title: 'Hooray!',
+      description: 'Event created!',
+    });
   }
 
   return (
@@ -90,7 +99,7 @@ const EventForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Event Date</FormLabel>
+                  <FormLabel>Event date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -130,6 +139,7 @@ const EventForm = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <Toaster />
     </>
   );
 };

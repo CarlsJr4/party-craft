@@ -69,10 +69,9 @@ describe('Form submission', () => {
     await user.click(eventdescField);
     await user.keyboard('Meet up at the mall and go to the ice skating rink');
     await user.click(eventdateField);
-    const nextDay = screen.getByRole('gridcell', { selected: true });
-    await user.click(nextDay);
+    await user.keyboard('{Enter}'); // Simulates selecting the next day in the calendar component
     await user.click(submitButton);
-    const successMessage = screen.getByText(/Event created!/i);
+    const successMessage = await screen.findByText('Event created!');
     expect(successMessage).toBeInTheDocument();
   });
 });
