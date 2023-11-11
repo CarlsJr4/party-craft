@@ -32,8 +32,8 @@ const formSchema = z.object({
   eventname: z.string().min(3, {
     message: 'Event name must be at least 3 characters.',
   }),
-  eventdesc: z.string({
-    required_error: 'Event description cannot be blank.',
+  eventdesc: z.string({}).min(1, {
+    message: 'Event description cannot be blank.',
   }),
   eventdate: z.date({
     required_error: 'Please pick a date.',
@@ -46,13 +46,12 @@ const EventForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       eventname: '',
+      eventdesc: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Only reset form on successful submit
-    // form.reset();
-    console.log('foo');
+    form.reset();
     toast({
       title: 'Hooray!',
       description: 'Event created!',

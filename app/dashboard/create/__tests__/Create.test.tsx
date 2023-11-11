@@ -74,4 +74,26 @@ describe('Form submission', () => {
     const successMessage = await screen.findByText('Event created!');
     expect(successMessage).toBeInTheDocument();
   });
+
+  it('Clears the form after a successful submission', async () => {
+    const { submitButton, user } = setup();
+    // Submit all the form fields
+    const eventnameField = screen.getByLabelText('Event name');
+    const eventdescField = screen.getByLabelText('Event description');
+    const eventdateField = screen.getByLabelText('Event date');
+
+    const formFields = [eventnameField, eventdescField, eventdateField];
+
+    await user.click(eventnameField);
+    await user.keyboard('Ice skating with friends');
+    await user.click(eventdescField);
+    await user.keyboard('Meet up at the mall and go to the ice skating rink');
+    await user.click(eventdateField);
+    await user.keyboard('{Enter}'); // Simulates selecting the next day in the calendar component
+    await user.click(submitButton);
+
+    formFields.forEach(field => {
+      expect(field).not.toHaveValue();
+    });
+  });
 });
