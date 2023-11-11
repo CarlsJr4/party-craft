@@ -19,11 +19,18 @@ describe('Event form validation', () => {
   it('Displays errors when empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
+    const errEventNameRequired = screen.getByText(
+      /Event name must be at least 3 characters./i
+    );
     const errEventDescRequired = screen.getByText(
       /Event description cannot be blank./i
     );
     const errDateRequired = screen.getByText(/Please pick a date./i);
-    const errors = [errEventDescRequired, errDateRequired];
+    const errors = [
+      errEventNameRequired,
+      errEventDescRequired,
+      errDateRequired,
+    ];
     errors.forEach(error => {
       expect(error).toBeInTheDocument();
     });
@@ -54,6 +61,17 @@ describe('Form submission', () => {
   it('Displays success state when a form is submitted without errors', async () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
+    const eventnameField = screen.getByLabelText('Event name');
+    const eventdescField = screen.getByLabelText('Event description');
+    const eventdateField = screen.getByLabelText('Event date');
+    await user.click(eventnameField);
+    await user.keyboard('Ice skating with friends');
+    await user.click(eventdescField);
+    await user.keyboard('Meet up at the mall and go to the ice skating rink');
+    await user.click(eventdateField);
+    const nextDay = screen.getByRole('gridcell', { selected: true });
+    await user.click(nextDay);
+    await user.click(submitButton);
     const successMessage = screen.getByText(/Event created!/i);
     expect(successMessage).toBeInTheDocument();
   });
