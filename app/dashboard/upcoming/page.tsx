@@ -1,7 +1,7 @@
 import React from 'react';
 import EventCard from '@/components/custom/Eventcard';
 
-const page = () => {
+const UpcomingEvents = () => {
   return (
     <div>
       <h1>Your Upcoming Events:</h1>
@@ -13,4 +13,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default UpcomingEvents;
