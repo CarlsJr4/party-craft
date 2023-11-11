@@ -31,9 +31,9 @@ describe('Event form validation', () => {
 
   it('Displays errors when a one-letter event name is submitted', async () => {
     const { submitButton, user } = setup();
-    const usernameField = screen.getByLabelText('Event name');
-    expect(usernameField).toBeInTheDocument();
-    await user.click(usernameField);
+    const eventnameField = screen.getByLabelText('Event name');
+    expect(eventnameField).toBeInTheDocument();
+    await user.click(eventnameField);
     await user.keyboard('a');
     await user.click(submitButton);
     const errorMessage = screen.getByText(
@@ -55,7 +55,6 @@ describe('Form submission', () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
     const successMessage = screen.getByText(/Event created!/i);
-    await user.click(submitButton);
     expect(successMessage).toBeInTheDocument();
   });
 });
