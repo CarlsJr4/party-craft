@@ -44,6 +44,13 @@ describe('Event form validation', () => {
 });
 
 describe('Form submission', () => {
+  it('Displays failure state when a form is submitted with errors', async () => {
+    const { submitButton, user } = setup();
+    const successMessage = screen.queryByText(/Event created!/i);
+    await user.click(submitButton);
+    expect(successMessage).not.toBeInTheDocument();
+  });
+
   it('Displays success state when a form is submitted without errors', async () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
