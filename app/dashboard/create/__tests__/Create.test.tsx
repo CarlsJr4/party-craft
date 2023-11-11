@@ -48,18 +48,14 @@ describe('Event form validation', () => {
     );
     expect(errorMessage).toBeInTheDocument();
   });
+});
 
-  // describe('Form submission', () => {
-  //   it('Displays success state when validated form is submitted', async () => {
-  //     const { submitButton, user } = setup();
-  //     // Submit all the form fields
-  //     await user.click(submitButton);
-  //     // Assert if the UI renders a success message
-  //   });
-  //   it('Displays failure state when invalidated form is submitted', async () => {
-  //     const { submitButton, user } = setup();
-  //     await user.click(submitButton);
-  //     // Some assertion that tests an incorrect form response
-  //   });
-  // });
+describe('Form submission', () => {
+  it('Displays success state when a form is submitted without errors', async () => {
+    const { submitButton, user } = setup();
+    // Submit all the form fields
+    const successMessage = screen.getByText(/Event created!/i);
+    await user.click(submitButton);
+    expect(successMessage).toBeInTheDocument();
+  });
 });
