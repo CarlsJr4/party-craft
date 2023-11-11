@@ -27,13 +27,9 @@ import {
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
-  eventname: z
-    .string({
-      required_error: 'Event name cannot be blank.',
-    })
-    .min(3, {
-      message: 'Event name must be at least 3 characters.',
-    }),
+  eventname: z.string().min(3, {
+    message: 'Event name must be at least 3 characters.',
+  }),
   eventdesc: z.string({
     required_error: 'Event description cannot be blank.',
   }),
@@ -45,6 +41,9 @@ const formSchema = z.object({
 const EventForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      eventname: '',
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -123,7 +122,6 @@ const EventForm = () => {
                       />
                     </PopoverContent>
                   </Popover>
-
                   <FormMessage />
                 </FormItem>
               );
