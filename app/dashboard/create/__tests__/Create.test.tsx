@@ -75,6 +75,15 @@ describe('Form submission', () => {
     expect(successMessage).toBeInTheDocument();
   });
 
+  it('Keeps the form after an usuccessful submission', async () => {
+    const { submitButton, user } = setup();
+    const eventnameField = screen.getByLabelText('Event name');
+    await user.click(eventnameField);
+    await user.keyboard('I');
+    await user.click(submitButton);
+    expect(eventnameField).toHaveValue('I');
+  });
+
   it('Clears the form after a successful submission', async () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
