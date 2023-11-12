@@ -29,10 +29,12 @@ export default function EditDialog({ title, date, body }: EditDialogType) {
             Make changes to your event here. Click submit when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <EventForm editTitle={title} editDate={date} editBody={body} />
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
+        <EventForm
+          isEditing={true}
+          editTitle={title}
+          editDate={date}
+          editBody={body}
+        />
       </DialogContent>
     </Dialog>
   );

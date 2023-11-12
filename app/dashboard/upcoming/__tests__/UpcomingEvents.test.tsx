@@ -62,11 +62,15 @@ describe('Event deletion', () => {
   });
 
   describe('Event editing', () => {
-    it('Displays the pre-filled placeholder text', async () => {
-      const { title, date, body } = events[0];
+    const { title, date, body } = events[0];
+    const openEditDialog = async () => {
       render(<UpcomingEvents />);
       const editButton = await screen.findAllByText('Edit Event');
       await userEvent.click(editButton[0]);
+    };
+
+    it('Displays the pre-filled placeholder text', async () => {
+      await openEditDialog();
       const eventnameField = screen.getByLabelText('Event name');
       const eventdescField = screen.getByLabelText('Event description');
       const eventdateField = screen.getByLabelText('Event date');
@@ -75,8 +79,15 @@ describe('Event deletion', () => {
       expect(eventdescField).toHaveValue(body);
       expect(eventdateField).toHaveTextContent(format(date, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
     });
-    // it('Prevents editing if there are form errors', () => {});
-    // it('Only displays one confirmation toast', () => {});
+
+    it('Displays confirmation toast after edit', async () => {
+      await openEditDialog();
+      const submitButton = await screen.findByText('Submit');
+      await userEvent.click(submitButton);
+      const successMessage = await screen.getByText(/Event created!/i);
+      expect(successMessage).toBeInTheDocument();
+    });
+    // it('Prevents edit save if there are form errors', () => {});
     // it('Updates event card if fields are validated successfully', () => {});
   });
 });

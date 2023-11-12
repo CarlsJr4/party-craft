@@ -27,6 +27,8 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/utils';
 import { Toaster } from '../ui/toaster';
+import { DialogClose } from '@radix-ui/react-dialog';
+import { DialogFooter } from '../ui/dialog';
 
 const formSchema = z.object({
   eventname: z.string().min(3, {
@@ -44,9 +46,15 @@ type EventFormType = {
   editTitle?: string;
   editBody?: string;
   editDate?: Date;
+  isEditing?: true;
 };
 
-const EventForm = ({ editTitle, editBody, editDate }: EventFormType) => {
+const EventForm = ({
+  editTitle,
+  editBody,
+  editDate,
+  isEditing,
+}: EventFormType) => {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -142,10 +150,17 @@ const EventForm = ({ editTitle, editBody, editDate }: EventFormType) => {
               );
             }}
           />
-          <Button type="submit">Submit</Button>
+          {isEditing ? (
+            <DialogFooter>
+              <DialogClose>
+                <Button type="submit">Submit</Button>
+              </DialogClose>
+            </DialogFooter>
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
         </form>
       </Form>
-      <Toaster />
     </>
   );
 };
