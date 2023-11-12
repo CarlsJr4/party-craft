@@ -61,14 +61,14 @@ const UpcomingEvents = () => {
             />
           );
         })}
-        <EventCard
+        {/* <EventCard
           handleDelete={handleDelete}
           id={32}
           key={32}
           title="Test event"
           date="01/01/2000"
           body="Test Body"
-        />
+        /> */}
       </div>
       <Toaster />
     </div>
