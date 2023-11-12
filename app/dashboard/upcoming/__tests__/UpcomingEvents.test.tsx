@@ -6,6 +6,7 @@ import { events } from '@/app/mocks/handlers';
 import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
 import { format } from 'date-fns';
+import { Toaster } from '@/components/ui/toaster';
 
 describe('Event data retrieval', () => {
   // Note: forEach is currently not supported in Vitest, so we use for...of
@@ -60,34 +61,52 @@ describe('Event deletion', () => {
     const deletedEvent = screen.queryByText('Ice skating with friends');
     expect(deletedEvent).not.toBeInTheDocument();
   });
+});
 
-  describe('Event editing', () => {
-    const { title, date, body } = events[0];
-    const openEditDialog = async () => {
-      render(<UpcomingEvents />);
-      const editButton = await screen.findAllByText('Edit Event');
-      await userEvent.click(editButton[0]);
-    };
+describe('Event editing', () => {
+  const { title, date, body } = events[0];
+  const openEditDialog = async () => {
+    render(<UpcomingEvents />);
+    const editButton = await screen.findAllByText('Edit Event');
+    await userEvent.click(editButton[0]);
+  };
 
-    it('Displays the pre-filled placeholder text', async () => {
-      await openEditDialog();
-      const eventnameField = screen.getByLabelText('Event name');
-      const eventdescField = screen.getByLabelText('Event description');
-      const eventdateField = screen.getByLabelText('Event date');
+  it('Displays the pre-filled placeholder text', async () => {
+    await openEditDialog();
+    const eventnameField = screen.getByLabelText('Event name');
+    const eventdescField = screen.getByLabelText('Event description');
+    const eventdateField = screen.getByLabelText('Event date');
 
-      expect(eventnameField).toHaveValue(title);
-      expect(eventdescField).toHaveValue(body);
-      expect(eventdateField).toHaveTextContent(format(date, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
-    });
-
-    it('Displays confirmation toast after edit', async () => {
-      await openEditDialog();
-      const submitButton = await screen.findByText('Submit');
-      await userEvent.click(submitButton);
-      const successMessage = await screen.getByText(/Event created!/i);
-      expect(successMessage).toBeInTheDocument();
-    });
-    // it('Prevents edit save if there are form errors', () => {});
-    // it('Updates event card if fields are validated successfully', () => {});
+    expect(eventnameField).toHaveValue(title);
+    expect(eventdescField).toHaveValue(body);
+    expect(eventdateField).toHaveTextContent(format(date, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
   });
+
+  it('Displays confirmation toast after successful edit', async () => {
+    await openEditDialog();
+    render(<Toaster />);
+    const submitButton = await screen.findByText('Save');
+    await userEvent.click(submitButton);
+    const successMessage = await screen.findByText(
+      /Your changes have been saved./i
+    );
+    expect(successMessage).toBeInTheDocument();
+  });
+
+  it('Keeps the dialog open if there are form errors', async () => {
+    await openEditDialog();
+    const submitButton = await screen.findByText('Save');
+    await userEvent.keyboard('{Delete}');
+    await userEvent.click(submitButton);
+    const eventnameError = await screen.findByText(
+      'Event name must be at least 3 characters.'
+    );
+    const successMessage = await screen.queryByText(
+      /Your changes have been saved./i
+    );
+    expect(successMessage).not.toBeInTheDocument();
+    expect(eventnameError).toBeInTheDocument();
+  });
+
+  // it('Updates event card if fields are validated successfully', () => {});
 });

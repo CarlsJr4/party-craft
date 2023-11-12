@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import EventForm from '@/components/custom/EventForm';
+import { useState } from 'react';
 
 type EditDialogType = {
   existingTitle: string;
@@ -21,6 +22,10 @@ export default function EditDialog({
   existingDate,
   existingBody,
 }: EditDialogType) {
+  const handleOpenChange = (open: boolean) => {
+    console.log(open);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,7 +35,7 @@ export default function EditDialog({
         <DialogHeader>
           <DialogTitle>Edit event</DialogTitle>
           <DialogDescription>
-            Make changes to your event here. Click submit when you&apos;re done.
+            Make changes to your event here.
           </DialogDescription>
         </DialogHeader>
         <EventForm

@@ -68,17 +68,25 @@ const EventForm = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     // On submit, update the state of the events
     // Differentiate based on if user is creating or editing
-    form.reset();
-    toast({
-      title: 'Hooray!',
-      description: 'Event created!',
-    });
+    // Update state
+    if (isEditing) {
+      toast({
+        title: 'Success!',
+        description: 'Your changes have been saved.',
+      });
+    } else {
+      form.reset();
+      toast({
+        title: 'Hooray!',
+        description: 'Event created!',
+      });
+    }
   }
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mb-5">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="eventname"
@@ -154,9 +162,7 @@ const EventForm = ({
           />
           {isEditing ? (
             <DialogFooter>
-              <DialogClose>
-                <Button type="submit">Submit</Button>
-              </DialogClose>
+              <Button type="submit">Save</Button>
             </DialogFooter>
           ) : (
             <Button type="submit">Submit</Button>
