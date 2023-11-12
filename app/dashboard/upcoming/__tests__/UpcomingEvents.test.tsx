@@ -90,6 +90,29 @@ describe('Event editing', () => {
     const successMessage = await screen.findByText(
       /Your changes have been saved./i
     );
+    const successMessageCreate = await screen.queryByText(/'Event created!'/i);
+    expect(successMessage).toBeInTheDocument();
+    expect(successMessageCreate).not.toBeInTheDocument(); // 2 assertions because there are 2 different toast messages depending on the situation
+  });
+
+  it('Closes dialog after a successful edit', async () => {
+    await openEditDialog();
+    const submitButton = await screen.findByText('Save');
+    const dialogDesc = await screen.queryByText(
+      'Make changes to your event here.'
+    );
+    await userEvent.click(submitButton);
+    expect(dialogDesc).not.toBeInTheDocument();
+  });
+
+  it('Displays confirmation toast after successful edit', async () => {
+    await openEditDialog();
+    render(<Toaster />);
+    const submitButton = await screen.findByText('Save');
+    await userEvent.click(submitButton);
+    const successMessage = await screen.findByText(
+      /Your changes have been saved./i
+    );
     expect(successMessage).toBeInTheDocument();
   });
 

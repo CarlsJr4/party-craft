@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
@@ -47,6 +47,7 @@ type EventFormType = {
   existingBody?: string;
   existingDate?: Date;
   isEditing?: true;
+  setEditDialogOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const EventForm = ({
@@ -54,6 +55,7 @@ const EventForm = ({
   existingBody,
   existingDate,
   isEditing,
+  setEditDialogOpen,
 }: EventFormType) => {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,14 +68,12 @@ const EventForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // On submit, update the state of the events
-    // Differentiate based on if user is creating or editing
-    // Update state
     if (isEditing) {
       toast({
         title: 'Success!',
         description: 'Your changes have been saved.',
       });
+      setEditDialogOpen(false);
     } else {
       form.reset();
       toast({

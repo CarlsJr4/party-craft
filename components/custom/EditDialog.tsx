@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,12 +21,10 @@ export default function EditDialog({
   existingDate,
   existingBody,
 }: EditDialogType) {
-  const handleOpenChange = (open: boolean) => {
-    console.log(open);
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Edit Event</Button>
       </DialogTrigger>
@@ -43,6 +40,7 @@ export default function EditDialog({
           existingTitle={existingTitle}
           existingDate={existingDate}
           existingBody={existingBody}
+          setEditDialogOpen={setOpen}
         />
       </DialogContent>
     </Dialog>
