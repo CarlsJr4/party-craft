@@ -14,14 +14,22 @@ const UpcomingEvents = () => {
   useEffect(() => {
     fetch('http://localhost:3000/api/upcomingevents')
       .then(res => res.json())
-      .then((res: EventType[]) => setEvents(res));
+      .then((res: EventType[]) => setEvents(res))
+      .catch(err => setErrors(err));
   }, []);
 
   const [events, setEvents] = useState<EventType[]>([] as EventType[]);
+  const [errors, setErrors] = useState(null);
   return (
     <div>
       <h1>Your Upcoming Events:</h1>
       <div className="grid grid-cols-4 mt-5 gap-8">
+        {errors && (
+          <div>
+            <p>Uh oh!</p>
+            <p>There was an issue retrieving your events.</p>
+          </div>
+        )}
         {events.length === 0 ? <p>You have no upcoming events</p> : ''}
         {events.map(({ id, title, date, body }) => {
           return (
