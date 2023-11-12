@@ -1,6 +1,6 @@
 'use client';
 import React, { Key, useEffect, useState } from 'react';
-import EventCard from '@/components/custom/Eventcard';
+import EventCard from '@/components/custom/EventCard';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 
