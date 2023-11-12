@@ -33,7 +33,13 @@ describe('Event data retrieval', () => {
     ).toBeInTheDocument();
   });
 
-  // it('Renders an error when there is an API error', () => {
-  //   render(<UpcomingEvents />);
-  // });
+  it('Renders an error when there is an API error', async () => {
+    server.use(
+      http.get('http://localhost:3000/api/upcomingevents', () => {
+        return HttpResponse.error();
+      })
+    );
+    render(<UpcomingEvents />);
+    expect(await screen.findByText('Uh oh!')).toBeInTheDocument();
+  });
 });
