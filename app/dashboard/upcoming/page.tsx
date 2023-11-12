@@ -2,7 +2,6 @@
 import React, { Key, useEffect, useState } from 'react';
 import EventCard from '@/components/custom/EventCard';
 import { useToast } from '@/components/ui/use-toast';
-import { Toaster } from '@/components/ui/toaster';
 
 type EventType = {
   id: Key;
@@ -75,7 +74,6 @@ const UpcomingEvents = () => {
           );
         })}
       </div>
-      <Toaster />
     </div>
   );
 };

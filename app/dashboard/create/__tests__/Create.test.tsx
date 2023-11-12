@@ -2,9 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Create from '@/app/dashboard/create/page';
+import { Toaster } from '@/components/ui/toaster';
 
 const setup = () => {
   const utils = render(<Create />);
+  render(<Toaster />);
   const submitButton = screen.getByText(/Submit/i);
   const user = userEvent.setup();
 
