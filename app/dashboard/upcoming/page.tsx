@@ -1,6 +1,8 @@
 'use client';
 import React, { Key, useEffect, useState } from 'react';
 import EventCard from '@/components/custom/Eventcard';
+import { useToast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/toaster';
 
 type EventType = {
   id: Key;
@@ -21,11 +23,15 @@ const UpcomingEvents = () => {
 
   const [events, setEvents] = useState<EventType[]>([] as EventType[]);
   const [errors, setErrors] = useState(null);
+  const { toast } = useToast();
 
   const handleDelete = (id: Key) => {
     let filteredEvents = [...events];
     filteredEvents = filteredEvents.filter(event => event.id !== id);
     setEvents(filteredEvents);
+    toast({
+      description: 'Event deleted.',
+    });
   };
 
   return (
@@ -55,15 +61,16 @@ const UpcomingEvents = () => {
             />
           );
         })}
-        {/* <EventCard
+        <EventCard
           handleDelete={handleDelete}
           id={32}
           key={32}
           title="Test event"
-          date="01/01/2000
+          date="01/01/2000"
           body="Test Body"
-        /> */}
+        />
       </div>
+      <Toaster />
     </div>
   );
 };

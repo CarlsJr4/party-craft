@@ -57,4 +57,9 @@ describe('Event deletion', () => {
     const deletedEvent = screen.queryByText('Ice skating with friends');
     expect(deletedEvent).not.toBeInTheDocument();
   });
+
+  describe('Event editing', () => {
+    it('Updates event fields if all are validated', () => {});
+    it('Prevents editing if there are form errors', () => {});
+  });
 });
