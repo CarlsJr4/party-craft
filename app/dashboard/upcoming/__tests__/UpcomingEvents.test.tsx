@@ -41,5 +41,8 @@ describe('Event data retrieval', () => {
     );
     render(<UpcomingEvents />);
     expect(await screen.findByText('Uh oh!')).toBeInTheDocument();
+    expect(
+      await screen.queryByText('You have no upcoming events')
+    ).not.toBeInTheDocument();
   });
 });

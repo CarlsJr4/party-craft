@@ -30,7 +30,11 @@ const UpcomingEvents = () => {
             <p>There was an issue retrieving your events.</p>
           </div>
         )}
-        {events.length === 0 ? <p>You have no upcoming events</p> : ''}
+        {events.length === 0 && !errors ? (
+          <p>You have no upcoming events</p>
+        ) : (
+          ''
+        )}
         {events.map(({ id, title, date, body }) => {
           return (
             <EventCard key={id as Key} title={title} date={date} body={body} />
