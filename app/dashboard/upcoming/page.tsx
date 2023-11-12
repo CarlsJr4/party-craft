@@ -24,13 +24,13 @@ const UpcomingEvents = () => {
     {
       id: 1,
       title: 'Ice skating with friends',
-      date: new Date('Sun Nov 12 2023 00:00:00 GMT-0800'),
+      date: new Date('Th Nov 09 2023 00:00:00 GMT-0800'),
       body: 'Visit the ice rink and skate with friends.',
     },
     {
       id: 2,
       title: 'Hiking with friends',
-      date: new Date('Sun Nov 13 2023 00:00:00 GMT-0800'),
+      date: new Date('Sun Nov 08 2023 00:00:00 GMT-0800'),
       body: 'Hike up the mountains with your friends.',
     },
   ] as EventType[]);
@@ -64,6 +64,8 @@ const UpcomingEvents = () => {
         {events.map(({ id, title, date, body }) => {
           return (
             <EventCard
+              eventData={events}
+              setEvents={setEvents}
               handleDelete={handleDelete}
               key={id as Key}
               id={id}

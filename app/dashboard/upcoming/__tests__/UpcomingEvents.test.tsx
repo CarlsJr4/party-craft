@@ -131,5 +131,34 @@ describe('Event editing', () => {
     expect(eventnameError).toBeInTheDocument();
   });
 
-  // it('Updates event card if fields are validated successfully', () => {});
+  it('Updates event card if fields are validated successfully', async () => {
+    await openEditDialog();
+    await userEvent.keyboard('Painting classes with friends');
+    await userEvent.keyboard('{Tab}');
+    await userEvent.keyboard('Test');
+
+    const eventdateField = screen.getByLabelText('Event date');
+    // Select current day using keyboard
+    await userEvent.keyboard('{Tab}');
+    await userEvent.keyboard('{ }');
+    await userEvent.keyboard('{ }');
+    //
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    expect(eventdateField).toHaveTextContent(format(tomorrow, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
+
+    const submitButton = await screen.findByText('Save');
+    await userEvent.click(submitButton);
+    const newCardTitle = await screen.findByText(
+      'Painting classes with friends'
+    );
+    const newCardDesc = await screen.findByText('Test');
+    const newDate = await screen.findByText(format(tomorrow, 'PPP'));
+
+    expect(newCardTitle).toBeInTheDocument();
+    expect(newCardDesc).toBeInTheDocument();
+    expect(newDate).toBeInTheDocument();
+  });
 });

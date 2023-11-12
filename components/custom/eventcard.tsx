@@ -12,15 +12,33 @@ import { format } from 'date-fns';
 
 import React, { Key } from 'react';
 
+type EventType = {
+  id: Key;
+  title: string;
+  date: Date;
+  body: string;
+  key: Key;
+};
+
 type EventTypeProps = {
   title: string;
   date: Date;
   body: string;
   id: Key;
+  eventData: EventType[];
   handleDelete: (id: Key) => void;
+  setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
 };
 
-const EventCard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
+const EventCard = ({
+  title,
+  date,
+  body,
+  handleDelete,
+  eventData,
+  id,
+  setEvents,
+}: EventTypeProps) => {
   return (
     <Card>
       <CardHeader>
@@ -32,9 +50,12 @@ const EventCard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
       </CardContent>
       <CardFooter>
         <EditDialog
+          id={id}
+          eventData={eventData}
           existingTitle={title}
           existingDate={date}
           existingBody={body}
+          setEvents={setEvents}
         />
         <DeleteConfirm id={id} handleDelete={handleDelete} />
       </CardFooter>
