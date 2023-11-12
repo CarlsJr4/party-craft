@@ -22,6 +22,7 @@ const UpcomingEvents = () => {
     <div>
       <h1>Your Upcoming Events:</h1>
       <div className="grid grid-cols-4 mt-5 gap-8">
+        {events.length === 0 ? <p>You have no upcoming events</p> : ''}
         {events.map(({ id, title, date, body }) => {
           return (
             <EventCard key={id as Key} title={title} date={date} body={body} />

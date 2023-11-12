@@ -22,3 +22,7 @@ export const handlers = [
     return HttpResponse.json(events, { status: 200 });
   }),
 ];
+
+// Define an error route
+
+// Define a route that returns nothing
