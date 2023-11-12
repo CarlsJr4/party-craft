@@ -43,29 +43,31 @@ const formSchema = z.object({
 });
 
 type EventFormType = {
-  editTitle?: string;
-  editBody?: string;
-  editDate?: Date;
+  existingTitle?: string;
+  existingBody?: string;
+  existingDate?: Date;
   isEditing?: true;
 };
 
 const EventForm = ({
-  editTitle,
-  editBody,
-  editDate,
+  existingTitle,
+  existingBody,
+  existingDate,
   isEditing,
 }: EventFormType) => {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventname: editTitle || '',
-      eventdesc: editBody || '',
-      eventdate: (editDate && new Date(editDate)) || undefined,
+      eventname: existingTitle || '',
+      eventdesc: existingBody || '',
+      eventdate: (existingDate && new Date(existingDate)) || undefined,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    // On submit, update the state of the events
+    // Differentiate based on if user is creating or editing
     form.reset();
     toast({
       title: 'Hooray!',

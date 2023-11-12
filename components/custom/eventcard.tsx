@@ -31,7 +31,11 @@ const EventCard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
         <p>{body}</p>
       </CardContent>
       <CardFooter>
-        <EditDialog title={title} date={date} body={body} />
+        <EditDialog
+          existingTitle={title}
+          existingDate={date}
+          existingBody={body}
+        />
         <DeleteConfirm id={id} handleDelete={handleDelete} />
       </CardFooter>
     </Card>

@@ -11,12 +11,16 @@ import {
 import EventForm from '@/components/custom/EventForm';
 
 type EditDialogType = {
-  title: string;
-  date: Date;
-  body: string;
+  existingTitle: string;
+  existingDate: Date;
+  existingBody: string;
 };
 
-export default function EditDialog({ title, date, body }: EditDialogType) {
+export default function EditDialog({
+  existingTitle,
+  existingDate,
+  existingBody,
+}: EditDialogType) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -31,9 +35,9 @@ export default function EditDialog({ title, date, body }: EditDialogType) {
         </DialogHeader>
         <EventForm
           isEditing={true}
-          editTitle={title}
-          editDate={date}
-          editBody={body}
+          existingTitle={existingTitle}
+          existingDate={existingDate}
+          existingBody={existingBody}
         />
       </DialogContent>
     </Dialog>
