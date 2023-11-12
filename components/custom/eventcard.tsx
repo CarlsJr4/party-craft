@@ -6,23 +6,29 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {Button} from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 import React from 'react';
 
-const eventcard = () => {
+type EventTypeProps = {
+  title: String;
+  date: String;
+  body: String;
+};
+
+const eventcard = ({ title, date, body }: EventTypeProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Carl&apos;s 27th Birthday</CardTitle>
-        <CardDescription>December 2nd, 1996</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{date}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, est?</p>
+        <p>{body}</p>
       </CardContent>
       <CardFooter>
         <Button className="mr-2">Edit</Button>
-				<Button>Delete</Button>
+        <Button>Delete</Button>
       </CardFooter>
     </Card>
   );

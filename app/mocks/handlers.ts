@@ -5,8 +5,14 @@ export const events = [
   {
     id: 1,
     title: 'Ice skating with friends',
-    date: 'Sun Nov 12 2023 00:00:00 GMT-0800',
+    date: new Date('Sun Nov 12 2023 00:00:00 GMT-0800').toDateString(),
     body: 'Visit the ice rink and skate with friends.',
+  },
+  {
+    id: 2,
+    title: 'Hiking with friends',
+    date: new Date('Sun Nov 13 2023 00:00:00 GMT-0800').toDateString(),
+    body: 'Hike up the mountains with your friends.',
   },
 ];
 
