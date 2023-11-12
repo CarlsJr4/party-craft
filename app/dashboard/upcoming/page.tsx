@@ -6,9 +6,9 @@ import { Toaster } from '@/components/ui/toaster';
 
 type EventType = {
   id: Key;
-  title: String;
-  date: String;
-  body: String;
+  title: string;
+  date: Date;
+  body: string;
   key: Key;
 };
 
@@ -63,11 +63,11 @@ const UpcomingEvents = () => {
         })}
         {/* <EventCard
           handleDelete={handleDelete}
-          id={32}
-          key={32}
-          title="Test event"
-          date="01/01/2000"
-          body="Test Body"
+          id={1}
+          key={1}
+          title="Ice skating with friends"
+          date={new Date('Sun Nov 12 2023 00:00:00 GMT-0800').toDateString()}
+          body="Visit the ice rink and skate with friends."
         /> */}
       </div>
       <Toaster />

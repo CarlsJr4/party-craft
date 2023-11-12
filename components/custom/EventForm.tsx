@@ -40,13 +40,20 @@ const formSchema = z.object({
   }),
 });
 
-const EventForm = () => {
+type EventFormType = {
+  editTitle?: string;
+  editBody?: string;
+  editDate?: Date;
+};
+
+const EventForm = ({ editTitle, editBody, editDate }: EventFormType) => {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventname: '',
-      eventdesc: '',
+      eventname: editTitle || '',
+      eventdesc: editBody || '',
+      eventdate: (editDate && new Date(editDate)) || undefined,
     },
   });
 

@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 import { events } from '@/app/mocks/handlers';
 import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
+import { format } from 'date-fns';
 
 describe('Event data retrieval', () => {
   // Note: forEach is currently not supported in Vitest, so we use for...of
@@ -13,7 +14,9 @@ describe('Event data retrieval', () => {
     for (const event of events) {
       expect(await screen.findByText(event.title)).toBeInTheDocument();
       expect(await screen.findByText(event.body)).toBeInTheDocument();
-      expect(await screen.findByText(event.date)).toBeInTheDocument();
+      expect(
+        await screen.findByText(format(event.date, 'PPP'))
+      ).toBeInTheDocument();
     }
   });
 
@@ -59,7 +62,21 @@ describe('Event deletion', () => {
   });
 
   describe('Event editing', () => {
-    it('Updates event fields if all are validated', () => {});
-    it('Prevents editing if there are form errors', () => {});
+    it('Displays the pre-filled placeholder text', async () => {
+      const { title, date, body } = events[0];
+      render(<UpcomingEvents />);
+      const editButton = await screen.findAllByText('Edit Event');
+      await userEvent.click(editButton[0]);
+      const eventnameField = screen.getByLabelText('Event name');
+      const eventdescField = screen.getByLabelText('Event description');
+      const eventdateField = screen.getByLabelText('Event date');
+
+      expect(eventnameField).toHaveValue(title);
+      expect(eventdescField).toHaveValue(body);
+      expect(eventdateField).toHaveTextContent(format(date, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
+    });
+    // it('Prevents editing if there are form errors', () => {});
+    // it('Only displays one confirmation toast', () => {});
+    // it('Updates event card if fields are validated successfully', () => {});
   });
 });

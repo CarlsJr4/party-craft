@@ -6,35 +6,36 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import DeleteConfirm from '@/components/custom/DeleteConfirm';
+import EditDialog from '@/components/custom/EditDialog';
+import { format } from 'date-fns';
 
 import React, { Key } from 'react';
 
 type EventTypeProps = {
-  title: String;
-  date: String;
-  body: String;
+  title: string;
+  date: Date;
+  body: string;
   id: Key;
   handleDelete: (id: Key) => void;
 };
 
-const eventcard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
+const EventCard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{date}</CardDescription>
+        <CardDescription>{format(new Date(date), 'PPP')}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>{body}</p>
       </CardContent>
       <CardFooter>
-        <Button className="mr-2">Edit</Button>
+        <EditDialog title={title} date={date} body={body} />
         <DeleteConfirm id={id} handleDelete={handleDelete} />
       </CardFooter>
     </Card>
   );
 };
 
-export default eventcard;
+export default EventCard;
