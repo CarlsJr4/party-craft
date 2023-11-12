@@ -46,3 +46,15 @@ describe('Event data retrieval', () => {
     ).not.toBeInTheDocument();
   });
 });
+
+describe('Event deletion', () => {
+  it('Removes an event from the UI when deleted', async () => {
+    render(<UpcomingEvents />);
+    const deleteButton = await screen.findAllByText('Delete');
+    await userEvent.click(deleteButton[0]);
+    const confirmButton = await screen.findByText('Continue');
+    await userEvent.click(confirmButton);
+    const deletedEvent = screen.queryByText('Ice skating with friends');
+    expect(deletedEvent).not.toBeInTheDocument();
+  });
+});

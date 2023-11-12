@@ -7,16 +7,19 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import DeleteConfirm from '@/components/custom/DeleteConfirm';
 
-import React from 'react';
+import React, { Key } from 'react';
 
 type EventTypeProps = {
   title: String;
   date: String;
   body: String;
+  id: Key;
+  handleDelete: (id: Key) => void;
 };
 
-const eventcard = ({ title, date, body }: EventTypeProps) => {
+const eventcard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
   return (
     <Card>
       <CardHeader>
@@ -28,7 +31,7 @@ const eventcard = ({ title, date, body }: EventTypeProps) => {
       </CardContent>
       <CardFooter>
         <Button className="mr-2">Edit</Button>
-        <Button>Delete</Button>
+        <DeleteConfirm id={id} handleDelete={handleDelete} />
       </CardFooter>
     </Card>
   );
