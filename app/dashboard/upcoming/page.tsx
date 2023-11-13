@@ -2,14 +2,7 @@
 import React, { Key, useEffect, useState } from 'react';
 import EventCard from '@/components/custom/EventCard';
 import { useToast } from '@/components/ui/use-toast';
-
-type EventType = {
-  id: Key;
-  title: string;
-  date: Date;
-  body: string;
-  key: Key;
-};
+import EventType from '@/types/EventType';
 
 // This component will retrieve events and render them on the screen
 const UpcomingEvents = () => {

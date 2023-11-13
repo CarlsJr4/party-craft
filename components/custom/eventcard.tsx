@@ -11,14 +11,7 @@ import EditDialog from '@/components/custom/EditDialog';
 import { format } from 'date-fns';
 
 import React, { Key } from 'react';
-
-type EventType = {
-  id: Key;
-  title: string;
-  date: Date;
-  body: string;
-  key: Key;
-};
+import EventType from '@/types/EventType';
 
 type EventTypeProps = {
   title: string;

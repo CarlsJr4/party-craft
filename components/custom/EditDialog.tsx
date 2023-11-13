@@ -9,14 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import EventForm from '@/components/custom/EventForm';
 import { Key, useState } from 'react';
-
-type EventType = {
-  id: Key;
-  title: string;
-  date: Date;
-  body: string;
-  key: Key;
-};
+import EventType from '@/types/EventType';
 
 type EditDialogType = {
   id: Key;

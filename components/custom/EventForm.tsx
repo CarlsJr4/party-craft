@@ -27,6 +27,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/utils';
 import { DialogFooter } from '../ui/dialog';
+import EventType from '@/types/EventType';
 
 const formSchema = z.object({
   eventname: z.string().min(3, {
@@ -39,14 +40,6 @@ const formSchema = z.object({
     required_error: 'Please pick a date.',
   }),
 });
-
-type EventType = {
-  id: Key;
-  title: string;
-  date: Date;
-  body: string;
-  key: Key;
-};
 
 type EventFormType = {
   existingTitle?: string;
