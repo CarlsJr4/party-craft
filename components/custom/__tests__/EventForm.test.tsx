@@ -3,14 +3,16 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { Toaster } from '@/components/ui/toaster';
 import EventForm from '@/components/custom/EventForm';
+import { vi } from 'vitest';
 
 const setup = () => {
-  render(<EventForm />);
+  const mockDialogClose = vi.fn();
+  render(<EventForm setDialogOpenState={mockDialogClose} />);
   render(<Toaster />);
 
   const user = userEvent.setup();
 
-  const submitButton = screen.getByText(/Submit/i);
+  const submitButton = screen.getByText('Submit');
   const fields = {
     eventNameField: screen.getByLabelText('Event name'),
     eventDescField: screen.getByLabelText('Event description'),
@@ -56,10 +58,10 @@ describe('Isolated event form validation', () => {
       messages.errDateRequired,
     ];
 
-    errors.forEach(async error => {
+    for (const error of errors) {
       const element = await screen.findByText(error);
       expect(element).toBeInTheDocument();
-    });
+    }
   });
 
   it('Displays errors when a one-letter event name is submitted', async () => {
@@ -97,14 +99,16 @@ describe('Isolated eventForm submission', () => {
   });
 
   it('Resets the form after a successful submission', async () => {
-    const { eventDateField, eventDescField, eventNameField } = setup();
-
-    const formFields = [eventNameField, eventDescField, eventDateField];
-
     submitValidForm();
 
-    formFields.forEach(field => {
+    const eventNameField = screen.getByLabelText('Event name');
+    const eventDescField = screen.getByLabelText('Event description');
+    const eventDateField = screen.getByLabelText('Event date');
+
+    const fields = [eventNameField, eventDescField, eventDateField];
+
+    for (const field of fields) {
       expect(field).not.toHaveValue();
-    });
+    }
   });
 });
