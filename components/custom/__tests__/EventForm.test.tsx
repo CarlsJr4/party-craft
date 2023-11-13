@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import Create from '@/app/dashboard/create/page';
 import { Toaster } from '@/components/ui/toaster';
+import EventForm from '@/components/custom/EventForm';
 
 const setup = () => {
-  const utils = render(<Create />);
+  const utils = render(<EventForm />);
   render(<Toaster />);
   const submitButton = screen.getByText(/Submit/i);
   const user = userEvent.setup();
@@ -17,7 +17,7 @@ const setup = () => {
   };
 };
 
-describe('Event form validation', () => {
+describe('Isolated event form validation', () => {
   it('Displays errors when empty fields are submitted', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
@@ -52,7 +52,7 @@ describe('Event form validation', () => {
   });
 });
 
-describe('Form submission', () => {
+describe('Isolated eventForm submission', () => {
   it('Displays failure state when a form is submitted with errors', async () => {
     const { submitButton, user } = setup();
     await user.click(submitButton);
@@ -60,7 +60,7 @@ describe('Form submission', () => {
     expect(successMessage).not.toBeInTheDocument();
   });
 
-  it('Displays success state when a form is submitted without errors', async () => {
+  it('Displays success toast when a form is submitted without errors', async () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
     const eventnameField = screen.getByLabelText('Event name');
@@ -77,7 +77,7 @@ describe('Form submission', () => {
     expect(successMessage).toBeInTheDocument();
   });
 
-  it('Keeps the form after an usuccessful submission', async () => {
+  it('Keeps the form values filled after an usuccessful submission', async () => {
     const { submitButton, user } = setup();
     const eventnameField = screen.getByLabelText('Event name');
     await user.click(eventnameField);
@@ -86,7 +86,7 @@ describe('Form submission', () => {
     expect(eventnameField).toHaveValue('I');
   });
 
-  it('Clears the form after a successful submission', async () => {
+  it('Resets the form after a successful submission', async () => {
     const { submitButton, user } = setup();
     // Submit all the form fields
     const eventnameField = screen.getByLabelText('Event name');

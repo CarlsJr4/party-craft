@@ -56,7 +56,7 @@ type EventFormType = {
   id: Key;
   eventData: EventType[];
   setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
-  setEditDialogOpen: Dispatch<SetStateAction<boolean>>;
+  setDialogOpenState: Dispatch<SetStateAction<boolean>>;
 };
 
 const EventForm = ({
@@ -66,7 +66,7 @@ const EventForm = ({
   id,
   eventData,
   isEditing,
-  setEditDialogOpen,
+  setDialogOpenState,
   setEvents,
 }: EventFormType) => {
   const { toast } = useToast();
@@ -97,7 +97,6 @@ const EventForm = ({
         title: 'Success!',
         description: 'Your changes have been saved.',
       });
-      setEditDialogOpen(false);
     } else {
       form.reset();
       toast({
@@ -105,6 +104,7 @@ const EventForm = ({
         description: 'Event created!',
       });
     }
+    setDialogOpenState(false);
   }
 
   return (

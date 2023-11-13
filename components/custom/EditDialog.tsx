@@ -56,7 +56,7 @@ export default function EditDialog({
           existingTitle={existingTitle}
           existingDate={existingDate}
           existingBody={existingBody}
-          setEditDialogOpen={setOpen}
+          setDialogOpenState={setOpen}
           setEvents={setEvents}
         />
       </DialogContent>

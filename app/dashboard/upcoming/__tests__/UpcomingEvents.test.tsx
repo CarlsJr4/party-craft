@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import UpcomingEvents from '@/app/dashboard/upcoming/page';
+import Layout from '@/app/dashboard/layout';
 import '@testing-library/jest-dom';
 import { events } from '@/app/mocks/handlers';
 import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
 import { format } from 'date-fns';
 import { Toaster } from '@/components/ui/toaster';
+import UpcomingEvents from '@/app/dashboard/upcoming/page';
+import EventForm from '@/components/custom/EventForm';
+import DashNav from '@/components/custom/Dashnav';
 
 describe('Event data retrieval', () => {
   // Note: forEach is currently not supported in Vitest, so we use for...of
@@ -48,6 +51,34 @@ describe('Event data retrieval', () => {
     expect(
       await screen.queryByText('You have no upcoming events')
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('Event creation', () => {
+  it('Closes the create dialog after successful submission', async () => {
+    render(
+      <Layout>
+        <UpcomingEvents />
+      </Layout>
+    );
+    const user = userEvent.setup();
+    const createButton = screen.getByText('Create New +');
+    await user.click(createButton);
+    const submitButton = screen.getByText(/Submit/i);
+    // Submit all the form fields
+    const eventnameField = screen.getByLabelText('Event name');
+    const eventdescField = screen.getByLabelText('Event description');
+    const eventdateField = screen.getByLabelText('Event date');
+
+    await user.click(eventnameField);
+    await user.keyboard('Ice skating with friends');
+    await user.click(eventdescField);
+    await user.keyboard('Meet up at the mall and go to the ice skating rink');
+    await user.click(eventdateField);
+    await user.keyboard('{Enter}'); // Simulates selecting the next day in the calendar component
+    await user.click(submitButton);
+
+    expect(eventnameField).not.toBeInTheDocument(); // Simulates form dialog close
   });
 });
 
