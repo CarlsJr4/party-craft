@@ -17,20 +17,7 @@ const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
       .catch(err => setErrors(err));
   }, []);
   const [errors, setErrors] = useState(null);
-  const [events, setEvents] = useState<EventType[]>([
-    {
-      id: 1,
-      title: 'Ice skating with friends',
-      date: new Date('Th Nov 09 2023 00:00:00 GMT-0800'),
-      body: 'Visit the ice rink and skate with friends.',
-    },
-    {
-      id: 2,
-      title: 'Hiking with friends',
-      date: new Date('Sun Nov 08 2023 00:00:00 GMT-0800'),
-      body: 'Hike up the mountains with your friends.',
-    },
-  ] as EventType[]);
+  const [events, setEvents] = useState<EventType[]>([] as EventType[]);
   return (
     <EventContext.Provider value={{ events, setEvents }}>
       <EventErrorContext.Provider value={errors}>
