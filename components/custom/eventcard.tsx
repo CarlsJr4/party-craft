@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 
 import React, { Key } from 'react';
 
-type EventTypeProps = {
+type EventCardProps = {
   title: string;
   date: Date;
   body: string;
@@ -20,7 +20,7 @@ type EventTypeProps = {
   handleDelete: (id: Key) => void;
 };
 
-const EventCard = ({ title, date, body, handleDelete, id }: EventTypeProps) => {
+const EventCard = ({ title, date, body, handleDelete, id }: EventCardProps) => {
   return (
     <Card>
       <CardHeader>
