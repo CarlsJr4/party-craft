@@ -109,6 +109,31 @@ describe('Event creation', () => {
 
     expect(eventnameField).not.toBeInTheDocument(); // Simulates form dialog close
   });
+
+  it('Adds a new event card after successful submission', async () => {
+    const { user } = setup();
+    const createButton = screen.getByText('Create New +');
+    await user.click(createButton);
+
+    const submitButton = screen.getByText(/Submit/i);
+    // Submit all the form fields
+    const eventnameField = screen.getByLabelText('Event name');
+    const eventdescField = screen.getByLabelText('Event description');
+    const eventdateField = screen.getByLabelText('Event date');
+
+    await user.click(eventnameField);
+    await user.keyboard('KBBQ with friends');
+    await user.click(eventdescField);
+    await user.keyboard('Meet up KBBQ and eat lots of it');
+    await user.click(eventdateField);
+    await user.keyboard('{Enter}'); // Simulates selecting the next day in the calendar component
+    await user.click(submitButton);
+
+    expect(await screen.findByText('KBBQ with friends')).toBeInTheDocument();
+    expect(
+      await screen.findByText('Meet up KBBQ and eat lots of it')
+    ).toBeInTheDocument();
+  });
 });
 
 describe('Event deletion', () => {

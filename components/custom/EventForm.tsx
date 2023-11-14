@@ -89,6 +89,15 @@ const EventForm = ({
       });
     } else {
       form.reset();
+      let updatedEvents = [...events];
+      updatedEvents.unshift({
+        title: values.eventname,
+        id: 12, // Placeholder ID, need to generate ID later
+        key: 12,
+        body: values.eventdesc,
+        date: values.eventdate,
+      });
+      setEvents(updatedEvents);
       toast({
         title: 'Hooray!',
         description: 'Event created!',
