@@ -11,6 +11,7 @@ import EditDialog from '@/components/custom/EditDialog';
 import { format } from 'date-fns';
 
 import React, { Key } from 'react';
+import Link from 'next/link';
 
 type EventCardProps = {
   title: string;
@@ -24,7 +25,9 @@ const EventCard = ({ title, date, body, handleDelete, id }: EventCardProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <Link href={`/dashboard/event/${id}`}>
+          <CardTitle>{title}</CardTitle>
+        </Link>
         <CardDescription>{format(new Date(date), 'PPP')}</CardDescription>
       </CardHeader>
       <CardContent>
