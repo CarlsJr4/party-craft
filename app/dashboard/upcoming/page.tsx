@@ -1,34 +1,16 @@
 'use client';
-import React, { Key, useEffect, useState } from 'react';
+import React, { Key, useContext, useEffect, useState } from 'react';
 import EventCard from '@/components/custom/EventCard';
 import { useToast } from '@/components/ui/use-toast';
-import EventType from '@/types/EventType';
+import {
+  EventContext,
+  EventErrorContext,
+} from '@/components/custom/DashboardWrapper';
 
-// This component will retrieve events and render them on the screen
 const UpcomingEvents = () => {
-  useEffect(() => {
-    fetch('http://localhost:3000/api/upcomingevents')
-      .then(res => res.json())
-      .then((res: EventType[]) => setEvents(res))
-      .catch(err => setErrors(err));
-  }, []);
-
-  const [events, setEvents] = useState<EventType[]>([
-    {
-      id: 1,
-      title: 'Ice skating with friends',
-      date: new Date('Th Nov 09 2023 00:00:00 GMT-0800'),
-      body: 'Visit the ice rink and skate with friends.',
-    },
-    {
-      id: 2,
-      title: 'Hiking with friends',
-      date: new Date('Sun Nov 08 2023 00:00:00 GMT-0800'),
-      body: 'Hike up the mountains with your friends.',
-    },
-  ] as EventType[]);
-  const [errors, setErrors] = useState(null);
   const { toast } = useToast();
+  const { events, setEvents } = useContext(EventContext);
+  const errors = useContext(EventErrorContext);
 
   const handleDelete = (id: Key) => {
     let filteredEvents = [...events];
@@ -57,8 +39,6 @@ const UpcomingEvents = () => {
         {events.map(({ id, title, date, body }) => {
           return (
             <EventCard
-              eventData={events}
-              setEvents={setEvents}
               handleDelete={handleDelete}
               key={id as Key}
               id={id}

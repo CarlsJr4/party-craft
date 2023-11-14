@@ -92,6 +92,7 @@ describe('Event creation', () => {
     const { user } = setup();
     const createButton = screen.getByText('Create New +');
     await user.click(createButton);
+
     const submitButton = screen.getByText(/Submit/i);
     // Submit all the form fields
     const eventnameField = screen.getByLabelText('Event name');

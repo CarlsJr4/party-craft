@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, Key, SetStateAction } from 'react';
+import React, { Dispatch, Key, SetStateAction, useContext } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
@@ -27,7 +27,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/utils';
 import { DialogFooter } from '../ui/dialog';
-import EventType from '@/types/EventType';
+import { EventContext } from './DashboardWrapper';
 
 const formSchema = z.object({
   eventname: z.string().min(3, {
@@ -42,27 +42,24 @@ const formSchema = z.object({
 });
 
 type EventFormType = {
+  id?: Key;
   existingTitle?: string;
   existingBody?: string;
   existingDate?: Date;
   isEditing?: true;
-  id: Key;
-  eventData: EventType[];
-  setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
   setDialogOpenState: Dispatch<SetStateAction<boolean>>;
 };
 
 const EventForm = ({
+  id,
+  isEditing,
   existingTitle,
   existingBody,
   existingDate,
-  id,
-  eventData,
-  isEditing,
   setDialogOpenState,
-  setEvents,
 }: EventFormType) => {
   const { toast } = useToast();
+  const { events, setEvents } = useContext(EventContext);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,7 +71,7 @@ const EventForm = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (isEditing) {
-      let newEvents = [...eventData];
+      let newEvents = [...events];
       newEvents = newEvents.map(event =>
         event.id === id
           ? {

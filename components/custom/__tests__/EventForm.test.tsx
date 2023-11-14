@@ -4,11 +4,16 @@ import '@testing-library/jest-dom';
 import { Toaster } from '@/components/ui/toaster';
 import EventForm from '@/components/custom/EventForm';
 import { vi } from 'vitest';
+import DashboardWrapper from '../DashboardWrapper'; // We use this wrapper to give context to the tests
 
 const setup = () => {
   const mockDialogClose = vi.fn();
-  render(<EventForm setDialogOpenState={mockDialogClose} />);
-  render(<Toaster />);
+  render(
+    <DashboardWrapper>
+      <EventForm setDialogOpenState={mockDialogClose} />
+      <Toaster />
+    </DashboardWrapper>
+  );
 
   const user = userEvent.setup();
 
