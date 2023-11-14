@@ -22,6 +22,10 @@ export const handlers = [
   http.get('http://localhost:3000/api/upcomingevents', () => {
     return HttpResponse.json(events, { status: 200 });
   }),
+
+  http.get('http://localhost:3000/api/upcomingevents/1', () => {
+    return HttpResponse.json(events[0], { status: 200 });
+  }),
 ];
 
 // Define an error route
