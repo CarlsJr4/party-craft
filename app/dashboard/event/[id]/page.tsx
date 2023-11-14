@@ -21,18 +21,22 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     notFound();
   }
 
-  let filteredEvent: EventType[] = events.filter(
+  let filteredEvent: EventType = events.filter(
     event => event.id === parseInt(params.id)
-  );
+  )[0];
 
   return (
     <div>
-      <h1>{filteredEvent[0] && filteredEvent[0].title}</h1>
-      <p>
-        {filteredEvent[0] && format(new Date(filteredEvent[0].date), 'PPP')}
-      </p>
-      <p>{filteredEvent[0] && filteredEvent[0].body}</p>
-      <p>Guest list:</p>
+      {filteredEvent ? (
+        <>
+          <h1>{filteredEvent.title}</h1>
+          <p>{format(new Date(filteredEvent.date), 'PPP')}</p>
+          <p>{filteredEvent.body}</p>
+          <p>Guest list:</p>
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
