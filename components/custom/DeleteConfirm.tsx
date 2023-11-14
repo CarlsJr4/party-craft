@@ -1,4 +1,4 @@
-import React, { Key } from 'react';
+import React, { Key, useContext } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { EventContext } from '@/components/custom/DashboardWrapper';
 
 type DeleteConfirmProps = {
   handleDelete: (id: Key) => void;
@@ -18,6 +19,9 @@ type DeleteConfirmProps = {
 };
 
 const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
+  const { events } = useContext(EventContext);
+  const eventToDelete = events.filter(event => event.id === id);
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -26,7 +30,10 @@ const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete this event?
+            Are you sure you want to delete
+            <p>
+              &quot;<span>{eventToDelete[0].title}</span>?&quot;
+            </p>
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. Your event will be gone forever!

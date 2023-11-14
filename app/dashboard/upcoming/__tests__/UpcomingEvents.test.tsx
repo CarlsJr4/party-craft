@@ -146,6 +146,14 @@ describe('Event deletion', () => {
     const deletedEvent = screen.queryByText('Ice skating with friends');
     expect(deletedEvent).not.toBeInTheDocument();
   });
+
+  it('Displays event name in the delete dialog', async () => {
+    const { user } = setup();
+    const deleteButton = await screen.findAllByText('Delete');
+    await user.click(deleteButton[0]);
+    const eventName = await screen.findAllByText(events[0].title);
+    expect(eventName.length).toBe(2); // Expect length of 2 because it shows up once in the dialog and once in the background.
+  });
 });
 
 describe('Event editing', () => {
