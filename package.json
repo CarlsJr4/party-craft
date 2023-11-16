@@ -20,6 +20,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "@supabase/supabase-js": "^2.38.4",
     "@testing-library/user-event": "^14.5.1",
     "@vitejs/plugin-react": "^4.1.1",
     "class-variance-authority": "^0.7.0",
@@ -47,6 +48,7 @@
     "jsdom": "^22.1.0",
     "msw": "^2.0.5",
     "postcss": "^8",
+    "supabase": "^1.112.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
     "vitest": "^0.34.6"
