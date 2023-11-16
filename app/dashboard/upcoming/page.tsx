@@ -12,13 +12,25 @@ const UpcomingEvents = () => {
   const { events, setEvents } = useContext(EventContext);
   const errors = useContext(EventErrorContext);
 
-  const handleDelete = (id: Key) => {
+  const handleDelete = async (id: Key) => {
     let filteredEvents = [...events];
     filteredEvents = filteredEvents.filter(event => event.id !== id);
-    setEvents(filteredEvents);
-    toast({
-      description: 'Event deleted.',
+    const response = await fetch(`http://localhost:3000/api/events/${id}`, {
+      method: 'DELETE',
+      body: JSON.stringify(id),
     });
+    if (response.status === 204) {
+      setEvents(filteredEvents);
+      toast({
+        description: 'Event deleted.',
+      });
+    } else {
+      toast({
+        title: 'Uh oh!',
+        description:
+          'There was an issue deleting your event. Try again in a few seconds.',
+      });
+    }
   };
 
   return (
