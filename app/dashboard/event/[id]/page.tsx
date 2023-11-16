@@ -22,7 +22,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   }
 
   let filteredEvent: EventType = events.filter(
-    event => event.id === parseInt(params.id)
+    event => event.id === params.id
   )[0];
 
   return (

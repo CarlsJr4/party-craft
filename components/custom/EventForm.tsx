@@ -6,6 +6,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -69,7 +70,7 @@ const EventForm = ({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (isEditing) {
       let newEvents = [...events];
       newEvents = newEvents.map(event =>
@@ -88,20 +89,32 @@ const EventForm = ({
         description: 'Your changes have been saved.',
       });
     } else {
-      form.reset();
-      let updatedEvents = [...events];
-      updatedEvents.unshift({
+      const newEvent = {
         title: values.eventname,
-        id: 12, // Placeholder ID, need to generate ID later
-        key: 12,
+        id: uuidv4(),
         body: values.eventdesc,
         date: values.eventdate,
-      });
-      setEvents(updatedEvents);
-      toast({
-        title: 'Hooray!',
-        description: 'Event created!',
-      });
+      };
+      try {
+        await fetch('http://localhost:3000/api/events', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newEvent),
+        });
+        form.reset();
+        let updatedEvents = [...events];
+        updatedEvents.unshift(newEvent);
+        setEvents(updatedEvents);
+        toast({
+          title: 'Hooray!',
+          description: 'Event created!',
+        });
+      } catch (error) {
+        console.error('the error', error);
+      }
     }
     setDialogOpenState(false);
   }

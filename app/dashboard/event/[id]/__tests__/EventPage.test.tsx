@@ -13,7 +13,7 @@ describe('Home', () => {
     // Params in a NextJS route is always a string
     render(
       <Layout>
-        <EventPage params={{ id: id.toString() }} />
+        <EventPage params={{ id: id }} />
       </Layout>
     );
     expect(await screen.findByText(title)).toBeInTheDocument();

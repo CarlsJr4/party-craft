@@ -1,16 +1,15 @@
 import { HttpResponse, http } from 'msw';
-import { format } from 'date-fns';
 
 // Mock Data
 export const events = [
   {
-    id: 1,
+    id: '85f4da4c-d0d0-4064-bf42-790b81ee127c',
     title: 'Ice skating with friends',
     date: new Date('Sun Nov 09 2023 00:00:00 GMT-0800'),
     body: 'Visit the ice rink and skate with friends.',
   },
   {
-    id: 2,
+    id: 'b2849867-2510-4177-a35c-34170d8f8eb8',
     title: 'Hiking with friends',
     date: new Date('Sun Nov 08 2023 00:00:00 GMT-0800'),
     body: 'Hike up the mountains with your friends.',
@@ -24,6 +23,9 @@ export const handlers = [
   }),
 
   http.get('http://localhost:3000/api/events/1', () => {
+    return HttpResponse.json(events[0], { status: 200 });
+  }),
+  http.post('http://localhost:3000/api/events', () => {
     return HttpResponse.json(events[0], { status: 200 });
   }),
 ];

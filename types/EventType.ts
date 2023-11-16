@@ -1,11 +1,11 @@
 import { Key } from 'react';
 
 type EventType = {
-  id: Key;
+  id: string;
   title: string;
   date: Date;
   body: string;
-  key: Key;
+  key?: Key;
 };
 
 export default EventType;
