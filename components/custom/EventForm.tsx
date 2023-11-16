@@ -88,6 +88,7 @@ const EventForm = ({
         title: 'Success!',
         description: 'Your changes have been saved.',
       });
+      setDialogOpenState(false);
     } else {
       const newEvent = {
         title: values.eventname,
@@ -96,7 +97,7 @@ const EventForm = ({
         date: values.eventdate,
       };
       try {
-        await fetch('http://localhost:3000/api/events', {
+        const res = await fetch('http://localhost:3000/api/events', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -104,6 +105,9 @@ const EventForm = ({
           },
           body: JSON.stringify(newEvent),
         });
+        if (res.status !== 200) {
+          throw new Error();
+        }
         form.reset();
         let updatedEvents = [...events];
         updatedEvents.unshift(newEvent);
@@ -112,11 +116,16 @@ const EventForm = ({
           title: 'Hooray!',
           description: 'Event created!',
         });
+        setDialogOpenState(false);
       } catch (error) {
         console.error('the error', error);
+        toast({
+          title: 'Uh oh!',
+          description:
+            'There was an issue creating your event. Try again in a few seconds.',
+        });
       }
     }
-    setDialogOpenState(false);
   }
 
   return (

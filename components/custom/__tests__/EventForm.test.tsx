@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/toaster';
 import EventForm from '@/components/custom/EventForm';
 import { vi } from 'vitest';
 import DashboardWrapper from '../DashboardWrapper'; // We use this wrapper to give context to the tests
+import { server } from '@/app/mocks/server';
+import { http, HttpResponse } from 'msw';
 
 const setup = () => {
   const mockDialogClose = vi.fn();
@@ -93,6 +95,17 @@ describe('Isolated eventForm submission', () => {
     expect(successMessage).toBeInTheDocument();
   });
 
+  it('Displays an error toast if there is a server error when submitting a valid form', async () => {
+    server.use(
+      http.post('http://localhost:3000/api/events', () => {
+        return HttpResponse.json([], { status: 500 });
+      })
+    );
+    await submitValidForm();
+    const failureMessage = await screen.findByText('Uh oh!');
+    expect(failureMessage).toBeInTheDocument();
+  });
+
   it('Keeps the form values filled after an usuccessful submission', async () => {
     const { submitButton, user, eventNameField } = setup();
     await user.click(eventNameField);
@@ -101,6 +114,17 @@ describe('Isolated eventForm submission', () => {
     const errorMessage = screen.getByText(messages.errEventNameRequired);
     expect(eventNameField).toHaveValue('a');
     expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('Keeps the form values filled after a success submission with server error', async () => {
+    server.use(
+      http.post('http://localhost:3000/api/events', () => {
+        return HttpResponse.json([], { status: 500 });
+      })
+    );
+    await submitValidForm();
+    const eventnameField = screen.getByLabelText('Event name');
+    expect(eventnameField).toHaveValue('Ice skating with friends');
   });
 
   it('Resets the form after a successful submission', async () => {
