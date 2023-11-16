@@ -62,7 +62,7 @@ describe('Event data retrieval', () => {
 
   it('Renders a custom message when no events are retrieved', async () => {
     server.use(
-      http.get('http://localhost:3000/api/upcomingevents', () => {
+      http.get('http://localhost:3000/api/events', () => {
         return HttpResponse.json([], { status: 200 });
       })
     );
@@ -74,7 +74,7 @@ describe('Event data retrieval', () => {
 
   it('Renders an error when there is an API error', async () => {
     server.use(
-      http.get('http://localhost:3000/api/upcomingevents', () => {
+      http.get('http://localhost:3000/api/events', () => {
         return HttpResponse.error();
       })
     );

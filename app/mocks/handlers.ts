@@ -19,11 +19,11 @@ export const events = [
 
 // Define handlers that catch the corresponding requests and returns the mock data.
 export const handlers = [
-  http.get('http://localhost:3000/api/upcomingevents', () => {
+  http.get('http://localhost:3000/api/events', () => {
     return HttpResponse.json(events, { status: 200 });
   }),
 
-  http.get('http://localhost:3000/api/upcomingevents/1', () => {
+  http.get('http://localhost:3000/api/events/1', () => {
     return HttpResponse.json(events[0], { status: 200 });
   }),
 ];

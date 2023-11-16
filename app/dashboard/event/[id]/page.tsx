@@ -8,7 +8,7 @@ import React, { useContext, useEffect, useState } from 'react';
 const EventPage = ({ params }: { params: { id: string } }) => {
   const { events } = useContext(EventContext);
   useEffect(() => {
-    fetch(`http://localhost:3000/api/upcomingevents/${params.id}`).then(res => {
+    fetch(`http://localhost:3000/api/events/${params.id}`).then(res => {
       if (res.status === 404) {
         setEventStatus(null);
       }

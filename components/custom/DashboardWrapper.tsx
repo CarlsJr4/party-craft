@@ -11,7 +11,7 @@ type EventContextType = {
 
 const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    fetch('http://localhost:3000/api/upcomingevents')
+    fetch('http://localhost:3000/api/events')
       .then(res => res.json())
       .then((res: EventType[]) => setEvents(res))
       .catch(err => setErrors(err));
