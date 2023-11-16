@@ -11,25 +11,25 @@ export interface Database {
     Tables: {
       events: {
         Row: {
+          body: string | null;
           created_at: string;
           date: string | null;
-          description: string | null;
-          id: number;
-          name: string | null;
+          id: string;
+          title: string | null;
         };
         Insert: {
+          body?: string | null;
           created_at?: string;
           date?: string | null;
-          description?: string | null;
-          id?: number;
-          name?: string | null;
+          id: string;
+          title?: string | null;
         };
         Update: {
+          body?: string | null;
           created_at?: string;
           date?: string | null;
-          description?: string | null;
-          id?: number;
-          name?: string | null;
+          id?: string;
+          title?: string | null;
         };
         Relationships: [];
       };
