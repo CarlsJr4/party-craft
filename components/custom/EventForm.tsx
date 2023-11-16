@@ -105,7 +105,7 @@ const EventForm = ({
           },
           body: JSON.stringify(newEvent),
         });
-        if (res.status !== 200) {
+        if (res.status !== 201) {
           throw new Error();
         }
         form.reset();
@@ -118,7 +118,6 @@ const EventForm = ({
         });
         setDialogOpenState(false);
       } catch (error) {
-        console.error('the error', error);
         toast({
           title: 'Uh oh!',
           description:

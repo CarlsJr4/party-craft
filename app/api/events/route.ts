@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
-import { Database } from '@/database.types';
+import { Database } from '@/types/database.types';
+import EventType from '@/types/EventType';
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,4 +20,17 @@ export async function GET() {
 }
 
 // Create new event data
-export async function POST() {}
+export async function POST(request: Request) {
+  const reqData: EventType = await request.json();
+  const { data, error } = await supabase
+    .from('events')
+    .insert({ ...reqData, date: reqData.date.toString() })
+    .select();
+  if (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+  return NextResponse.json(data, { status: 201 });
+}

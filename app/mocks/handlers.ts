@@ -22,11 +22,11 @@ export const handlers = [
     return HttpResponse.json(events, { status: 200 });
   }),
 
-  http.get('http://localhost:3000/api/events/1', () => {
+  http.get(`http://localhost:3000/api/events/${events[0].id}`, () => {
     return HttpResponse.json(events[0], { status: 200 });
   }),
   http.post('http://localhost:3000/api/events', () => {
-    return HttpResponse.json(events[0], { status: 200 });
+    return HttpResponse.json(events[0], { status: 201 });
   }),
 ];
 
