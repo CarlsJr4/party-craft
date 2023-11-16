@@ -116,7 +116,7 @@ describe('Isolated eventForm submission', () => {
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it('Keeps the form values filled after a success submission with server error', async () => {
+  it('Keeps the form values filled after a successful submission with server error', async () => {
     server.use(
       http.post('http://localhost:3000/api/events', () => {
         return HttpResponse.json([], { status: 500 });
