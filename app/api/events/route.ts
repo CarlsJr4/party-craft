@@ -11,11 +11,7 @@ const supabase = createClient<Database>(
 // Grab API data
 export async function GET() {
   const { data, error } = await supabase.from('events').select('*');
-  if (error)
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+  if (error) return NextResponse.error();
   return NextResponse.json(data, { status: 200 });
 }
 
