@@ -4,8 +4,8 @@ import { Key } from 'react';
 import { NextResponse } from 'next/server';
 
 const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_LOCAL_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_LOCAL_SUPABASE_ANON_KEY!
 );
 
 // Edit an event with ID
