@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/types/database.types';
 import { Key } from 'react';
 import { NextResponse } from 'next/server';
+import EventType from '@/types/EventType';
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_LOCAL_SUPABASE_URL!,
@@ -9,7 +10,21 @@ const supabase = createClient<Database>(
 );
 
 // Edit an event with ID
-export async function POST() {}
+export async function PUT(request: Request) {
+  const reqData: EventType = await request.json();
+  // Need to get event using ID
+  const { data, error } = await supabase
+    .from('events')
+    .update({
+      title: reqData.title,
+      body: reqData.body,
+      date: reqData.date.toString(),
+    })
+    .eq('id', reqData.id)
+    .select();
+  if (error) return NextResponse.error();
+  return NextResponse.json(data, { status: 201 });
+}
 
 // Delete an event with ID
 export async function DELETE(request: Request) {
@@ -18,12 +33,6 @@ export async function DELETE(request: Request) {
     .from('events')
     .delete()
     .eq('id', reqData);
-  if (error)
-    return NextResponse.json(
-      {
-        error: 'Internal Server Error',
-      },
-      { status: 500 }
-    );
-  return new Response(null, { status: 204 });
+  if (error) return NextResponse.error();
+  return NextResponse.json(null, { status: 204 });
 }

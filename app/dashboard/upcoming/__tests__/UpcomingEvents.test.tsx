@@ -213,6 +213,19 @@ describe('Event editing', () => {
     expect(eventnameError).toBeInTheDocument();
   });
 
+  it('Displays an error toast if there is a server error while updating', async () => {
+    server.use(
+      http.put(`http://localhost:3000/api/events/${events[0].id}`, () => {
+        return HttpResponse.error();
+      })
+    );
+    setup();
+    await openEditDialog();
+    const submitButton = await screen.findByText('Save');
+    await userEvent.click(submitButton);
+    expect(await screen.findByText('Uh oh!')).toBeInTheDocument();
+  });
+
   it('Updates event card if fields are validated successfully', async () => {
     setup();
     await openEditDialog();

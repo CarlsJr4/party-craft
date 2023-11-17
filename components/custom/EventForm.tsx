@@ -70,31 +70,59 @@ const EventForm = ({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit({
+    eventdate,
+    eventdesc,
+    eventname,
+  }: z.infer<typeof formSchema>) {
     if (isEditing) {
       let newEvents = [...events];
       newEvents = newEvents.map(event =>
         event.id === id
           ? {
               ...event,
-              title: values.eventname,
-              body: values.eventdesc,
-              date: values.eventdate,
+              title: eventname,
+              body: eventdesc,
+              date: eventdate,
             }
           : event
       );
-      setEvents(newEvents);
-      toast({
-        title: 'Success!',
-        description: 'Your changes have been saved.',
-      });
-      setDialogOpenState(false);
+      try {
+        const res = await fetch(`http://localhost:3000/api/events/${id}`, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id,
+            title: eventname,
+            body: eventdesc,
+            date: eventdate,
+          }),
+        });
+        if (res.status !== 201) {
+          throw new Error();
+        }
+        setEvents(newEvents);
+        toast({
+          title: 'Success!',
+          description: 'Your changes have been saved.',
+        });
+        setDialogOpenState(false);
+      } catch {
+        toast({
+          title: 'Uh oh!',
+          description:
+            'There was an issue editing your event. Try again in a few seconds.',
+        });
+      }
     } else {
       const newEvent = {
-        title: values.eventname,
+        title: eventname,
         id: uuidv4(),
-        body: values.eventdesc,
-        date: values.eventdate,
+        body: eventdesc,
+        date: eventdate,
       };
       try {
         const res = await fetch('http://localhost:3000/api/events', {

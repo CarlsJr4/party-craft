@@ -23,10 +23,7 @@ export async function POST(request: Request) {
     .insert({ ...reqData, date: reqData.date.toString() })
     .select();
   if (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.error();
   }
   return NextResponse.json(data, { status: 201 });
 }

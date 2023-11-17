@@ -21,12 +21,14 @@ export const handlers = [
   http.get('http://localhost:3000/api/events', () => {
     return HttpResponse.json(events, { status: 200 });
   }),
-
   http.get(`http://localhost:3000/api/events/${events[0].id}`, () => {
     return HttpResponse.json(events[0], { status: 200 });
   }),
   http.delete(`http://localhost:3000/api/events/${events[0].id}`, () => {
     return new Response(null, { status: 204 });
+  }),
+  http.put(`http://localhost:3000/api/events/${events[0].id}`, () => {
+    return HttpResponse.json(events[0], { status: 201 });
   }),
   http.post('http://localhost:3000/api/events', () => {
     return HttpResponse.json(events[0], { status: 201 });
