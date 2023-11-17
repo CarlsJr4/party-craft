@@ -34,5 +34,5 @@ export async function DELETE(request: Request) {
     .delete()
     .eq('id', reqData);
   if (error) return NextResponse.error();
-  return NextResponse.json(null, { status: 204 });
+  return new Response(null, { status: 204 }); // We use new Response instead of NextResponse because NextResponse causes a TypeError in the console
 }
