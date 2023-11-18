@@ -12,7 +12,7 @@ const Navbar = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
   const router = useRouter();
-  const { isAuth, setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   async function handleSignout() {
     const { error } = await supabase.auth.signOut();
     router.push('/');
@@ -24,19 +24,15 @@ const Navbar = () => {
       <b>PartyCraft</b>
       {/* <span className="text-right">Signup</span> */}
       {/* <span className="text-right">Login</span> */}
-      {isAuth ? (
-        <>
-          <Avatar>
-            <AvatarImage src="#" alt="Test" />
-            <AvatarFallback className="text-black">CD</AvatarFallback>
-          </Avatar>
-          <Button onClick={() => handleSignout()} className="text-right">
-            Logout
-          </Button>
-        </>
-      ) : (
-        ''
-      )}
+      <>
+        <Avatar>
+          <AvatarImage src="#" alt="Test" />
+          <AvatarFallback className="text-black">CD</AvatarFallback>
+        </Avatar>
+        <Button onClick={() => handleSignout()} className="text-right">
+          Logout
+        </Button>
+      </>
     </nav>
   );
 };
