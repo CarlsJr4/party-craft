@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '../ui/button';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
-import { AuthContext } from './AuthWrapper';
 
 const Navbar = () => {
   const supabase = createBrowserClient(
@@ -12,11 +11,9 @@ const Navbar = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
   const router = useRouter();
-  const { isAuth, toggleAuth } = useContext(AuthContext);
 
   async function handleSignout() {
     const { error } = await supabase.auth.signOut();
-    toggleAuth(false);
     router.push('/');
   }
 
@@ -25,19 +22,15 @@ const Navbar = () => {
       <b>PartyCraft</b>
       {/* <span className="text-right">Signup</span> */}
       {/* <span className="text-right">Login</span> */}
-      {isAuth ? (
-        <>
-          <Avatar>
-            <AvatarImage src="#" alt="Test" />
-            <AvatarFallback className="text-black">CD</AvatarFallback>
-          </Avatar>
-          <Button onClick={() => handleSignout()} className="text-right">
-            Logout
-          </Button>
-        </>
-      ) : (
-        ''
-      )}
+      <>
+        <Avatar>
+          <AvatarImage src="#" alt="Test" />
+          <AvatarFallback className="text-black">CD</AvatarFallback>
+        </Avatar>
+        <Button onClick={() => handleSignout()} className="text-right">
+          Logout
+        </Button>
+      </>
     </nav>
   );
 };

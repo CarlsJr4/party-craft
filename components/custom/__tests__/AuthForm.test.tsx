@@ -13,6 +13,13 @@ const setup = () => {
     eventNameField: screen.getByLabelText('Email:'),
     eventDescField: screen.getByLabelText('Password:'),
   };
+  vi.mock('next/navigation', () => ({
+    useRouter() {
+      return {
+        prefetch: () => null,
+      };
+    },
+  }));
 
   return {
     loginButton,
