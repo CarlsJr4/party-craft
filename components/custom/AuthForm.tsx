@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from './AuthWrapper';
 
 const AuthSchema = z.object({
@@ -40,6 +40,12 @@ const AuthForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (isAuth) {
+      router.push('/dashboard/upcoming');
+    }
+  });
+
   async function onSubmit({ email, password }: z.infer<typeof AuthSchema>) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -54,6 +60,7 @@ const AuthForm = () => {
 
   return (
     <>
+      {isAuth && <p>Logging in...</p>}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
