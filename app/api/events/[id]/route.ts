@@ -1,7 +1,13 @@
+import { createClient } from '@supabase/supabase-js';
+import { Database } from '@/types/database.types';
 import { Key } from 'react';
 import { NextResponse } from 'next/server';
 import EventType from '@/types/EventType';
-import { supabase } from '@/app/layout';
+
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 // Edit an event with ID
 export async function PUT(request: Request) {
