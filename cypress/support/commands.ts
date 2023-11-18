@@ -35,3 +35,10 @@
 //     }
 //   }
 // }
+Cypress.Commands.add('login', (username: string, password: string) => {
+  cy.visit('/');
+  cy.get('input[name=email]').type(username);
+  cy.get('input[name=password]').type(`${password}{enter}`, { log: false });
+  cy.url().should('include', '/dashboard');
+  cy.getCookie('sb-localhost-auth-token').should('exist');
+});

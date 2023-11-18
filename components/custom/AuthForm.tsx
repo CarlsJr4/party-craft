@@ -45,8 +45,10 @@ const AuthForm = () => {
       email,
       password,
     });
-    router.push('/dashboard/upcoming');
-    setAuth(true);
+    if (data.session) {
+      router.push('/dashboard/upcoming');
+      setAuth(true);
+    }
     return;
   }
 
