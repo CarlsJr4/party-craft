@@ -15,6 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
+import { AuthContext } from './AuthWrapper';
 
 const AuthSchema = z.object({
   email: z.string().email(),
@@ -24,6 +26,7 @@ const AuthSchema = z.object({
 });
 
 const AuthForm = () => {
+  const { isAuth, setAuth } = useContext(AuthContext);
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -43,6 +46,7 @@ const AuthForm = () => {
       password,
     });
     router.push('/dashboard/upcoming');
+    setAuth(true);
     return;
   }
 
