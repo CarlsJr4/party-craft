@@ -6,6 +6,8 @@ describe('The login page', () => {
 
   it('Successfully logs in', () => {
     cy.login('test@test.com', '111111');
+    cy.url().should('include', '/dashboard');
+    cy.getCookie('sb-localhost-auth-token').should('exist');
   });
 
   it('Successfully logs out', () => {
@@ -21,5 +23,13 @@ describe('The login page', () => {
     cy.getCookie('sb-localhost-auth-token').should('exist');
     cy.contains('Welcome to PartyCraft!').should('exist');
     cy.contains('Logging in...').should('exist');
+  });
+
+  it('Displays an error if a user does not exist when authenticating', () => {
+    cy.login('nouser@gmail.com', '111111');
+    cy.url().should('not.include', '/dashboard');
+    cy.contains('Invalid email or password').should('exist');
+    cy.login('test@test.com', '111111');
+    cy.contains('Invalid email or password').should('not.exist');
   });
 });

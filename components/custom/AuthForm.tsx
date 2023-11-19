@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './AuthWrapper';
 
 const AuthSchema = z.object({
@@ -27,6 +27,7 @@ const AuthSchema = z.object({
 
 const AuthForm = () => {
   const { isAuth, setAuth } = useContext(AuthContext);
+  const [invalidUserError, setInvalidUserError] = useState(false);
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -51,9 +52,12 @@ const AuthForm = () => {
       email,
       password,
     });
-    if (data.session) {
+    if (data.session !== null) {
+      setInvalidUserError(false);
       router.push('/dashboard/upcoming');
       setAuth(true);
+    } else {
+      setInvalidUserError(true);
     }
     return;
   }
@@ -101,6 +105,9 @@ const AuthForm = () => {
           </Button> */}
         </form>
       </Form>
+      {invalidUserError && (
+        <p className="mt-5 text-red-600">Invalid email or password</p>
+      )}
     </>
   );
 };
