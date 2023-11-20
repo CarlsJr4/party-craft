@@ -1,8 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const protectedRoutes = ['/dashboard/upcoming'];
-
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -65,7 +63,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protected routes
-  if (!isAuth && protectedRoutes.includes(request.nextUrl.pathname)) {
+  if (!isAuth && request.nextUrl.pathname.includes('dashboard')) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
