@@ -32,3 +32,11 @@ describe('The login page', () => {
     cy.contains('Invalid email or password').should('not.exist');
   });
 });
+
+describe('protected routes', () => {
+  it('Redirects user to login page if accessing dashboard with no session', () => {
+    cy.visit('/dashboard/upcoming');
+    cy.getCookie('sb-localhost-auth-token').should('not.exist');
+    cy.contains('Email:').should('exist');
+  });
+});
