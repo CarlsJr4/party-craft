@@ -494,9 +494,16 @@ type eventsScalars = {
    * Column `events.id`.
    */
   id: string;
+  /**
+   * Column `events.owned_by`.
+   */
+  owned_by: string | null;
 }
 type eventsParentsInputs<TPath extends string[]> = {
-
+  /**
+   * Relationship from table `events` to table `users` through the column `events.owned_by`.
+   */
+  users: OmitParentInputs<usersParentInputs<[...TPath, "users"]>, "events", [...TPath, "users"]>;
 };
 type eventsChildrenInputs<TPath extends string[]> = {
 
@@ -1700,6 +1707,10 @@ type usersChildrenInputs<TPath extends string[]> = {
   * Relationship from table `users` to table `sessions` through the column `sessions.user_id`.
   */
   sessions: OmitChildInputs<sessionsChildInputs<[...TPath, "sessions"]>, "users" | "user_id">;
+  /**
+  * Relationship from table `users` to table `events` through the column `events.owned_by`.
+  */
+  events: OmitChildInputs<eventsChildInputs<[...TPath, "events"]>, "users" | "owned_by">;
 };
 type usersInputs<TPath extends string[]> = Inputs<
   Omit<usersScalars, "confirmed_at">,
@@ -1745,7 +1756,7 @@ type bucketsGraph = Array<{
   Children: bucketsChildrenGraph;
 }>;
 type eventsParentsGraph = {
-
+ users: OmitChildGraph<usersGraph, "events">;
 };
 type eventsChildrenGraph = {
 
@@ -2008,6 +2019,7 @@ type usersChildrenGraph = {
  identities: OmitParentGraph<identitiesGraph, "users">;
  mfa_factors: OmitParentGraph<mfa_factorsGraph, "users">;
  sessions: OmitParentGraph<sessionsGraph, "users">;
+ events: OmitParentGraph<eventsGraph, "users">;
 };
 type usersGraph = Array<{
   Scalars: usersScalars;
@@ -2105,6 +2117,8 @@ type Override = {
       body?: string;
       date?: string;
       id?: string;
+      owned_by?: string;
+      users?: string;
     };
   }
   flow_state?: {
@@ -2422,6 +2436,7 @@ type Override = {
       identities?: string;
       mfa_factors?: string;
       sessions?: string;
+      events?: string;
     };
   }}
 export type Alias = {

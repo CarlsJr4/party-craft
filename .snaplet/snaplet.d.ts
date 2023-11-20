@@ -43,6 +43,7 @@ interface Table_public_events {
   body: string | null;
   date: string | null;
   id: string;
+  owned_by: string | null;
 }
 interface Table_auth_flow_state {
   id: string;
@@ -360,6 +361,14 @@ interface Tables_relationships {
        objects_bucketId_fkey: "storage.objects";
     };
   };
+  "public.events": {
+    parent: {
+       events_owned_by_fkey: "auth.users";
+    };
+    children: {
+
+    };
+  };
   "auth.flow_state": {
     parent: {
 
@@ -485,6 +494,7 @@ interface Tables_relationships {
        identities_user_id_fkey: "auth.identities";
        mfa_factors_user_id_fkey: "auth.mfa_factors";
        sessions_user_id_fkey: "auth.sessions";
+       events_owned_by_fkey: "public.events";
     };
   };
 }
