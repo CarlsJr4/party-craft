@@ -41,12 +41,6 @@ const AuthForm = () => {
     },
   });
 
-  useEffect(() => {
-    if (isAuth) {
-      router.push('/dashboard/upcoming');
-    }
-  });
-
   async function onSubmit({ email, password }: z.infer<typeof AuthSchema>) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,

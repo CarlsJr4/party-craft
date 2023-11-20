@@ -19,10 +19,9 @@ describe('The login page', () => {
 
   it('Redirects user to dashboard if there is already a session', () => {
     cy.login('test@test.com', '111111');
+    cy.contains('Upcoming').should('exist');
     cy.visit('/');
-    cy.getCookie('sb-localhost-auth-token').should('exist');
-    cy.contains('Welcome to PartyCraft!').should('exist');
-    cy.contains('Logging in...').should('exist');
+    cy.contains('Upcoming').should('exist'); // We get taken back to the dashboard immediately because middleware
   });
 
   it('Displays an error if a user does not exist when authenticating', () => {
