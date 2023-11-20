@@ -35,7 +35,7 @@ const UpcomingEvents = () => {
 
   return (
     <div>
-      <h1>Past events:</h1>
+      <h1>Your events:</h1>
       <div className="grid grid-cols-4 mt-5 gap-8">
         {errors && (
           <div>

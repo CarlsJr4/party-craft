@@ -10,7 +10,7 @@ const DashNav = () => {
         <Button className="mt-3">Create New +</Button>
       </CreateDialog>
       <Link href="/dashboard/upcoming">Upcoming</Link>
-      <Link href="/dashboard/">My Events</Link>
+      <Link href="/dashboard/myevents">My Events</Link>
       <Link href="/dashboard/past">Past Events</Link>
       {/* <Link href="/dashboard/drafts">Drafts</Link> */}
     </div>
