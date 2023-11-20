@@ -2,7 +2,7 @@ import React from 'react';
 import DashNav from '@/components/custom/Dashnav';
 import { Toaster } from '@/components/ui/toaster';
 import DashboardWrapper from '@/components/custom/DashboardWrapper';
-import Navbar from '@/components/custom/Navbar';
+import Navbar from '@/components/custom/navbar';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
