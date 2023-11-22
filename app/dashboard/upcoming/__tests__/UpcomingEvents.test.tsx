@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import { events } from '@/app/mocks/handlers';
 import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
-import { format } from 'date-fns';
+import { format, parseJSON } from 'date-fns';
 import UpcomingEvents from '@/app/dashboard/upcoming/page';
 
 const setup = () => {
@@ -58,9 +58,13 @@ describe('Event data retrieval', () => {
     }
   });
 
-  // it('Renders a loader while the API is loading', () => {
-  //   render(<UpcomingEvents />);
-  // });
+  it('Only displays events that are in the future', async () => {
+    setup();
+    const pastEvent = screen.queryByText(events[2].title); // This is a placeholder past event
+    const futureEvent = await screen.findByText(events[0].title); // This is a placeholder future event
+    expect(pastEvent).not.toBeInTheDocument();
+    expect(futureEvent).toBeInTheDocument();
+  });
 
   it('Renders a custom message when no events are retrieved', async () => {
     server.use(
@@ -167,7 +171,7 @@ describe('Event editing', () => {
     const { title, date, body } = events[0];
     expect(eventNameField).toHaveValue(title);
     expect(eventDescField).toHaveValue(body);
-    expect(eventDateField).toHaveTextContent(format(date, 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
+    expect(eventDateField).toHaveTextContent(format(parseJSON(date), 'PPP')); // We use textcontent instead of value because the date field is a button, not an input
   });
 
   it('Displays confirmation toast after successful edit', async () => {
