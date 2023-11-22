@@ -27,7 +27,10 @@ function initSupabaseClient() {
 }
 
 // Grab API data
-export async function GET() {
+export async function GET(request: Request) {
+  const path = request.url;
+  // Depending on what the request URL is, we need to have filtering/RLS
+  // Every route should call this GET request
   const supabase = initSupabaseClient();
   const { data, error } = await supabase.from('events').select('*');
   if (error) return NextResponse.error();
