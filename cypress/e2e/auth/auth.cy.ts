@@ -1,3 +1,5 @@
+import { cy, Cypress, expect, it } from 'local-cypress';
+
 describe('The login page', () => {
   // This takes a long time. Only use it if you really need it
   // beforeEach(() => {

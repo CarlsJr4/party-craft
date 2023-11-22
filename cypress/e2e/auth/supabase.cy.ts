@@ -1,3 +1,5 @@
+import { cy, Cypress, expect, it } from 'local-cypress';
+
 describe('Row level security', () => {
   it('Only returns events that the user owns', () => {
     cy.login('test@test.com', '111111');
