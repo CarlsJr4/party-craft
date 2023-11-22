@@ -48,11 +48,13 @@ describe('Event data retrieval', () => {
   it('Correctly renders API data on the screen', async () => {
     setup();
     for (const event of events) {
-      expect(await screen.findByText(event.title)).toBeInTheDocument();
-      expect(await screen.findByText(event.body)).toBeInTheDocument();
-      expect(
-        await screen.findByText(format(event.date, 'PPP'))
-      ).toBeInTheDocument();
+      if (new Date() < new Date(event.date)) {
+        expect(await screen.findByText(event.title)).toBeInTheDocument();
+        expect(await screen.findByText(event.body)).toBeInTheDocument();
+        expect(
+          await screen.findByText(format(parseJSON(event.date), 'PPP'))
+        ).toBeInTheDocument();
+      }
     }
   });
 

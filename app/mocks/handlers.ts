@@ -5,14 +5,20 @@ export const events = [
   {
     id: '85f4da4c-d0d0-4064-bf42-790b81ee127c',
     title: 'Ice skating with friends',
-    date: new Date('Sun Nov 09 2023 00:00:00 GMT-0800'),
+    date: new Date('Sun Nov 09 2099 00:00:00 GMT-0800').toISOString(),
     body: 'Visit the ice rink and skate with friends.',
   },
   {
     id: 'b2849867-2510-4177-a35c-34170d8f8eb8',
     title: 'Hiking with friends',
-    date: new Date('Sun Nov 08 2023 00:00:00 GMT-0800'),
+    date: new Date('Sun Nov 08 2099 00:00:00 GMT-0800').toISOString(),
     body: 'Hike up the mountains with your friends.',
+  },
+  {
+    id: 'f8sf7ss87-3232-1123-a35c-34170d8f8eb8',
+    title: 'Go to the iPhone introduction reveal',
+    date: new Date('Fri Jun 27 2007 00:00:00 GMT-0800').toISOString(),
+    body: 'Watch the iPhone get revealed to the public',
   },
 ];
 

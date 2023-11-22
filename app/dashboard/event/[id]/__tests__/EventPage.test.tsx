@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import EventPage from '../page';
 import { events } from '@/app/mocks/handlers';
-import { format } from 'date-fns';
+import { format, parseJSON } from 'date-fns';
 import Layout from '@/app/dashboard/layout';
 
 describe('Home', () => {
@@ -17,7 +17,9 @@ describe('Home', () => {
       </Layout>
     );
     expect(await screen.findByText(title)).toBeInTheDocument();
-    expect(await screen.findByText(format(date, 'PPP'))).toBeInTheDocument();
+    expect(
+      await screen.findByText(format(parseJSON(date), 'PPP'))
+    ).toBeInTheDocument();
     expect(await screen.findByText(body)).toBeInTheDocument();
   });
 });
