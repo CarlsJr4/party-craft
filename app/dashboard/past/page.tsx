@@ -48,18 +48,20 @@ const UpcomingEvents = () => {
         ) : (
           ''
         )}
-        {events.map(({ id, title, date, body }) => {
-          return (
-            <EventCard
-              handleDelete={handleDelete}
-              key={id as Key}
-              id={id}
-              title={title}
-              date={date}
-              body={body}
-            />
-          );
-        })}
+        {events
+          .filter(item => new Date() > new Date(item.date))
+          .map(({ id, title, date, body }) => {
+            return (
+              <EventCard
+                handleDelete={handleDelete}
+                key={id as Key}
+                id={id}
+                title={title}
+                date={date}
+                body={body}
+              />
+            );
+          })}
       </div>
     </div>
   );
