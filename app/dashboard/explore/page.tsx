@@ -36,7 +36,7 @@ const ExploreEvents = () => {
   return (
     <div>
       <h1>Explore</h1>
-      <p>Discover public events near you:</p>
+      <p>Discover upcoming public events near you:</p>
       <div className="grid grid-cols-4 mt-5 gap-8">
         {errors && (
           <div>
