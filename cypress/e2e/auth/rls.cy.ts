@@ -20,7 +20,11 @@ describe('Row level security', () => {
 
   it('Does not persist the deleted event', () => {
     cy.login('test@test.com', '111111');
-    cy.contains('Delete').first().click();
+    cy.contains('Newly created event')
+      .parent()
+      .parent()
+      .contains('Delete')
+      .click();
     cy.contains('Continue').click();
     cy.visit('/');
     cy.contains('Newly created event').should('not.exist');
