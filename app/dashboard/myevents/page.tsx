@@ -35,7 +35,11 @@ const ExploreEvents = () => {
 
   return (
     <div>
-      <h1>Your events:</h1>
+      <h1>Your events</h1>
+      <p>
+        Events you&apos;ve been invited to, saved, and created will show up
+        here:
+      </p>
       <div className="grid grid-cols-4 mt-5 gap-8">
         {errors && (
           <div>
@@ -43,11 +47,7 @@ const ExploreEvents = () => {
             <p>There was an issue retrieving your events.</p>
           </div>
         )}
-        {events.length === 0 && !errors ? (
-          <p>We could not find any upcoming events near you.</p>
-        ) : (
-          ''
-        )}
+        {events.length === 0 && !errors ? <p>No events found.</p> : ''}
         {events.map(({ id, title, date, body }) => {
           return (
             <EventCard

@@ -35,7 +35,8 @@ const ExploreEvents = () => {
 
   return (
     <div>
-      <h1>Past events:</h1>
+      <h1>Past events</h1>
+      <p>Revisit old events you&apos;ve attended here:</p>
       <div className="grid grid-cols-4 mt-5 gap-8">
         {errors && (
           <div>
