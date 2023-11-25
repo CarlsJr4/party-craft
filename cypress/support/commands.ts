@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { cy, Cypress, expect, it } from 'local-cypress';
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,8 +36,22 @@
 //     }
 //   }
 // }
-Cypress.Commands.add('login', (username: string, password: string) => {
-  cy.visit('/');
-  cy.get('input[name=email]').type(username);
-  cy.get('input[name=password]').type(`${password}{enter}`, { log: false });
+
+Cypress.Commands.addAll({
+  login(username: string, password: string) {
+    cy.visit('/');
+    cy.get('input[name=email]').type(username);
+    cy.get('input[name=password]').type(`${password}{enter}`, { log: false });
+  },
+  createNewEvent() {
+    cy.contains('Create New +').click();
+    cy.get('input[name="eventname"]').click().type('Newly created event');
+    cy.get('textarea[name="eventdesc"]')
+      .click()
+      .type('Newly created event desc');
+    cy.contains('Pick a date').click();
+    const dayNumber = new Date().getDate() + 1;
+    cy.contains('button[name="day"]', dayNumber).click();
+    cy.contains('Submit').click();
+  },
 });

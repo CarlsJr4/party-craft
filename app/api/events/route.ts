@@ -40,10 +40,11 @@ export async function GET(request: Request) {
 // Create new event data
 export async function POST(request: Request) {
   const supabase = initSupabaseClient();
+  const ownedByID = (await supabase.auth.getUser()).data.user?.id;
   const reqData: EventType = await request.json();
   const { data, error } = await supabase
     .from('events')
-    .insert({ ...reqData, date: reqData.date.toString() })
+    .insert({ ...reqData, date: reqData.date.toString(), owned_by: ownedByID }) // Need to get current session ID
     .select();
   if (error) {
     return NextResponse.error();
