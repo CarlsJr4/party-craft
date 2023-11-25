@@ -1,13 +1,13 @@
 'use client';
 import React, { Key, useContext, useEffect, useState } from 'react';
-import EventCard from '@/components/custom/EventCard';
+import EventCard from '@/components/custom/eventcard';
 import { useToast } from '@/components/ui/use-toast';
 import {
   EventContext,
   EventErrorContext,
 } from '@/components/custom/DashboardWrapper';
 
-const UpcomingEvents = () => {
+const ExploreEvents = () => {
   const { toast } = useToast();
   const { events, setEvents } = useContext(EventContext);
   const errors = useContext(EventErrorContext);
@@ -44,7 +44,7 @@ const UpcomingEvents = () => {
           </div>
         )}
         {events.length === 0 && !errors ? (
-          <p>You have no upcoming events</p>
+          <p>We could not find any upcoming events near you.</p>
         ) : (
           ''
         )}
@@ -65,4 +65,4 @@ const UpcomingEvents = () => {
   );
 };
 
-export default UpcomingEvents;
+export default ExploreEvents;

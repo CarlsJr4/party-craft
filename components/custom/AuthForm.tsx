@@ -48,7 +48,7 @@ const AuthForm = () => {
     });
     if (data.session !== null) {
       setInvalidUserError(false);
-      router.push('/dashboard/upcoming');
+      router.push('/dashboard/explore');
       setAuth(true);
     } else {
       setInvalidUserError(true);

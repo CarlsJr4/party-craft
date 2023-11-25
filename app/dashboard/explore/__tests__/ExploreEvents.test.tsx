@@ -6,12 +6,12 @@ import { events } from '@/app/mocks/handlers';
 import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
 import { format, parseJSON } from 'date-fns';
-import UpcomingEvents from '@/app/dashboard/upcoming/page';
+import ExploreEvents from '@/app/dashboard/explore/page';
 
 const setup = () => {
   render(
     <Layout>
-      <UpcomingEvents />
+      <ExploreEvents />
     </Layout>
   );
 
@@ -74,7 +74,7 @@ describe('Event data retrieval', () => {
     );
     setup();
     expect(
-      await screen.findByText('You have no upcoming events')
+      await screen.findByText('We could not find any upcoming events near you.')
     ).toBeInTheDocument();
   });
 
@@ -87,7 +87,9 @@ describe('Event data retrieval', () => {
     setup();
     expect(await screen.findByText('Uh oh!')).toBeInTheDocument();
     expect(
-      await screen.queryByText('You have no upcoming events')
+      await screen.queryByText(
+        'We could not find any upcoming events near you.'
+      )
     ).not.toBeInTheDocument();
   });
 });

@@ -21,9 +21,9 @@ describe('The login page', () => {
 
   it('Redirects user to dashboard if there is already a session', () => {
     cy.login('test@test.com', '111111');
-    cy.contains('Upcoming').should('exist');
+    cy.contains('Explore').should('exist');
     cy.visit('/');
-    cy.contains('Upcoming').should('exist'); // We get taken back to the dashboard immediately because middleware
+    cy.contains('Explore').should('exist'); // We get taken back to the dashboard immediately because middleware
   });
 
   it('Displays an error if a user does not exist when authenticating', () => {
@@ -37,7 +37,7 @@ describe('The login page', () => {
 
 describe('protected routes', () => {
   it('Redirects user to login page if accessing dashboard with no session', () => {
-    cy.visit('/dashboard/upcoming');
+    cy.visit('/dashboard/explore');
     cy.getCookie('sb-localhost-auth-token').should('not.exist');
     cy.contains('Email:').should('exist');
   });

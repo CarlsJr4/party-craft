@@ -59,7 +59,7 @@ export async function middleware(request: NextRequest) {
 
   // If user is authenticated and user is on login page, redirect to dashboard
   if (isAuth && request.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard/upcoming', request.url));
+    return NextResponse.redirect(new URL('/dashboard/explore', request.url));
   }
 
   // Protected routes
