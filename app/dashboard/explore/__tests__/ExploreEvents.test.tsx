@@ -87,9 +87,7 @@ describe('Event data retrieval', () => {
     setup();
     expect(await screen.findByText('Uh oh!')).toBeInTheDocument();
     expect(
-      await screen.queryByText(
-        'We could not find any upcoming events near you.'
-      )
+      screen.queryByText('We could not find any upcoming events near you.')
     ).not.toBeInTheDocument();
   });
 });
@@ -182,9 +180,7 @@ describe('Event editing', () => {
     const submitButton = await screen.findByText('Save');
     await userEvent.click(submitButton);
     const successMessage = await screen.findByText(messages.eventSaved);
-    const successMessageCreate = await screen.queryByText(
-      messages.eventCreated
-    );
+    const successMessageCreate = screen.queryByText(messages.eventCreated);
     expect(successMessage).toBeInTheDocument();
     expect(successMessageCreate).not.toBeInTheDocument(); // 2 assertions because there are 2 different toast messages depending on the situation
   });
@@ -193,9 +189,7 @@ describe('Event editing', () => {
     setup();
     await openEditDialog();
     const submitButton = await screen.findByText('Save');
-    const dialogDesc = await screen.queryByText(
-      'Make changes to your event here.'
-    );
+    const dialogDesc = screen.queryByText('Make changes to your event here.');
     await userEvent.click(submitButton);
     expect(dialogDesc).not.toBeInTheDocument();
   });
