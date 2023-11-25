@@ -16,12 +16,6 @@ export default defineConfig({
         snaplet.users(x => x(3)),
         // Random events
         snaplet.events(x => x(10), { autoConnect: true }),
-        // Events that will owned by the test user (their owned_by column will be initially blank for you to fill in on supabase)
-        snaplet.events([
-          { title: 'Test event 1', body: 'Test desc 1' },
-          { title: 'Test event 2', body: 'Test desc 2' },
-          { title: 'Test event 3', body: 'Test desc 3' },
-        ]),
       ]);
     },
   },
