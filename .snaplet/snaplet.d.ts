@@ -213,6 +213,11 @@ interface Table_auth_sessions {
   user_agent: string | null;
   ip: string | null;
 }
+interface Table_public_signups {
+  id: number;
+  event_id: string | null;
+  user_id: string | null;
+}
 interface Table_auth_sso_domains {
   id: string;
   sso_provider_id: string;
@@ -309,6 +314,7 @@ interface Schema_pgsodium_masks {
 }
 interface Schema_public {
   events: Table_public_events;
+  signups: Table_public_signups;
   test_tenant: Table_public_test_tenant;
 }
 interface Schema_realtime {
@@ -366,7 +372,7 @@ interface Tables_relationships {
        events_owned_by_fkey: "auth.users";
     };
     children: {
-
+       signups_event_id_fkey: "public.signups";
     };
   };
   "auth.flow_state": {
@@ -468,6 +474,15 @@ interface Tables_relationships {
        refresh_tokens_session_id_fkey: "auth.refresh_tokens";
     };
   };
+  "public.signups": {
+    parent: {
+       signups_user_id_fkey: "auth.users";
+       signups_event_id_fkey: "public.events";
+    };
+    children: {
+
+    };
+  };
   "auth.sso_domains": {
     parent: {
        sso_domains_sso_provider_id_fkey: "auth.sso_providers";
@@ -495,6 +510,7 @@ interface Tables_relationships {
        mfa_factors_user_id_fkey: "auth.mfa_factors";
        sessions_user_id_fkey: "auth.sessions";
        events_owned_by_fkey: "public.events";
+       signups_user_id_fkey: "public.signups";
     };
   };
 }

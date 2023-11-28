@@ -316,6 +316,7 @@ type Store = {
   supabase_migrations_schema_migrations: Array<supabase_migrations_schema_migrationsScalars>;
   secrets: Array<secretsScalars>;
   sessions: Array<sessionsScalars>;
+  signups: Array<signupsScalars>;
   sso_domains: Array<sso_domainsScalars>;
   sso_providers: Array<sso_providersScalars>;
   test_tenant: Array<test_tenantScalars>;
@@ -506,7 +507,10 @@ type eventsParentsInputs<TPath extends string[]> = {
   users: OmitParentInputs<usersParentInputs<[...TPath, "users"]>, "events", [...TPath, "users"]>;
 };
 type eventsChildrenInputs<TPath extends string[]> = {
-
+  /**
+  * Relationship from table `events` to table `signups` through the column `signups.event_id`.
+  */
+  signups: OmitChildInputs<signupsChildInputs<[...TPath, "signups"]>, "events" | "event_id">;
 };
 type eventsInputs<TPath extends string[]> = Inputs<
   eventsScalars,
@@ -1441,6 +1445,43 @@ type sessionsParentInputs<TPath extends string[]> = ParentInputs<
 sessionsInputs<TPath>,
   TPath
 >;
+type signupsScalars = {
+  /**
+   * Column `signups.id`.
+   */
+  id: number;
+  /**
+   * Column `signups.event_id`.
+   */
+  event_id: string | null;
+  /**
+   * Column `signups.user_id`.
+   */
+  user_id: string | null;
+}
+type signupsParentsInputs<TPath extends string[]> = {
+  /**
+   * Relationship from table `signups` to table `users` through the column `signups.user_id`.
+   */
+  users: OmitParentInputs<usersParentInputs<[...TPath, "users"]>, "signups", [...TPath, "users"]>;
+  /**
+   * Relationship from table `signups` to table `events` through the column `signups.event_id`.
+   */
+  events: OmitParentInputs<eventsParentInputs<[...TPath, "events"]>, "signups", [...TPath, "events"]>;
+};
+type signupsChildrenInputs<TPath extends string[]> = {
+
+};
+type signupsInputs<TPath extends string[]> = Inputs<
+  signupsScalars,
+  signupsParentsInputs<TPath>,
+  signupsChildrenInputs<TPath>
+>;
+type signupsChildInputs<TPath extends string[]> = ChildInputs<signupsInputs<TPath>>;
+type signupsParentInputs<TPath extends string[]> = ParentInputs<
+signupsInputs<TPath>,
+  TPath
+>;
 type sso_domainsScalars = {
   /**
    * Column `sso_domains.id`.
@@ -1711,6 +1752,10 @@ type usersChildrenInputs<TPath extends string[]> = {
   * Relationship from table `users` to table `events` through the column `events.owned_by`.
   */
   events: OmitChildInputs<eventsChildInputs<[...TPath, "events"]>, "users" | "owned_by">;
+  /**
+  * Relationship from table `users` to table `signups` through the column `signups.user_id`.
+  */
+  signups: OmitChildInputs<signupsChildInputs<[...TPath, "signups"]>, "users" | "user_id">;
 };
 type usersInputs<TPath extends string[]> = Inputs<
   Omit<usersScalars, "confirmed_at">,
@@ -1759,7 +1804,7 @@ type eventsParentsGraph = {
  users: OmitChildGraph<usersGraph, "events">;
 };
 type eventsChildrenGraph = {
-
+ signups: OmitParentGraph<signupsGraph, "events">;
 };
 type eventsGraph = Array<{
   Scalars: eventsScalars;
@@ -1977,6 +2022,18 @@ type sessionsGraph = Array<{
   Parents: sessionsParentsGraph;
   Children: sessionsChildrenGraph;
 }>;
+type signupsParentsGraph = {
+ users: OmitChildGraph<usersGraph, "signups">;
+ events: OmitChildGraph<eventsGraph, "signups">;
+};
+type signupsChildrenGraph = {
+
+};
+type signupsGraph = Array<{
+  Scalars: signupsScalars;
+  Parents: signupsParentsGraph;
+  Children: signupsChildrenGraph;
+}>;
 type sso_domainsParentsGraph = {
  sso_providers: OmitChildGraph<sso_providersGraph, "sso_domains">;
 };
@@ -2020,6 +2077,7 @@ type usersChildrenGraph = {
  mfa_factors: OmitParentGraph<mfa_factorsGraph, "users">;
  sessions: OmitParentGraph<sessionsGraph, "users">;
  events: OmitParentGraph<eventsGraph, "users">;
+ signups: OmitParentGraph<signupsGraph, "users">;
 };
 type usersGraph = Array<{
   Scalars: usersScalars;
@@ -2050,6 +2108,7 @@ type Graph = {
   supabase_migrations_schema_migrations: supabase_migrations_schema_migrationsGraph;
   secrets: secretsGraph;
   sessions: sessionsGraph;
+  signups: signupsGraph;
   sso_domains: sso_domainsGraph;
   sso_providers: sso_providersGraph;
   test_tenant: test_tenantGraph;
@@ -2119,6 +2178,7 @@ type Override = {
       id?: string;
       owned_by?: string;
       users?: string;
+      signups?: string;
     };
   }
   flow_state?: {
@@ -2366,6 +2426,16 @@ type Override = {
       refresh_tokens?: string;
     };
   }
+  signups?: {
+    name?: string;
+    fields?: {
+      id?: string;
+      event_id?: string;
+      user_id?: string;
+      users?: string;
+      events?: string;
+    };
+  }
   sso_domains?: {
     name?: string;
     fields?: {
@@ -2437,6 +2507,7 @@ type Override = {
       mfa_factors?: string;
       sessions?: string;
       events?: string;
+      signups?: string;
     };
   }}
 export type Alias = {
@@ -2902,6 +2973,26 @@ export declare class SnapletClientBase {
    */
   sessions: (
     inputs: sessionsChildInputs<["sessions"]>,
+    options?: PlanOptions,
+  ) => Plan;
+  /**
+   * Generate one or more `signups`.
+   * @example With static inputs:
+   * ```ts
+   * snaplet.signups([{}, {}]);
+   * ```
+   * @example Using the `x` helper:
+   * ```ts
+   * snaplet.signups((x) => x(3));
+   * snaplet.signups((x) => x({ min: 1, max: 10 }));
+   * ```
+   * @example Mixing both:
+   * ```ts
+   * snaplet.signups((x) => [{}, ...x(3), {}]);
+   * ```
+   */
+  signups: (
+    inputs: signupsChildInputs<["signups"]>,
     options?: PlanOptions,
   ) => Plan;
   /**

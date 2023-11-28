@@ -40,6 +40,37 @@ export interface Database {
           }
         ]
       }
+      signups: {
+        Row: {
+          event_id: string | null
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          event_id?: string | null
+          id?: number
+          user_id?: string | null
+        }
+        Update: {
+          event_id?: string | null
+          id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signups_event_id_fkey"
+            columns: ["event_id"]
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signups_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       test_tenant: {
         Row: {
           details: string | null
