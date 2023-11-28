@@ -30,6 +30,9 @@ import { cn } from '@/lib/utils';
 import { DialogFooter } from '../ui/dialog';
 import { EventContext } from './DashboardWrapper';
 
+import { createBrowserClient } from '@supabase/ssr';
+import EventType from '@/types/EventType';
+
 const formSchema = z.object({
   eventname: z.string().min(3, {
     message: 'Event name must be at least 3 characters.',
@@ -118,11 +121,19 @@ const EventForm = ({
         });
       }
     } else {
-      const newEvent = {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const newEvent: EventType = {
         title: eventname,
         id: uuidv4(),
         body: eventdesc,
         date: eventdate,
+        owned_by: user!.id, // Used ! here because middleware and RLS already prevent unauthenticated users from seeing this page
       };
       try {
         const res = await fetch('http://localhost:3000/api/events', {
@@ -138,7 +149,7 @@ const EventForm = ({
         }
         form.reset();
         let updatedEvents = [...events];
-        updatedEvents.unshift(newEvent);
+        updatedEvents.unshift(newEvent); // We need to add owned_by here. Can we get it from the response data?
         setEvents(updatedEvents);
         toast({
           title: 'Hooray!',

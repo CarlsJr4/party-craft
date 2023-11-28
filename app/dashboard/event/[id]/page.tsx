@@ -1,5 +1,6 @@
 'use client';
 import { EventContext } from '@/components/custom/DashboardWrapper';
+import { Button } from '@/components/ui/button';
 import EventType from '@/types/EventType';
 import { format } from 'date-fns';
 import { notFound } from 'next/navigation';
@@ -31,6 +32,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
         <>
           <h1>{filteredEvent.title}</h1>
           <p>{format(new Date(filteredEvent.date), 'PPP')}</p>
+          <Button>Sign up</Button>
           <p>{filteredEvent.body}</p>
           <p>Guest list:</p>
         </>
