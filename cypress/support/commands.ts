@@ -51,7 +51,7 @@ Cypress.Commands.addAll({
       .type('Newly created event desc');
     cy.contains('Pick a date').click();
     const dayNumber = new Date().getDate() + 1;
-    cy.contains('button[name="day"]', dayNumber).click();
+    cy.contains('button[name="day"]:not([disabled])', dayNumber).click();
     cy.contains('Submit').click();
   },
 });
