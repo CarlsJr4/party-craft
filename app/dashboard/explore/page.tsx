@@ -6,11 +6,27 @@ import {
   EventContext,
   EventErrorContext,
 } from '@/components/custom/DashboardWrapper';
+import { createBrowserClient } from '@supabase/ssr';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
   const { events, setEvents } = useContext(EventContext);
   const errors = useContext(EventErrorContext);
+  const [userID, setUserID] = useState<string | undefined>('');
+
+  useEffect(() => {
+    async function getUserID() {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserID(user?.id);
+    }
+    getUserID();
+  });
 
   const handleDelete = async (id: Key) => {
     let filteredEvents = [...events];
@@ -51,7 +67,7 @@ const ExploreEvents = () => {
         )}
         {events
           .filter(item => new Date() < new Date(item.date))
-          .map(({ id, title, date, body }) => {
+          .map(({ id, title, date, body, owned_by }) => {
             return (
               <EventCard
                 handleDelete={handleDelete}
@@ -60,6 +76,7 @@ const ExploreEvents = () => {
                 title={title}
                 date={date}
                 body={body}
+                isOwned={userID === owned_by ? true : false}
               />
             );
           })}

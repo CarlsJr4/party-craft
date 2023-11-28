@@ -17,6 +17,25 @@ beforeAll(() => {
       usePathname: vi.fn(),
     };
   });
+  // We need to mock this module because there is no user auth in the unit tests
+  // This means that no edit or delete buttons will show up and the unit tests break
+  vi.mock('@supabase/ssr', () => {
+    const createBrowserClient = vi.fn().mockImplementation(() => {
+      const mockAuth = {
+        auth: {
+          getUser: vi.fn().mockResolvedValue({
+            data: {
+              user: {
+                id: '4125d73b-4278-4e2c-aba3-053fa6ce45ef', // This is the owned_by value of the Ice Skating with Friends mock event
+              },
+            },
+          }),
+        },
+      };
+      return mockAuth;
+    });
+    return { createBrowserClient };
+  });
   server.listen({ onUnhandledRequest: 'error' });
 });
 afterEach(() => server.resetHandlers());

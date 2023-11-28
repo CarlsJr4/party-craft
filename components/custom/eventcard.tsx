@@ -15,13 +15,21 @@ import Link from 'next/link';
 
 type EventCardProps = {
   title: string;
+  isOwned: boolean;
   date: Date;
   body: string;
   id: Key;
   handleDelete: (id: Key) => void;
 };
 
-const EventCard = ({ title, date, body, handleDelete, id }: EventCardProps) => {
+const EventCard = ({
+  title,
+  date,
+  body,
+  handleDelete,
+  id,
+  isOwned,
+}: EventCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -34,13 +42,19 @@ const EventCard = ({ title, date, body, handleDelete, id }: EventCardProps) => {
         <p>{body}</p>
       </CardContent>
       <CardFooter>
-        <EditDialog
-          id={id}
-          existingTitle={title}
-          existingDate={date}
-          existingBody={body}
-        />
-        <DeleteConfirm id={id} handleDelete={handleDelete} />
+        {isOwned ? (
+          <>
+            <EditDialog
+              id={id}
+              existingTitle={title}
+              existingDate={date}
+              existingBody={body}
+            />
+            <DeleteConfirm id={id} handleDelete={handleDelete} />
+          </>
+        ) : (
+          ''
+        )}
       </CardFooter>
     </Card>
   );

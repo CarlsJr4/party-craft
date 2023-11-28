@@ -7,6 +7,8 @@ import { server } from '@/app/mocks/server';
 import { HttpResponse, http } from 'msw';
 import { format, parseJSON } from 'date-fns';
 import ExploreEvents from '@/app/dashboard/explore/page';
+import { vi } from 'vitest';
+import { createBrowserClient } from '@supabase/ssr';
 
 const setup = () => {
   render(
@@ -64,6 +66,15 @@ describe('Event data retrieval', () => {
     const futureEvent = await screen.findByText(events[0].title); // This is a placeholder future event
     expect(pastEvent).not.toBeInTheDocument();
     expect(futureEvent).toBeInTheDocument();
+  });
+
+  it('Only renders edit controls for owned events', async () => {
+    setup();
+    const editControls = await screen.findAllByText('Edit Event');
+    // The mock data includes 2 future events and 1 past event
+    // One of the future events is owned, the other isnt
+    // The length of edit buttons should be 1, not 2.
+    expect(editControls).toHaveLength(1);
   });
 
   it('Renders a custom message when no events are retrieved', async () => {
