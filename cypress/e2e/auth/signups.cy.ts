@@ -40,4 +40,21 @@ describe('event signups', () => {
     cy.contains('Test future event').click();
     cy.contains('test@test.com').should('not.exist');
   });
+  it('Renders created events in "my events" route', () => {
+    cy.login('test@test.com', '111111');
+    cy.contains('Test future event').should('exist');
+    cy.visit('/dashboard/myevents');
+    cy.contains('No events found.').should('not.exist'); // Ensures that loading completes before asserting
+    cy.contains('Newly created event').should('not.exist'); // Test future event shouldnt have your own sign up at this point
+    cy.createNewEvent();
+    cy.contains('Newly created event').should('exist'); // Test future event shouldnt have your own sign up at this point
+    cy.contains('Test future event').should('not.exist');
+
+    cy.contains('Newly created event')
+      .parent()
+      .parent()
+      .contains('Delete')
+      .click();
+    cy.contains('Continue').click();
+  });
 });
