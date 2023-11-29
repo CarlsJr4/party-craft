@@ -22,6 +22,12 @@ beforeAll(() => {
   vi.mock('@supabase/ssr', () => {
     const createBrowserClient = vi.fn().mockImplementation(() => {
       const mockAuth = {
+        from: vi.fn(() => ({
+          select: vi.fn(() => ({
+            eq: vi.fn().mockResolvedValue({}),
+            in: vi.fn().mockResolvedValue({}),
+          })),
+        })),
         auth: {
           getUser: vi.fn().mockResolvedValue({
             data: {
