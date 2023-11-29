@@ -40,6 +40,31 @@ export interface Database {
           }
         ]
       }
+      profiles: {
+        Row: {
+          email: string | null
+          id: string
+          role: string | null
+        }
+        Insert: {
+          email?: string | null
+          id: string
+          role?: string | null
+        }
+        Update: {
+          email?: string | null
+          id?: string
+          role?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       signups: {
         Row: {
           event_id: string | null

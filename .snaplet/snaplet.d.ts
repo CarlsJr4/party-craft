@@ -151,6 +151,11 @@ interface Table_storage_objects {
   version: string | null;
   owner_id: string | null;
 }
+interface Table_public_profiles {
+  id: string;
+  email: string | null;
+  role: string | null;
+}
 interface Table_auth_refresh_tokens {
   instance_id: string | null;
   id: number;
@@ -215,8 +220,8 @@ interface Table_auth_sessions {
 }
 interface Table_public_signups {
   id: number;
-  event_id: string;
-  user_id: string;
+  event_id: string | null;
+  user_id: string | null;
 }
 interface Table_auth_sso_domains {
   id: string;
@@ -314,6 +319,7 @@ interface Schema_pgsodium_masks {
 }
 interface Schema_public {
   events: Table_public_events;
+  profiles: Table_public_profiles;
   signups: Table_public_signups;
   test_tenant: Table_public_test_tenant;
 }
@@ -432,6 +438,14 @@ interface Tables_relationships {
 
     };
   };
+  "public.profiles": {
+    parent: {
+       profiles_id_fkey: "auth.users";
+    };
+    children: {
+
+    };
+  };
   "auth.refresh_tokens": {
     parent: {
        refresh_tokens_session_id_fkey: "auth.sessions";
@@ -510,6 +524,7 @@ interface Tables_relationships {
        mfa_factors_user_id_fkey: "auth.mfa_factors";
        sessions_user_id_fkey: "auth.sessions";
        events_owned_by_fkey: "public.events";
+       profiles_id_fkey: "public.profiles";
        signups_user_id_fkey: "public.signups";
     };
   };

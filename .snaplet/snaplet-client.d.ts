@@ -309,6 +309,7 @@ type Store = {
   storage_migrations: Array<storage_migrationsScalars>;
   supabase_functions_migrations: Array<supabase_functions_migrationsScalars>;
   objects: Array<objectsScalars>;
+  profiles: Array<profilesScalars>;
   refresh_tokens: Array<refresh_tokensScalars>;
   saml_providers: Array<saml_providersScalars>;
   saml_relay_states: Array<saml_relay_statesScalars>;
@@ -1101,6 +1102,39 @@ type objectsParentInputs<TPath extends string[]> = ParentInputs<
 objectsInputs<TPath>,
   TPath
 >;
+type profilesScalars = {
+  /**
+   * Column `profiles.id`.
+   */
+  id: string;
+  /**
+   * Column `profiles.email`.
+   */
+  email: string | null;
+  /**
+   * Column `profiles.role`.
+   */
+  role: string | null;
+}
+type profilesParentsInputs<TPath extends string[]> = {
+  /**
+   * Relationship from table `profiles` to table `users` through the column `profiles.id`.
+   */
+  users: OmitParentInputs<usersParentInputs<[...TPath, "users"]>, "profiles", [...TPath, "users"]>;
+};
+type profilesChildrenInputs<TPath extends string[]> = {
+
+};
+type profilesInputs<TPath extends string[]> = Inputs<
+  profilesScalars,
+  profilesParentsInputs<TPath>,
+  profilesChildrenInputs<TPath>
+>;
+type profilesChildInputs<TPath extends string[]> = ChildInputs<profilesInputs<TPath>>;
+type profilesParentInputs<TPath extends string[]> = ParentInputs<
+profilesInputs<TPath>,
+  TPath
+>;
 type refresh_tokensScalars = {
   /**
    * Column `refresh_tokens.instance_id`.
@@ -1453,11 +1487,11 @@ type signupsScalars = {
   /**
    * Column `signups.event_id`.
    */
-  event_id: string;
+  event_id: string | null;
   /**
    * Column `signups.user_id`.
    */
-  user_id: string;
+  user_id: string | null;
 }
 type signupsParentsInputs<TPath extends string[]> = {
   /**
@@ -1753,6 +1787,10 @@ type usersChildrenInputs<TPath extends string[]> = {
   */
   events: OmitChildInputs<eventsChildInputs<[...TPath, "events"]>, "users" | "owned_by">;
   /**
+  * Relationship from table `users` to table `profiles` through the column `profiles.id`.
+  */
+  profiles: OmitChildInputs<profilesChildInputs<[...TPath, "profiles"]>, "users" | "id">;
+  /**
   * Relationship from table `users` to table `signups` through the column `signups.user_id`.
   */
   signups: OmitChildInputs<signupsChildInputs<[...TPath, "signups"]>, "users" | "user_id">;
@@ -1943,6 +1981,17 @@ type objectsGraph = Array<{
   Parents: objectsParentsGraph;
   Children: objectsChildrenGraph;
 }>;
+type profilesParentsGraph = {
+ users: OmitChildGraph<usersGraph, "profiles">;
+};
+type profilesChildrenGraph = {
+
+};
+type profilesGraph = Array<{
+  Scalars: profilesScalars;
+  Parents: profilesParentsGraph;
+  Children: profilesChildrenGraph;
+}>;
 type refresh_tokensParentsGraph = {
  sessions: OmitChildGraph<sessionsGraph, "refresh_tokens">;
 };
@@ -2077,6 +2126,7 @@ type usersChildrenGraph = {
  mfa_factors: OmitParentGraph<mfa_factorsGraph, "users">;
  sessions: OmitParentGraph<sessionsGraph, "users">;
  events: OmitParentGraph<eventsGraph, "users">;
+ profiles: OmitParentGraph<profilesGraph, "users">;
  signups: OmitParentGraph<signupsGraph, "users">;
 };
 type usersGraph = Array<{
@@ -2101,6 +2151,7 @@ type Graph = {
   storage_migrations: storage_migrationsGraph;
   supabase_functions_migrations: supabase_functions_migrationsGraph;
   objects: objectsGraph;
+  profiles: profilesGraph;
   refresh_tokens: refresh_tokensGraph;
   saml_providers: saml_providersGraph;
   saml_relay_states: saml_relay_statesGraph;
@@ -2335,6 +2386,15 @@ type Override = {
       buckets?: string;
     };
   }
+  profiles?: {
+    name?: string;
+    fields?: {
+      id?: string;
+      email?: string;
+      role?: string;
+      users?: string;
+    };
+  }
   refresh_tokens?: {
     name?: string;
     fields?: {
@@ -2507,6 +2567,7 @@ type Override = {
       mfa_factors?: string;
       sessions?: string;
       events?: string;
+      profiles?: string;
       signups?: string;
     };
   }}
@@ -2833,6 +2894,26 @@ export declare class SnapletClientBase {
    */
   objects: (
     inputs: objectsChildInputs<["objects"]>,
+    options?: PlanOptions,
+  ) => Plan;
+  /**
+   * Generate one or more `profiles`.
+   * @example With static inputs:
+   * ```ts
+   * snaplet.profiles([{}, {}]);
+   * ```
+   * @example Using the `x` helper:
+   * ```ts
+   * snaplet.profiles((x) => x(3));
+   * snaplet.profiles((x) => x({ min: 1, max: 10 }));
+   * ```
+   * @example Mixing both:
+   * ```ts
+   * snaplet.profiles((x) => [{}, ...x(3), {}]);
+   * ```
+   */
+  profiles: (
+    inputs: profilesChildInputs<["profiles"]>,
     options?: PlanOptions,
   ) => Plan;
   /**
