@@ -9,11 +9,15 @@ import React, { useContext, useEffect, useState } from 'react';
 const EventPage = ({ params }: { params: { id: string } }) => {
   const { events } = useContext(EventContext);
   useEffect(() => {
-    fetch(`http://localhost:3000/api/events/${params.id}`).then(res => {
-      if (res.status === 404) {
+    async function fetchData() {
+      const response = await fetch(
+        `http://localhost:3000/api/events/${params.id}`
+      );
+      if (response.status === 404) {
         setEventStatus(null);
       }
-    });
+    }
+    fetchData();
   }, [params.id]);
   const [eventStatus, setEventStatus] = useState<EventType[] | null>([]);
 
