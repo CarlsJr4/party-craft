@@ -215,8 +215,8 @@ interface Table_auth_sessions {
 }
 interface Table_public_signups {
   id: number;
-  event_id: string | null;
-  user_id: string | null;
+  event_id: string;
+  user_id: string;
 }
 interface Table_auth_sso_domains {
   id: string;

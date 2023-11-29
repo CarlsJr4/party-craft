@@ -1453,11 +1453,11 @@ type signupsScalars = {
   /**
    * Column `signups.event_id`.
    */
-  event_id: string | null;
+  event_id: string;
   /**
    * Column `signups.user_id`.
    */
-  user_id: string | null;
+  user_id: string;
 }
 type signupsParentsInputs<TPath extends string[]> = {
   /**

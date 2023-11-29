@@ -13,10 +13,10 @@ export default defineConfig({
       // For more on how to do this, check out the docs:
       // https://docs.snaplet.dev/reference/configuration#generate
       await snaplet.$pipe([
-        snaplet.users(x => x(3)),
+        snaplet.users(x => x(25)),
         // Random events
-        snaplet.events(x => x(10), { autoConnect: true }),
-        snaplet.signups(x => x(10), { autoConnect: true }),
+        snaplet.events(x => x(15), { autoConnect: true }),
+        snaplet.signups(x => x(50), { autoConnect: true }),
       ]);
     },
   },
