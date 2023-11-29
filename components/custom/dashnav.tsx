@@ -11,7 +11,7 @@ const DashNav = () => {
       </CreateDialog>
       <Link href="/dashboard/explore">Explore</Link>
       <Link href="/dashboard/myevents">My Events</Link>
-      <Link href="/dashboard/past">Past Events</Link>
+      {/* <Link href="/dashboard/past">Past Events</Link> */}
       {/* <Link href="/dashboard/drafts">Drafts</Link> */}
     </div>
   );
