@@ -16,7 +16,7 @@ export default defineConfig({
         snaplet.users(x => x(25)),
         // Random events
         snaplet.events(x => x(15), { autoConnect: true }),
-        snaplet.signups(x => x(50), { autoConnect: true }),
+        snaplet.signups(x => x(200), { autoConnect: true }),
       ]);
     },
   },
