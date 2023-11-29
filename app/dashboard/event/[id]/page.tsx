@@ -54,6 +54,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     }
 
     fetchGuestList();
+    fetchData();
   }, [params.id]);
   const [eventStatus, setEventStatus] = useState<EventType[] | null>([]);
 
