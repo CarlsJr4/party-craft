@@ -18,6 +18,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
 
   const { events } = useContext(EventContext);
   const [guestList, setGuestList] = useState<guestListType[]>([]);
+  const [isSignedUp, toggleSignedUp] = useState(false);
 
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,9 +41,19 @@ const EventPage = ({ params }: { params: { id: string } }) => {
         .select()
         .eq('event_id', params.id);
 
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const signupIdList: (string | null)[] = [];
 
       signupData?.forEach(item => signupIdList.push(item.user_id));
+
+      if (user && !signupIdList.includes(user?.id)) {
+        toggleSignedUp(false);
+      } else {
+        toggleSignedUp(true);
+      }
 
       const { data, error } = await supabase
         .from('profiles')
@@ -88,6 +99,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
         newGuestList.push({ email: email, id: id, role: role });
         setGuestList(newGuestList);
       }
+      toggleSignedUp(true);
     } catch {
       console.log('foo');
     }
@@ -107,6 +119,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
         .eq('user_id', user?.id);
       const updatedGuests = guestList.filter(guest => guest.id !== user?.id);
       setGuestList(updatedGuests);
+      toggleSignedUp(false);
     }
     return;
   }
@@ -121,8 +134,12 @@ const EventPage = ({ params }: { params: { id: string } }) => {
         <>
           <h1>{filteredEvent.title}</h1>
           <p>{format(new Date(filteredEvent.date), 'PPP')}</p>
-          <Button onClick={() => handleSignup()}>Sign up</Button>
-          <Button onClick={() => handleCancelSignup()}>Cancel sign-up</Button>
+          {isSignedUp ? (
+            <Button onClick={() => handleCancelSignup()}>Cancel sign-up</Button>
+          ) : (
+            <Button onClick={() => handleSignup()}>Sign up</Button>
+          )}
+
           <p>{filteredEvent.body}</p>
           <p>Guest list:</p>
           {guestList.map(guest => (
