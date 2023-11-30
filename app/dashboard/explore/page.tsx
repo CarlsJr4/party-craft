@@ -10,6 +10,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import CardGrid from '@/components/custom/CardGrid';
 import PageHeading from '@/components/custom/PageHeading';
 import PageSubHeading from '@/components/custom/PageSubHeading';
+import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
@@ -64,7 +65,14 @@ const ExploreEvents = () => {
       <PageHeading>Explore</PageHeading>
       <PageSubHeading>Discover upcoming public events near you:</PageSubHeading>
       <CardGrid>
-        {events?.length === 0 && <p>Loading...</p>}
+        {events?.length === 0 && (
+          <>
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+          </>
+        )}
         {errors ? (
           <div>
             <p>Uh oh!</p>

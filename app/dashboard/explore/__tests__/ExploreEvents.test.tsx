@@ -88,7 +88,6 @@ describe('Event data retrieval', () => {
       })
     );
     setup();
-    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
     expect(
       await screen.findByText('We could not find any upcoming events near you.')
     ).toBeInTheDocument();
