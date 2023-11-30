@@ -41,21 +41,19 @@ const EventCard = ({
       <CardContent>
         <p>{body}</p>
       </CardContent>
-      <CardFooter>
-        {isOwned ? (
-          <>
-            <EditDialog
-              id={id}
-              existingTitle={title}
-              existingDate={date}
-              existingBody={body}
-            />
-            <DeleteConfirm id={id} handleDelete={handleDelete} />
-          </>
-        ) : (
-          ''
-        )}
-      </CardFooter>
+      {isOwned ? (
+        <CardFooter className="grid-cols-2 gap-1 mt-auto">
+          <EditDialog
+            id={id}
+            existingTitle={title}
+            existingDate={date}
+            existingBody={body}
+          />
+          <DeleteConfirm id={id} handleDelete={handleDelete} />
+        </CardFooter>
+      ) : (
+        ''
+      )}
     </Card>
   );
 };

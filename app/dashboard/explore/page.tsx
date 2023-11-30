@@ -7,6 +7,8 @@ import {
   EventErrorContext,
 } from '@/components/custom/DashboardWrapper';
 import { createBrowserClient } from '@supabase/ssr';
+import CardGrid from '@/components/custom/CardGrid';
+import PageHeading from '@/components/custom/PageHeading';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
@@ -51,9 +53,11 @@ const ExploreEvents = () => {
 
   return (
     <div>
-      <h1>Explore</h1>
-      <p>Discover upcoming public events near you:</p>
-      <div className="grid grid-cols-4 mt-5 gap-8">
+      <PageHeading>Explore</PageHeading>
+      <p className="text-muted-foreground mt-2">
+        Discover upcoming public events near you:
+      </p>
+      <CardGrid>
         {errors && (
           <div>
             <p>Uh oh!</p>
@@ -80,7 +84,7 @@ const ExploreEvents = () => {
               />
             );
           })}
-      </div>
+      </CardGrid>
     </div>
   );
 };

@@ -8,10 +8,10 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navbar />
-      <div className="grid grid-cols-6 h-screen">
+      <div className="grid grid-cols-8 h-screen">
         <DashboardWrapper>
           <DashNav />
-          <div className="col-span-5 p-4 mx-6">
+          <div className="2xl:col-span-7 col-span-6 p-4 mx-6">
             {children}
             <Toaster />
           </div>

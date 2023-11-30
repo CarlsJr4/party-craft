@@ -8,6 +8,8 @@ import {
 } from '@/components/custom/DashboardWrapper';
 import { createBrowserClient } from '@supabase/ssr';
 import { Database } from '@/types/database.types';
+import CardGrid from '@/components/custom/CardGrid';
+import PageHeading from '@/components/custom/PageHeading';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
@@ -75,19 +77,19 @@ const ExploreEvents = () => {
 
   return (
     <div>
-      <h1>Your events</h1>
-      <p>
+      <PageHeading>Your events</PageHeading>
+      <p className="text-muted-foreground mt-2">
         Events you&apos;ve been invited to, saved, and created will show up
         here:
       </p>
-      <div className="grid grid-cols-4 mt-5 gap-8">
-        {errors && (
-          <div>
-            <p>Uh oh!</p>
-            <p>There was an issue retrieving your events.</p>
-          </div>
-        )}
-        {events.length === 0 && !errors ? <p>No events found.</p> : ''}
+      {errors && (
+        <div>
+          <p>Uh oh!</p>
+          <p>There was an issue retrieving your events.</p>
+        </div>
+      )}
+      {events.length === 0 && !errors ? <p>No events found.</p> : ''}
+      <CardGrid>
         {events
           .filter(
             ({ owned_by, id }) =>
@@ -106,7 +108,7 @@ const ExploreEvents = () => {
               />
             );
           })}
-      </div>
+      </CardGrid>
     </div>
   );
 };
