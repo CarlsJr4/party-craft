@@ -5,19 +5,19 @@ const EventContext = createContext({} as EventContextType);
 const EventErrorContext = createContext(null);
 
 type EventContextType = {
-  events: EventType[];
-  setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
+  events: EventType[] | null;
+  setEvents: React.Dispatch<React.SetStateAction<EventType[] | null>>;
 };
 
 const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     fetch('http://localhost:3000/api/events')
       .then(res => res.json())
-      .then((res: EventType[]) => setEvents(res))
+      .then((res: EventType[] | null) => setEvents(res))
       .catch(err => setErrors(err));
   }, []);
   const [errors, setErrors] = useState(null);
-  const [events, setEvents] = useState<EventType[]>([] as EventType[]);
+  const [events, setEvents] = useState<EventType[] | null>([] as EventType[]);
   return (
     <EventContext.Provider value={{ events, setEvents }}>
       <EventErrorContext.Provider value={errors}>

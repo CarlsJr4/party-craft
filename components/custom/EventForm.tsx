@@ -78,7 +78,7 @@ const EventForm = ({
     eventdesc,
     eventname,
   }: z.infer<typeof formSchema>) {
-    if (isEditing) {
+    if (isEditing && events) {
       let newEvents = [...events];
       newEvents = newEvents.map(event =>
         event.id === id
@@ -120,7 +120,7 @@ const EventForm = ({
             'There was an issue editing your event. Try again in a few seconds.',
         });
       }
-    } else {
+    } else if (events) {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!

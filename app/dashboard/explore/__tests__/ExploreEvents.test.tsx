@@ -1,4 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Layout from '@/app/dashboard/layout';
 import '@testing-library/jest-dom';
@@ -80,10 +84,11 @@ describe('Event data retrieval', () => {
   it('Renders a custom message when no events are retrieved', async () => {
     server.use(
       http.get('http://localhost:3000/api/events', () => {
-        return HttpResponse.json([], { status: 200 });
+        return HttpResponse.json(null, { status: 200 });
       })
     );
     setup();
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
     expect(
       await screen.findByText('We could not find any upcoming events near you.')
     ).toBeInTheDocument();

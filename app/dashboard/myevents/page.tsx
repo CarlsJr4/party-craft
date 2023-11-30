@@ -56,23 +56,25 @@ const ExploreEvents = () => {
   }, [userID]);
 
   const handleDelete = async (id: Key) => {
-    let filteredEvents = [...events];
-    filteredEvents = filteredEvents.filter(event => event.id !== id);
-    const response = await fetch(`http://localhost:3000/api/events/${id}`, {
-      method: 'DELETE',
-      body: JSON.stringify(id),
-    });
-    if (response.status === 204) {
-      setEvents(filteredEvents);
-      toast({
-        description: 'Event deleted.',
+    if (events) {
+      let filteredEvents = [...events];
+      filteredEvents = filteredEvents.filter(event => event.id !== id);
+      const response = await fetch(`http://localhost:3000/api/events/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(id),
       });
-    } else {
-      toast({
-        title: 'Uh oh!',
-        description:
-          'There was an issue deleting your event. Try again in a few seconds.',
-      });
+      if (response.status === 204) {
+        setEvents(filteredEvents);
+        toast({
+          description: 'Event deleted.',
+        });
+      } else {
+        toast({
+          title: 'Uh oh!',
+          description:
+            'There was an issue deleting your event. Try again in a few seconds.',
+        });
+      }
     }
   };
 
@@ -83,32 +85,35 @@ const ExploreEvents = () => {
         Events you&apos;ve been invited to, saved, and created will show up
         here:
       </PageSubHeading>
-      {errors && (
-        <div>
-          <p>Uh oh!</p>
-          <p>There was an issue retrieving your events.</p>
-        </div>
-      )}
-      {events.length === 0 && !errors ? <p>No events found.</p> : ''}
       <CardGrid>
-        {events
-          .filter(
-            ({ owned_by, id }) =>
-              owned_by === userID || signedUpEventIDs.includes(id)
-          )
-          .map(({ id, title, date, body, owned_by }) => {
-            return (
-              <EventCard
-                handleDelete={handleDelete}
-                key={id as Key}
-                id={id}
-                title={title}
-                date={date}
-                body={body}
-                isOwned={userID === owned_by ? true : false}
-              />
-            );
-          })}
+        {events?.length === 0 && <p>Loading...</p>}
+        {errors ? (
+          <div>
+            <p>Uh oh!</p>
+            <p>There was an issue retrieving your events.</p>
+          </div>
+        ) : (
+          <>
+            {events
+              ?.filter(
+                ({ owned_by, id }) =>
+                  owned_by === userID || signedUpEventIDs.includes(id)
+              )
+              .map(({ id, title, date, body, owned_by }) => {
+                return (
+                  <EventCard
+                    handleDelete={handleDelete}
+                    key={id as Key}
+                    id={id}
+                    title={title}
+                    date={date}
+                    body={body}
+                    isOwned={userID === owned_by ? true : false}
+                  />
+                );
+              })}
+          </>
+        )}
       </CardGrid>
     </div>
   );
