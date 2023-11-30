@@ -26,7 +26,7 @@ const Navbar = () => {
       {/* <span className="text-right">Login</span> */}
       <>
         <Avatar>
-          <AvatarImage src="#" alt="Test" />
+          <AvatarImage src="https://picsum.photos/460/460" alt="Test" />
           <AvatarFallback className="text-black">CD</AvatarFallback>
         </Avatar>
         <Button onClick={() => handleSignout()} className="text-right">
