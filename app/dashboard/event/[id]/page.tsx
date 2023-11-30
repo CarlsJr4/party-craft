@@ -7,6 +7,10 @@ import { notFound } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { Database } from '@/types/database.types';
+import PageHeading from '@/components/custom/PageHeading';
+import PageSubHeading from '@/components/custom/PageSubHeading';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 const EventPage = ({ params }: { params: { id: string } }) => {
   // NOTE: This type is based off the profiles table
@@ -132,19 +136,45 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     <div>
       {filteredEvent ? (
         <>
-          <h1>{filteredEvent.title}</h1>
-          <p>{format(new Date(filteredEvent.date), 'PPP')}</p>
-          {isSignedUp ? (
-            <Button onClick={() => handleCancelSignup()}>Cancel sign-up</Button>
-          ) : (
-            <Button onClick={() => handleSignup()}>Sign up</Button>
-          )}
+          <PageHeading>{filteredEvent.title}</PageHeading>
+          <PageSubHeading>
+            {format(new Date(filteredEvent.date), 'PPP')}
+          </PageSubHeading>
+          <div className="mt-1">
+            {isSignedUp ? (
+              <Button onClick={() => handleCancelSignup()}>
+                Cancel sign-up
+              </Button>
+            ) : (
+              <Button onClick={() => handleSignup()}>Sign up</Button>
+            )}
+          </div>
 
-          <p>{filteredEvent.body}</p>
-          <p>Guest list:</p>
-          {guestList.map(guest => (
-            <p key={guest.id}>{guest.email}</p>
-          ))}
+          <div className="my-7">
+            <p>{filteredEvent.body}</p>
+          </div>
+
+          <h3 className="text-xl font-semibold">Who&apos;s going:</h3>
+
+          <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
+            {guestList.map(guest => (
+              <Card key={guest.id} className="items-center">
+                <CardHeader>
+                  {' '}
+                  <Avatar>
+                    <AvatarImage
+                      src={`https://picsum.photos/460/460?random=${guest.id}`}
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-center">{guest?.role || 'Guest'}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </>
       ) : (
         <p>Loading...</p>
