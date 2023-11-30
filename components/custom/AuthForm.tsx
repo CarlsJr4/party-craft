@@ -60,7 +60,10 @@ const AuthForm = () => {
     <>
       {isAuth && <p>Logging in...</p>}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="m-5 flex flex-col gap-3"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -91,7 +94,7 @@ const AuthForm = () => {
               );
             }}
           />
-          <Button type="submit" className="mt-2">
+          <Button type="submit" className="my-5">
             Login
           </Button>
           {/* <Button type="submit" className="ml-3 mt-2">
