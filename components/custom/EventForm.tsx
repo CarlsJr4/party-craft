@@ -169,7 +169,10 @@ const EventForm = ({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-3"
+        >
           <FormField
             control={form.control}
             name="eventname"
@@ -206,7 +209,7 @@ const EventForm = ({
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Event date</FormLabel>
+                  <FormLabel className="mr-2">Event date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -245,11 +248,13 @@ const EventForm = ({
             }}
           />
           {isEditing ? (
-            <DialogFooter>
+            <DialogFooter className="mt-8">
               <Button type="submit">Save</Button>
             </DialogFooter>
           ) : (
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="mt-8 self-start">
+              Submit
+            </Button>
           )}
         </form>
       </Form>
