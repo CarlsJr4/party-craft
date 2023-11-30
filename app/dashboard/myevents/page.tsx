@@ -10,6 +10,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { Database } from '@/types/database.types';
 import CardGrid from '@/components/custom/CardGrid';
 import PageHeading from '@/components/custom/PageHeading';
+import PageSubHeading from '@/components/custom/PageSubHeading';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
@@ -78,10 +79,10 @@ const ExploreEvents = () => {
   return (
     <div>
       <PageHeading>Your events</PageHeading>
-      <p className="text-muted-foreground mt-2">
+      <PageSubHeading>
         Events you&apos;ve been invited to, saved, and created will show up
         here:
-      </p>
+      </PageSubHeading>
       {errors && (
         <div>
           <p>Uh oh!</p>
