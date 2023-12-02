@@ -19,18 +19,20 @@ export default defineConfig({
           [
             {
               title: 'Test future event',
-              date: new Date(2028, 10, 12).toDateString(),
+              date: new Date(2028, 11, 12).toDateString(),
             },
           ],
           { autoConnect: true }
         ),
-        snaplet.events([
-          { date: new Date(2028, 10, 12).toDateString() },
-          { date: new Date(2028, 10, 12).toDateString() },
-          { date: new Date(2028, 10, 12).toDateString() },
-        ]),
-        snaplet.events(x => x(15), { autoConnect: true }),
-        snaplet.signups(x => x(200), { autoConnect: true }),
+        snaplet.events(
+          [
+            { date: new Date(2028, 12, 12).toDateString() },
+            { date: new Date(2028, 1, 12).toDateString() },
+            { date: new Date(2028, 2, 12).toDateString() },
+          ],
+          { autoConnect: true }
+        ),
+        snaplet.signups(x => x(50), { autoConnect: true }),
       ]);
     },
   },
