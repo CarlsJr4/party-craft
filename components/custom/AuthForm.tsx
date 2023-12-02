@@ -58,7 +58,6 @@ const AuthForm = () => {
 
   return (
     <>
-      {isAuth && <p>Logging in...</p>}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -94,12 +93,15 @@ const AuthForm = () => {
               );
             }}
           />
-          <Button type="submit" className="my-5">
-            Login
-          </Button>
-          {/* <Button type="submit" className="ml-3 mt-2">
-            Signup
-          </Button> */}
+          {isAuth ? (
+            <Button disabled className="my-5">
+              Logging in...
+            </Button>
+          ) : (
+            <Button type="submit" className="my-5">
+              Login
+            </Button>
+          )}
         </form>
       </Form>
       {invalidUserError && (
