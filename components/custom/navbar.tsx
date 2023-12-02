@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from './AuthWrapper';
+import Link from 'next/link';
 
 const Navbar = () => {
   const supabase = createBrowserClient(
@@ -20,8 +21,11 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="grid grid-cols-[1fr_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white">
-      <b>PartyCraft</b>
+    <nav className="grid grid-cols-[auto_1fr_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white">
+      <Link href="/">
+        <b>PartyCraft</b>
+      </Link>
+      <span></span>
       {/* <span className="text-right">Signup</span> */}
       {/* <span className="text-right">Login</span> */}
       <>
