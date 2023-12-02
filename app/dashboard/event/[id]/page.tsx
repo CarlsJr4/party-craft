@@ -11,6 +11,8 @@ import PageHeading from '@/components/custom/PageHeading';
 import PageSubHeading from '@/components/custom/PageSubHeading';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
 
 const EventPage = ({ params }: { params: { id: string } }) => {
   // NOTE: This type is based off the profiles table
@@ -136,7 +138,15 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           </PageSubHeading>
         </>
       )}
-      {filteredEvent ? (
+      {filteredEvent && Object.keys(filteredEvent).length === 0 && (
+        <>
+          <Skeleton className="h-4 w-[350px] ml-6 my-4" />
+          <Skeleton className="h-4 w-[150px] ml-6 my-4" />
+          <Skeleton className="h-[30px] w-[75px] rounded-full ml-6 my-4" />
+          <Skeleton className="h-4 w-[250px] ml-6 my-4" />
+          <Skeleton className="h-4 w-[50px] ml-6 my-4" />
+        </>
+      )}
       {filteredEvent && Object.keys(filteredEvent).length > 0 ? (
         <>
           <PageHeading>{filteredEvent.title}</PageHeading>
