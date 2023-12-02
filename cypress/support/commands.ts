@@ -54,4 +54,7 @@ Cypress.Commands.addAll({
     cy.contains('button[name="day"]:not([disabled])', dayNumber).click();
     cy.contains('Submit').click();
   },
+  resetDb() {
+    cy.task('resetDatabase');
+  },
 });
