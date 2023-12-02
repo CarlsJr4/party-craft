@@ -23,6 +23,9 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   const { events } = useContext(EventContext);
   const [guestList, setGuestList] = useState<guestListType[]>([]);
   const [isSignedUp, toggleSignedUp] = useState(false);
+  const [filteredEvent, setFilteredEvent] = useState<EventType | null>(
+    {} as EventType
+  );
 
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,13 +33,13 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   );
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(
-        `http://localhost:3000/api/events/${params.id}`
-      );
-      if (response.status === 404) {
-        setEventStatus(null);
-      }
+    const retrievedEvent =
+      events?.filter(event => event.id === params.id)[0] || null;
+
+    if (retrievedEvent) {
+      setFilteredEvent(retrievedEvent);
+    } else {
+      setFilteredEvent(null);
     }
 
     async function fetchGuestList() {
@@ -70,14 +73,9 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     }
 
     fetchGuestList();
-    fetchData();
-  }, [params.id, supabase]);
-  const [eventStatus, setEventStatus] = useState<EventType[] | null>([]);
+  }, [events, params.id, supabase]);
 
   // notFound causes an error inside of useEffect so we call it here
-  if (eventStatus === null) {
-    notFound();
-  }
 
   async function handleSignup() {
     const {
@@ -128,13 +126,18 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     return;
   }
 
-  let filteredEvent: EventType = events.filter(
-    event => event.id === params.id
-  )[0];
-
   return (
     <div>
+      {filteredEvent === null && (
+        <>
+          <PageHeading>Uh oh!</PageHeading>
+          <PageSubHeading>
+            This event does not exist or has been deleted.
+          </PageSubHeading>
+        </>
+      )}
       {filteredEvent ? (
+      {filteredEvent && Object.keys(filteredEvent).length > 0 ? (
         <>
           <PageHeading>{filteredEvent.title}</PageHeading>
           <PageSubHeading>
@@ -177,7 +180,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        ''
       )}
     </div>
   );
