@@ -111,7 +111,7 @@ describe('Event creation', () => {
   it('Closes the create dialog after successful submission', async () => {
     // We use a different render here because the create event button exists in the DashNav component in the dashboard layout file
     const { user } = setup();
-    const createButton = screen.getByText('Create New +');
+    const createButton = screen.getByText('Create New');
     await user.click(createButton);
 
     const submitButton = screen.getByText(/Submit/i);
@@ -133,7 +133,7 @@ describe('Event creation', () => {
 
   it('Adds a new event card after successful submission', async () => {
     const { user } = setup();
-    const createButton = screen.getByText('Create New +');
+    const createButton = screen.getByText('Create New');
     await user.click(createButton);
 
     const submitButton = screen.getByText(/Submit/i);
