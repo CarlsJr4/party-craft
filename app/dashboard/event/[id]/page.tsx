@@ -3,7 +3,6 @@ import { EventContext } from '@/components/custom/DashboardWrapper';
 import { Button } from '@/components/ui/button';
 import EventType from '@/types/EventType';
 import { format } from 'date-fns';
-import { notFound } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { Database } from '@/types/database.types';
@@ -12,7 +11,6 @@ import PageSubHeading from '@/components/custom/PageSubHeading';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
 
 const EventPage = ({ params }: { params: { id: string } }) => {
   // NOTE: This type is based off the profiles table
@@ -28,6 +26,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   const [filteredEvent, setFilteredEvent] = useState<EventType | null>(
     {} as EventType
   );
+  const [hostName, setHostName] = useState<string | null>('');
 
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -55,6 +54,14 @@ const EventPage = ({ params }: { params: { id: string } }) => {
       } = await supabase.auth.getUser();
 
       const signupIdList: (string | null)[] = [];
+      if (retrievedEvent) {
+        const { data: hostData, error: hostError } = await supabase
+          .from('profiles')
+          .select()
+          .eq('id', retrievedEvent.owned_by);
+
+        if (hostData) setHostName(hostData[0].role);
+      }
 
       signupData?.forEach(item => signupIdList.push(item.user_id));
 
@@ -153,6 +160,16 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           <PageSubHeading>
             {format(new Date(filteredEvent.date), 'PPP')}
           </PageSubHeading>
+          <div className="my-5 flex items-center gap-3">
+            <Avatar>
+              <AvatarImage
+                src="https://picsum.photos/460/460?random=1"
+                alt="Test"
+              />
+              <AvatarFallback className="text-black">CD</AvatarFallback>
+            </Avatar>
+            <p>Hosted by: {hostName}</p>
+          </div>
           <div className="mt-1">
             {isSignedUp ? (
               <Button onClick={() => handleCancelSignup()}>

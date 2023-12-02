@@ -27,7 +27,23 @@ describe('Row level security', () => {
       .click();
     cy.contains('Continue').click();
     cy.visit('/');
+    cy.contains('Test future event').should('exist');
     cy.contains('Newly created event').should('not.exist');
+  });
+
+  it('Renders the correct event author name', () => {
+    cy.login('test@test.com', '111111');
+    cy.createNewEvent();
+    cy.contains('Newly created event').click();
+    cy.contains('Hosted by: Guest').should('exist');
+    cy.contains('Explore').click();
+    cy.contains('Test future event').should('exist');
+    cy.contains('Newly created event')
+      .parent()
+      .parent()
+      .contains('Delete')
+      .click();
+    cy.contains('Continue').click();
   });
   // it('Persists an edited event event', () => {});
 });
