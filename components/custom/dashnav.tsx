@@ -4,7 +4,7 @@ import Link from 'next/link';
 import CreateDialog from '@/components/custom/CreateDialog';
 import { HeartIcon, RocketIcon } from 'lucide-react';
 
-const DashNav = () => {
+const Dashnav = () => {
   return (
     <div className="2xl:col-span-1 col-span-2 p-6 bg-slate-100 flex flex-col gap-6 items-center sm:items-stretch">
       <CreateDialog>
@@ -26,4 +26,4 @@ const DashNav = () => {
   );
 };
 
-export default DashNav;
+export default Dashnav;

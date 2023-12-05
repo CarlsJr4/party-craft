@@ -1,5 +1,5 @@
 import React from 'react';
-import DashNav from '@/components/custom/Dashnav';
+import Dashnav from '@/components/custom/Dashnav';
 import { Toaster } from '@/components/ui/toaster';
 import DashboardWrapper from '@/components/custom/DashboardWrapper';
 import Navbar from '@/components/custom/navbar';
@@ -10,7 +10,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <Navbar />
       <div className="grid grid-cols-8 h-screen">
         <DashboardWrapper>
-          <DashNav />
+          <Dashnav />
           <div className="2xl:col-span-7 col-span-6 p-4 mx-6">
             {children}
             <Toaster />
