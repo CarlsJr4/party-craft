@@ -1,4 +1,4 @@
-import { cy, Cypress, expect, it } from 'local-cypress';
+import { before, cy, Cypress, expect, it } from 'local-cypress';
 
 describe('protected routes', () => {
   it('Redirects user to login page if accessing dashboard with no session', () => {
@@ -15,6 +15,13 @@ describe('protected routes', () => {
 });
 
 describe('event controls', () => {
+  before(() => {
+    cy.resetDb();
+    cy.createTestUser();
+    cy.contains('Welcome, John Doe').should('exist');
+    cy.contains('Logout').click();
+  });
+
   it('Renders edit and delete buttons on a newly created event', () => {
     cy.login('test@test.com', '111111');
     cy.createNewEvent();

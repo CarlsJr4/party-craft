@@ -1,8 +1,15 @@
-import { cy, Cypress, expect, it } from 'local-cypress';
+import { before, cy, Cypress, expect, it } from 'local-cypress';
 
 // NOTE: These tests will only work if the server is working
 // These tests actually interface with the local database
 describe('Row level security', () => {
+  before(() => {
+    cy.resetDb();
+    cy.createTestUser();
+    cy.contains('Welcome, John Doe').should('exist');
+    cy.contains('Logout').click();
+  });
+
   // // Save this test for when you implement private events
   // it('Only returns events that the user owns', () => {
   //   cy.login('test@test.com', '111111');
@@ -35,7 +42,7 @@ describe('Row level security', () => {
     cy.login('test@test.com', '111111');
     cy.createNewEvent();
     cy.contains('Newly created event').click();
-    cy.contains('Hosted by: Guest').should('exist');
+    cy.contains('Hosted by: John Doe').should('exist');
     cy.contains('Explore').click();
     cy.contains('Test future event').should('exist');
     cy.contains('Newly created event')

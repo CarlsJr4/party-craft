@@ -1,9 +1,12 @@
 import { before, cy, Cypress, expect, it } from 'local-cypress';
 
 describe('The login page', () => {
-  // before(() => {
-  //   cy.resetDb();
-  // });
+  before(() => {
+    cy.resetDb();
+    cy.createTestUser();
+    cy.contains('Welcome, John Doe').should('exist');
+    cy.contains('Logout').click();
+  });
 
   it('Successfully logs in', () => {
     cy.login('test@test.com', '111111');
