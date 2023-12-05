@@ -36,10 +36,13 @@ const ExploreEvents = () => {
     if (events) {
       let filteredEvents = [...events];
       filteredEvents = filteredEvents.filter(event => event.id !== id);
-      const response = await fetch(`http://localhost:3000/api/events/${id}`, {
-        method: 'DELETE',
-        body: JSON.stringify(id),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events/${id}`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify(id),
+        }
+      );
       if (response.status === 204) {
         setEvents(filteredEvents);
         toast({
