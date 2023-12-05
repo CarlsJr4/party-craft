@@ -20,7 +20,7 @@ type DeleteConfirmProps = {
 
 const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
   const { events } = useContext(EventContext);
-  const eventToDelete = events.filter(event => event.id === id);
+  const eventToDelete = events!.filter(event => event.id === id);
 
   return (
     <AlertDialog>
