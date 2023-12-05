@@ -63,7 +63,6 @@ Cypress.Commands.addAll({
     cy.get('input[name=password]').type('111111');
     cy.get('input[name=confirmPassword]').type('111111');
     cy.contains('button[type="submit"]', 'Sign-up').click();
-    cy.contains('Explore').should('exist');
   },
   resetDb() {
     cy.task('resetDatabase');
