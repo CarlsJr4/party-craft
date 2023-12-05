@@ -54,6 +54,17 @@ Cypress.Commands.addAll({
     cy.contains('button[name="day"]:not([disabled])', dayNumber).click();
     cy.contains('Submit').click();
   },
+  createTestUser() {
+    cy.visit('/');
+    cy.contains('Sign-up').click();
+    cy.get('input[name=email]').type('test@test.com');
+    cy.get('input[name=firstname]').type('John');
+    cy.get('input[name=lastname]').type('Doe');
+    cy.get('input[name=password]').type('111111');
+    cy.get('input[name=confirmPassword]').type('111111');
+    cy.contains('button[type="submit"]', 'Sign-up').click();
+    cy.contains('Explore').should('exist');
+  },
   resetDb() {
     cy.task('resetDatabase');
   },
