@@ -17,7 +17,8 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   type guestListType = {
     id: string | null; // Represents user uuid in DB
     email: string | null;
-    role: string | null;
+    firstname: string | null;
+    lastname: string | null;
   };
 
   const { events } = useContext(EventContext);
@@ -60,7 +61,8 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           .select()
           .eq('id', retrievedEvent.owned_by);
 
-        if (hostData) setHostName(hostData[0].role);
+        if (hostData)
+          setHostName(hostData[0].firstname + ' ' + hostData[0].lastname);
       }
 
       signupData?.forEach(item => signupIdList.push(item.user_id));
@@ -106,8 +108,8 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           .eq('id', guestData[0].user_id!);
       const newGuestList = [...guestList];
       if (guestProfileData !== null) {
-        const { email, id, role } = guestProfileData[0];
-        newGuestList.push({ email: email, id: id, role: role });
+        const { email, id, firstname, lastname } = guestProfileData[0];
+        newGuestList.push({ email, id, firstname, lastname });
         setGuestList(newGuestList);
       }
       toggleSignedUp(true);
@@ -200,7 +202,9 @@ const EventPage = ({ params }: { params: { id: string } }) => {
                   </Avatar>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-center">{guest?.role || 'Guest'}</p>
+                  <p className="text-center">
+                    {guest.firstname + ' ' + guest.lastname}
+                  </p>
                 </CardContent>
               </Card>
             ))}
