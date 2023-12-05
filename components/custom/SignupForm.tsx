@@ -102,7 +102,7 @@ const SignupForm = () => {
     <>
       {isAuth && <p>Logging in...</p>}
       <Form {...form}>
-        <form onSubmit={} className="m-5 flex flex-col gap-3">
+        <form className="m-5 flex flex-col gap-3">
           <FormField
             control={form.control}
             name="email"
