@@ -37,7 +37,7 @@ const ExploreEvents = () => {
       let filteredEvents = [...events];
       filteredEvents = filteredEvents.filter(event => event.id !== id);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events/${id}`,
+        `${process.env.NEXT_PUBLIC_CUSTOM_PROJECT_URL}/api/events/${id}`,
         {
           method: 'DELETE',
           body: JSON.stringify(id),

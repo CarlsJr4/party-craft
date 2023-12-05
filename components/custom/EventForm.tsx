@@ -92,7 +92,7 @@ const EventForm = ({
       );
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events/${id}`,
+          `${process.env.NEXT_PUBLIC_CUSTOM_PROJECT_URL}/api/events/${id}`,
           {
             method: 'PUT',
             headers: {
@@ -140,7 +140,7 @@ const EventForm = ({
       };
       try {
         const res = await fetch(
-          '${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events',
+          `${process.env.NEXT_PUBLIC_CUSTOM_PROJECT_URL}/api/events`,
           {
             method: 'POST',
             headers: {
