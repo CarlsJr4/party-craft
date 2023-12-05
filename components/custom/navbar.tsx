@@ -61,7 +61,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="grid grid-cols-[auto_1fr_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white">
+    <nav className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white">
       <Link href="/">
         <b>PartyCraft</b>
       </Link>
