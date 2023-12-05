@@ -105,7 +105,9 @@ const AuthForm = () => {
         </form>
       </Form>
       {invalidUserError && (
-        <p className="mt-5 text-red-600">Invalid email or password</p>
+        <p className="m-5 text-red-600 text-center">
+          Invalid email or password
+        </p>
       )}
     </>
   );
