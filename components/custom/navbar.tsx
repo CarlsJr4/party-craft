@@ -14,6 +14,8 @@ const Navbar = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  const [userInfo, setUserInfo] = useState<userInfoType>({} as userInfoType);
+
   useEffect(() => {
     async function retrieveUser() {
       try {
@@ -31,12 +33,15 @@ const Navbar = () => {
 
           if (data) {
             setUserInfo(data[0]);
+          } else {
+            throw new Error();
           }
         }
       } catch {}
     }
+
     retrieveUser();
-  });
+  }, []);
 
   type userInfoType = {
     email: string;
@@ -45,11 +50,11 @@ const Navbar = () => {
     lastname: string;
   };
 
-  const [userInfo, setUserInfo] = useState<userInfoType>({} as userInfoType);
-
   const router = useRouter();
   const { setAuth } = useContext(AuthContext);
   async function handleSignout() {
+    // TODO: There is a bug that occurs when signing out
+    // TODO: Lots of network requests after signing in
     const { error } = await supabase.auth.signOut();
     router.push('/');
     if (!error) setAuth(false);
