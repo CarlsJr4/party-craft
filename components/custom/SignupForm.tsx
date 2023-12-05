@@ -68,41 +68,42 @@ const SignupForm = () => {
     firstname,
     lastname,
   }: z.infer<typeof AuthSchema>) {
-    // try {
-    //   const { data, error } = await supabase.auth.signUp({
-    //     email,
-    //     password,
-    //   });
-    //   if (error) {
-    //     console.log(error);
-    //     throw new Error();
-    //   }
-    //   const newUserID = data.user?.id;
-    //   if (newUserID) {
-    //     const { error: signupError } = await supabase.from('profiles').insert({
-    //       id: newUserID,
-    //       email,
-    //       firstname,
-    //       lastname,
-    //     });
-    //   }
-    //   if (!signupError) {
-    //     setInvalidUserError(false);
-    //     router.push('/dashboard/explore');
-    //     setAuth(true);
-    //   } else {
-    //     setInvalidUserError(true);
-    //   }
-    // } catch {
-    //   console.log('Oh no!');
-    // }
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) {
+        setInvalidUserError(true);
+        throw new Error();
+      } else {
+        const newUserID = data.user!.id;
+        const { error: signupError } = await supabase.from('profiles').insert({
+          id: newUserID,
+          email,
+          firstname,
+          lastname,
+        });
+        if (!signupError) {
+          setInvalidUserError(false);
+          setAuth(true);
+          router.push('/dashboard/explore');
+        } else {
+          throw new Error();
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <>
-      {isAuth && <p>Logging in...</p>}
       <Form {...form}>
-        <form className="m-5 flex flex-col gap-3">
+        <form
+          className="m-5 flex flex-col gap-3"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             control={form.control}
             name="email"
@@ -178,17 +179,22 @@ const SignupForm = () => {
               );
             }}
           />
-          <Button type="submit" className="my-5">
-            Sign-up
-          </Button>
-          {/* <Button type="submit" className="ml-3 mt-2">
-            Signup
-          </Button> */}
+          {isAuth ? (
+            <Button disabled className="my-5">
+              Logging in...
+            </Button>
+          ) : (
+            <Button type="submit" className="my-5">
+              Sign-up
+            </Button>
+          )}
         </form>
+        {invalidUserError && (
+          <p className="text-red-600 m-5 text-center">
+            A user with this email already exists.
+          </p>
+        )}
       </Form>
-      {invalidUserError && (
-        <p className="mt-5 text-red-600">Invalid email or password</p>
-      )}
     </>
   );
 };
