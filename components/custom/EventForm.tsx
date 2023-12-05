@@ -91,19 +91,22 @@ const EventForm = ({
           : event
       );
       try {
-        const res = await fetch(`http://localhost:3000/api/events/${id}`, {
-          method: 'PUT',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id,
-            title: eventname,
-            body: eventdesc,
-            date: eventdate,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events/${id}`,
+          {
+            method: 'PUT',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id,
+              title: eventname,
+              body: eventdesc,
+              date: eventdate,
+            }),
+          }
+        );
         if (res.status !== 201) {
           throw new Error();
         }
@@ -136,14 +139,17 @@ const EventForm = ({
         owned_by: user!.id, // Used ! here because middleware and RLS already prevent unauthenticated users from seeing this page
       };
       try {
-        const res = await fetch('http://localhost:3000/api/events', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newEvent),
-        });
+        const res = await fetch(
+          '${process.env.NEXT_PUBLIC_PROJECT_URL}/api/events',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newEvent),
+          }
+        );
         if (res.status !== 201) {
           throw new Error();
         }
