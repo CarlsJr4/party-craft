@@ -1110,11 +1110,15 @@ type profilesScalars = {
   /**
    * Column `profiles.email`.
    */
-  email: string | null;
+  email: string;
   /**
-   * Column `profiles.role`.
+   * Column `profiles.firstname`.
    */
-  role: string | null;
+  firstname?: string;
+  /**
+   * Column `profiles.lastname`.
+   */
+  lastname: string;
 }
 type profilesParentsInputs<TPath extends string[]> = {
   /**
@@ -2391,7 +2395,8 @@ type Override = {
     fields?: {
       id?: string;
       email?: string;
-      role?: string;
+      firstname?: string;
+      lastname?: string;
       users?: string;
     };
   }

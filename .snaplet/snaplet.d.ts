@@ -153,8 +153,9 @@ interface Table_storage_objects {
 }
 interface Table_public_profiles {
   id: string;
-  email: string | null;
-  role: string | null;
+  email: string;
+  firstname: string;
+  lastname: string;
 }
 interface Table_auth_refresh_tokens {
   instance_id: string | null;

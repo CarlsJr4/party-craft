@@ -42,19 +42,22 @@ export interface Database {
       }
       profiles: {
         Row: {
-          email: string | null
+          email: string
+          firstname: string
           id: string
-          role: string | null
+          lastname: string
         }
         Insert: {
-          email?: string | null
+          email: string
+          firstname?: string
           id: string
-          role?: string | null
+          lastname: string
         }
         Update: {
-          email?: string | null
+          email?: string
+          firstname?: string
           id?: string
-          role?: string | null
+          lastname?: string
         }
         Relationships: [
           {
