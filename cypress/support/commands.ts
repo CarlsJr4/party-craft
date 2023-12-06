@@ -44,7 +44,7 @@ Cypress.Commands.addAll({
     cy.get('input[name=password]').type(`${password}{enter}`, { log: false });
   },
   createNewEvent() {
-    cy.contains('Create New +').click();
+    cy.contains('Create New').click();
     cy.get('input[name="eventname"]').click().type('Newly created event');
     cy.get('textarea[name="eventdesc"]')
       .click()
