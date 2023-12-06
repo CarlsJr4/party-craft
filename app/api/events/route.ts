@@ -32,7 +32,10 @@ export async function GET(request: Request) {
   // Depending on what the request URL is, we need to have filtering/RLS
   // Every route should call this GET request
   const supabase = initSupabaseClient();
-  const { data, error } = await supabase.from('events').select('*');
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .order('date', { ascending: true });
   if (error) return NextResponse.error();
   return NextResponse.json(data, { status: 200 });
 }
