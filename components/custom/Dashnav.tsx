@@ -9,7 +9,8 @@ const Dashnav = () => {
     <div className="2xl:col-span-1 col-span-2 p-6 bg-slate-100 flex flex-col gap-6 items-center sm:items-stretch">
       <CreateDialog>
         <Button size="lg" className="mt-3">
-          <span className="hidden sm:inline">Create New {'  '}</span>+
+          <span className="hidden sm:inline">Create New</span>
+          <span className="ml-2">+</span>
         </Button>
       </CreateDialog>
       <Link href="/dashboard/explore" className="flex items-center gap-3">

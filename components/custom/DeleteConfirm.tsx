@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { EventContext } from '@/components/custom/DashboardWrapper';
+import { Trash2Icon } from 'lucide-react';
 
 type DeleteConfirmProps = {
   handleDelete: (id: Key) => void;
@@ -25,7 +26,10 @@ const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete</Button>
+        <Button variant="destructive">
+          <span>Delete</span>
+          <Trash2Icon className="h-4 w-4 ml-2" />
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -41,7 +45,10 @@ const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDelete(id)}>
+          <AlertDialogAction
+            className="bg-destructive"
+            onClick={() => handleDelete(id)}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
