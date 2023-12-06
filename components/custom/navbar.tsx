@@ -61,7 +61,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white sticky top-[0px]">
+    <nav className="z-50 grid grid-cols-[1fr_auto_auto] sm:grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white sticky top-[0px]">
       <Link href="/">
         <b>PartyCraft</b>
       </Link>
