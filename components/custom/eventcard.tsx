@@ -39,7 +39,7 @@ const EventCard = ({
         <CardDescription>{format(new Date(date), 'PPP')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>{body}</p>
+        {body.length > 99 ? <p>{body.substring(0, 100)}...</p> : <p>{body}</p>}
       </CardContent>
       {isOwned ? (
         <CardFooter className="grid-cols-2 gap-1 mt-auto">

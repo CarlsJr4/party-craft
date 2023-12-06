@@ -10,7 +10,7 @@ const Dashnav = () => {
       <CreateDialog>
         <Button className="mt-3 flex items-center">
           <span className="hidden sm:inline">Create New</span>
-          <PlusCircleIcon className="h-4 w-4 sm:ml-2 mt-[2.5px] text-white" />
+          <PlusCircleIcon className="h-4 w-4 sm:ml-2 mt-[2.2px] text-white" />
         </Button>
       </CreateDialog>
       <Link href="/dashboard/explore" className="flex items-center gap-3">
