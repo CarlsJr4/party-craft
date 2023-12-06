@@ -26,7 +26,7 @@ const DeleteConfirm = ({ handleDelete, id }: DeleteConfirmProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">
+        <Button variant="outline">
           <span>Delete</span>
           <Trash2Icon className="h-4 w-4 ml-2" />
         </Button>

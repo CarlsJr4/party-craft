@@ -25,7 +25,7 @@ describe('event controls', () => {
   it('Renders edit and delete buttons on a newly created event', () => {
     cy.login('test@test.com', '111111');
     cy.createNewEvent();
-    cy.contains('Edit Event').should('exist');
+    cy.contains('Edit').should('exist');
     cy.contains('Delete').should('exist');
     cy.contains('Newly created event')
       .parent()

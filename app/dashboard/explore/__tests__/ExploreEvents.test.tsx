@@ -37,7 +37,7 @@ const messages = {
 };
 
 const openEditDialog = async () => {
-  const editButton = await screen.findAllByText('Edit Event');
+  const editButton = await screen.findAllByText('Edit');
   await userEvent.click(editButton[0]);
 
   const fields = {
@@ -74,7 +74,7 @@ describe('Event data retrieval', () => {
 
   it('Only renders edit controls for owned events', async () => {
     setup();
-    const editControls = await screen.findAllByText('Edit Event');
+    const editControls = await screen.findAllByText('Edit');
     // The mock data includes 2 future events and 1 past event
     // One of the future events is owned, the other isnt
     // The length of edit buttons should be 1, not 2.

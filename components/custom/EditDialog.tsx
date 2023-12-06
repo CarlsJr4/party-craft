@@ -28,7 +28,7 @@ export default function EditDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Event</Button>
+        <Button variant="outline">Edit</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
