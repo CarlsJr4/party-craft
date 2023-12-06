@@ -61,7 +61,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white">
+    <nav className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center p-4 bg-stone-950 text-white sticky top-[0px]">
       <Link href="/">
         <b>PartyCraft</b>
       </Link>
@@ -69,10 +69,10 @@ const Navbar = () => {
       {/* <span className="text-right">Signup</span> */}
       {/* <span className="text-right">Login</span> */}
       <>
-        <p>
+        <p className="hidden sm:block">
           Welcome, {userInfo.firstname} {userInfo.lastname}
         </p>
-        <Avatar>
+        <Avatar className="hidden sm:block">
           <AvatarImage src="https://picsum.photos/460/460" alt="Test" />
           <AvatarFallback className="text-black">CD</AvatarFallback>
         </Avatar>
