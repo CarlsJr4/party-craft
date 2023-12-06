@@ -84,7 +84,7 @@ describe('Event data retrieval', () => {
   it('Renders a custom message when no events are retrieved', async () => {
     server.use(
       http.get('http://localhost:3000/api/events', () => {
-        return HttpResponse.json(null, { status: 200 });
+        return HttpResponse.json([], { status: 200 });
       })
     );
     setup();

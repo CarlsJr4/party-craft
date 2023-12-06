@@ -14,7 +14,7 @@ import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
-  const { events, setEvents } = useContext(EventContext);
+  const { events, setEvents, isLoading } = useContext(EventContext);
   const errors = useContext(EventErrorContext);
   const [userID, setUserID] = useState<string | undefined>('');
 
@@ -68,7 +68,7 @@ const ExploreEvents = () => {
       <PageHeading>Explore</PageHeading>
       <PageSubHeading>Discover upcoming public events near you:</PageSubHeading>
       <CardGrid>
-        {events?.length === 0 && (
+        {isLoading && (
           <>
             <EventCardSkeleton />
             <EventCardSkeleton />
@@ -100,7 +100,9 @@ const ExploreEvents = () => {
               })}
           </>
         )}
-        {!events && <p>We could not find any upcoming events near you.</p>}
+        {!isLoading && !errors && events?.length === 0 && (
+          <p>We could not find any upcoming events near you.</p>
+        )}
       </CardGrid>
     </div>
   );
