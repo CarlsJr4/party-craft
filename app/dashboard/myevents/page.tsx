@@ -15,7 +15,7 @@ import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
-  const { events, setEvents } = useContext(EventContext);
+  const { events, setEvents, isLoading } = useContext(EventContext);
   const errors = useContext(EventErrorContext);
   const [userID, setUserID] = useState<string | undefined>('');
   const [signedUpEventIDs, setSignedUpEventIds] = useState<(string | null)[]>(
@@ -90,7 +90,7 @@ const ExploreEvents = () => {
         here:
       </PageSubHeading>
       <CardGrid>
-        {events?.length === 0 && (
+        {isLoading && (
           <>
             <EventCardSkeleton />
             <EventCardSkeleton />
