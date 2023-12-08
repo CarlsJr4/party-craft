@@ -53,10 +53,8 @@ const Navbar = () => {
   const router = useRouter();
   const { setAuth } = useContext(AuthContext);
   async function handleSignout() {
-    // TODO: There is a bug that occurs when signing out
-    // TODO: Lots of network requests after signing in
-    const { error } = await supabase.auth.signOut();
     router.push('/');
+    const { error } = await supabase.auth.signOut();
     if (!error) setAuth(false);
   }
 
