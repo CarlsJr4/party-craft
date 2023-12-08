@@ -1,10 +1,9 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '../ui/button';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
-import { AuthContext } from './AuthWrapper';
 import Link from 'next/link';
 import { Database } from '@/types/database.types';
 
@@ -51,11 +50,11 @@ const Navbar = () => {
   };
 
   const router = useRouter();
-  const { setAuth } = useContext(AuthContext);
   async function handleSignout() {
-    router.push('/');
     const { error } = await supabase.auth.signOut();
-    if (!error) setAuth(false);
+    if (!error) {
+      router.push('/signout');
+    }
   }
 
   return (

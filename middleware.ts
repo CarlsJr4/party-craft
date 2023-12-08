@@ -67,5 +67,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
+  // Signout path
+  if (!isAuth && request.nextUrl.pathname === '/signout') {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return response;
 }
