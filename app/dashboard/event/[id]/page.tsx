@@ -11,6 +11,7 @@ import PageSubHeading from '@/components/custom/PageSubHeading';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import GuestSkeleton from '@/components/custom/GuestSkeleton';
 
 const EventPage = ({ params }: { params: { id: string } }) => {
   // NOTE: This type is based off the profiles table
@@ -23,6 +24,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
 
   const { events } = useContext(EventContext);
   const [guestList, setGuestList] = useState<guestListType[]>([]);
+  const [isLoadingGuests, setLoadingGuests] = useState(true);
   const [isSignedUp, toggleSignedUp] = useState(false);
   const [filteredEvent, setFilteredEvent] = useState<EventType | null>(
     {} as EventType
@@ -80,6 +82,7 @@ const EventPage = ({ params }: { params: { id: string } }) => {
 
       const retrievedGuests: guestListType[] = [];
       data?.forEach(profile => retrievedGuests.push(profile));
+      setLoadingGuests(false);
       setGuestList(retrievedGuests);
     }
 
@@ -187,6 +190,19 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           </div>
 
           <h3 className="text-xl font-semibold">Who&apos;s going:</h3>
+
+          {isLoadingGuests && (
+            <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+              <GuestSkeleton />
+            </div>
+          )}
 
           <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
             {guestList.map(guest => (
