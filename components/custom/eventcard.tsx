@@ -34,7 +34,7 @@ const EventCard = ({
     <Card>
       <CardHeader>
         <Link href={`/dashboard/event/${id}`}>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="underline">{title}</CardTitle>
         </Link>
         <CardDescription>{format(new Date(date), 'PPP')}</CardDescription>
       </CardHeader>
