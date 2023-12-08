@@ -205,7 +205,9 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           )}
 
           <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
-            {guestList.length === 0 && <p>Be the first to sign up!</p>}
+            {guestList.length === 0 && !isLoadingGuests && (
+              <p>Be the first to sign up!</p>
+            )}
             {guestList.map(guest => (
               <Card key={guest.id} className="items-center">
                 <CardHeader>
