@@ -53,8 +53,8 @@ const Navbar = () => {
   const router = useRouter();
   const { setAuth } = useContext(AuthContext);
   async function handleSignout() {
-    const { error } = await supabase.auth.signOut();
     router.push('/');
+    const { error } = await supabase.auth.signOut();
     if (!error) setAuth(false);
   }
 

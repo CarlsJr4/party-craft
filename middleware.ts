@@ -59,13 +59,11 @@ export async function middleware(request: NextRequest) {
 
   // If user is authenticated and user is on login page, redirect to dashboard
   if (isAuth && request.nextUrl.pathname === '/') {
-    console.log('redirected to explore page');
     return NextResponse.redirect(new URL('/dashboard/explore', request.url));
   }
 
   // Protected routes
   if (!isAuth && request.nextUrl.pathname.includes('dashboard')) {
-    console.log('protected route');
     return NextResponse.redirect(new URL('/', request.url));
   }
 
