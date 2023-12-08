@@ -52,9 +52,12 @@ const Navbar = () => {
 
   const router = useRouter();
   const { setAuth } = useContext(AuthContext);
-  async function handleSignout() {
-    router.push('/');
+  async function handleSignout(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
     const { error } = await supabase.auth.signOut();
+    router.push('/');
     if (!error) setAuth(false);
   }
 
@@ -74,7 +77,7 @@ const Navbar = () => {
           <AvatarImage src="https://picsum.photos/460/460" alt="Test" />
           <AvatarFallback className="text-black">CD</AvatarFallback>
         </Avatar>
-        <Button onClick={() => handleSignout()} className="text-right">
+        <Button onClick={e => handleSignout(e)} className="text-right">
           Logout
         </Button>
       </>
