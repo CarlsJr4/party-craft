@@ -85,6 +85,7 @@ const ExploreEvents = () => {
     <div className="flex flex-col gap-10">
       <section>
         <PageHeading>Explore</PageHeading>
+        <PageSubHeading>Public events will show up here!</PageSubHeading>
         {errors ? (
           <div>
             <p>Uh oh!</p>
