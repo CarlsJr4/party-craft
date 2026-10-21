@@ -85,10 +85,7 @@ const ExploreEvents = () => {
   return (
     <div>
       <PageHeading>Your events</PageHeading>
-      <PageSubHeading>
-        Events you&apos;ve been invited to, saved, and created will show up
-        here: (This feature is a work in progress)
-      </PageSubHeading>
+      <PageSubHeading>Create, view and edit events here!</PageSubHeading>
       <CardGrid>
         {isLoading && (
           <>
