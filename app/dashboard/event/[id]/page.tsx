@@ -27,13 +27,13 @@ const EventPage = ({ params }: { params: { id: string } }) => {
   const [isLoadingGuests, setLoadingGuests] = useState(true);
   const [isSignedUp, toggleSignedUp] = useState(false);
   const [filteredEvent, setFilteredEvent] = useState<EventType | null>(
-    {} as EventType
+    {} as EventType,
   );
   const [hostName, setHostName] = useState<string | null>('');
 
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 
   useEffect(() => {
@@ -140,6 +140,12 @@ const EventPage = ({ params }: { params: { id: string } }) => {
     return;
   }
 
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const isPastEvent = (date: Date | string | null) =>
+    !!date && new Date(date) < startOfToday;
+
   return (
     <div>
       {filteredEvent === null && (
@@ -175,21 +181,27 @@ const EventPage = ({ params }: { params: { id: string } }) => {
             </Avatar>
             <p>Hosted by: {hostName}</p>
           </div>
-          <div className="mt-1">
-            {isSignedUp ? (
-              <Button onClick={() => handleCancelSignup()}>
-                Cancel sign-up
-              </Button>
-            ) : (
-              <Button onClick={() => handleSignup()}>Sign up</Button>
-            )}
-          </div>
+          {!isPastEvent(filteredEvent.date) && (
+            <div className="mt-1">
+              {isSignedUp ? (
+                <Button onClick={() => handleCancelSignup()}>
+                  Cancel sign-up
+                </Button>
+              ) : (
+                <Button onClick={() => handleSignup()}>Sign up</Button>
+              )}
+            </div>
+          )}
 
           <div className="my-7">
             <p>{filteredEvent.body}</p>
           </div>
 
-          <h3 className="text-xl font-semibold">Who&apos;s going:</h3>
+          {isPastEvent(filteredEvent.date) ? (
+            <h3 className="text-xl font-semibold">Who went:</h3>
+          ) : (
+            <h3 className="text-xl font-semibold">Who&apos;s going:</h3>
+          )}
 
           {isLoadingGuests && (
             <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
@@ -205,9 +217,11 @@ const EventPage = ({ params }: { params: { id: string } }) => {
           )}
 
           <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 3xl:grid-cols-8">
-            {guestList.length === 0 && !isLoadingGuests && (
-              <p>Be the first to sign up!</p>
-            )}
+            {guestList.length === 0 &&
+              !isLoadingGuests &&
+              !isPastEvent(filteredEvent.date) && (
+                <p>Be the first to sign up!</p>
+              )}
             {guestList.map(guest => (
               <Card key={guest.id} className="items-center">
                 <CardHeader>
