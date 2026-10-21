@@ -14,13 +14,13 @@ const Dashnav = () => {
             <PlusCircleIcon className="h-4 w-4 lg:ml-2 lg:mt-[2.2px] text-white" />
           </Button>
         </CreateDialog>
-        <Link href="/dashboard/explore" className="flex items-center gap-3">
-          <RocketIcon className="h-4 w-4" />
-          <span className="hidden lg:inline">Explore</span>
-        </Link>
         <Link href="/dashboard/myevents" className="flex items-center gap-3">
           <HeartIcon className="h-4 w-4" />
           <span className="hidden lg:inline">My Events</span>
+        </Link>
+        <Link href="/dashboard/explore" className="flex items-center gap-3">
+          <RocketIcon className="h-4 w-4" />
+          <span className="hidden lg:inline">Explore</span>
         </Link>
         {/* <Link href="/dashboard/past">Past Events</Link> */}
         {/* <Link href="/dashboard/drafts">Drafts</Link> */}

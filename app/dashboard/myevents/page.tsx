@@ -19,14 +19,14 @@ const ExploreEvents = () => {
   const errors = useContext(EventErrorContext);
   const [userID, setUserID] = useState<string | undefined>('');
   const [signedUpEventIDs, setSignedUpEventIds] = useState<(string | null)[]>(
-    []
+    [],
   );
 
   useEffect(() => {
     async function getUserID() {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
       const {
         data: { user },
@@ -40,7 +40,7 @@ const ExploreEvents = () => {
     async function getSignedUpEvents() {
       const supabase = createBrowserClient<Database>(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
       if (userID) {
         const { data, error } = await supabase
@@ -65,7 +65,7 @@ const ExploreEvents = () => {
         {
           method: 'DELETE',
           body: JSON.stringify(id),
-        }
+        },
       );
       if (response.status === 204) {
         setEvents(filteredEvents);
@@ -87,7 +87,7 @@ const ExploreEvents = () => {
       <PageHeading>Your events</PageHeading>
       <PageSubHeading>
         Events you&apos;ve been invited to, saved, and created will show up
-        here:
+        here: (This feature is a work in progress)
       </PageSubHeading>
       <CardGrid>
         {isLoading && (
@@ -108,7 +108,7 @@ const ExploreEvents = () => {
             {events
               ?.filter(
                 ({ owned_by, id }) =>
-                  owned_by === userID || signedUpEventIDs.includes(id)
+                  owned_by === userID || signedUpEventIDs.includes(id),
               )
               .map(({ id, title, date, body, owned_by }) => {
                 return (
