@@ -88,7 +88,7 @@ const EventForm = ({
               body: eventdesc,
               date: eventdate,
             }
-          : event
+          : event,
       );
       try {
         const res = await fetch(
@@ -105,7 +105,7 @@ const EventForm = ({
               body: eventdesc,
               date: eventdate,
             }),
-          }
+          },
         );
         if (res.status !== 201) {
           throw new Error();
@@ -126,7 +126,7 @@ const EventForm = ({
     } else if (events) {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
       const {
         data: { user },
@@ -148,7 +148,7 @@ const EventForm = ({
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(newEvent),
-          }
+          },
         );
         if (res.status !== 201) {
           throw new Error();
@@ -224,7 +224,7 @@ const EventForm = ({
                           className={cn(
                             'w-[240px] pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
-                            'rounded-md'
+                            'rounded-md',
                           )}
                         >
                           {field.value ? (
@@ -241,9 +241,11 @@ const EventForm = ({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={date =>
-                          date < new Date() || date < new Date('1900-01-01')
-                        }
+                        disabled={date => {
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          return date < today;
+                        }}
                         initialFocus
                       />
                     </PopoverContent>
