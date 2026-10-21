@@ -2,7 +2,7 @@ import { before, cy, Cypress, expect, it } from 'local-cypress';
 
 describe('protected routes', () => {
   it('Redirects user to login page if accessing dashboard with no session', () => {
-    cy.visit('/dashboard/explore');
+    cy.visit('/dashboard/myevents');
     cy.getCookie('sb-localhost-auth-token').should('not.exist');
     cy.contains('Email:').should('exist');
   });

@@ -30,7 +30,7 @@ const AuthForm = () => {
   const [invalidUserError, setInvalidUserError] = useState(false);
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
   const router = useRouter();
   const form = useForm<z.infer<typeof AuthSchema>>({
@@ -48,7 +48,7 @@ const AuthForm = () => {
     });
     if (data.session !== null) {
       setInvalidUserError(false);
-      router.push('/dashboard/explore');
+      router.push('/dashboard/myevents');
       setAuth(true);
     } else {
       setInvalidUserError(true);
