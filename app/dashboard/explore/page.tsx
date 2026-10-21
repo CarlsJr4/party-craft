@@ -22,7 +22,7 @@ const ExploreEvents = () => {
     async function getUserID() {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
       const {
         data: { user },
@@ -41,7 +41,7 @@ const ExploreEvents = () => {
         {
           method: 'DELETE',
           body: JSON.stringify(id),
-        }
+        },
       );
       if (response.status === 204) {
         setEvents(filteredEvents);
@@ -66,7 +66,10 @@ const ExploreEvents = () => {
   return (
     <div>
       <PageHeading>Explore</PageHeading>
-      <PageSubHeading>Discover upcoming public events near you:</PageSubHeading>
+      <PageSubHeading>
+        Discover upcoming public events near you: (this feature is a work in
+        progress)
+      </PageSubHeading>
       <CardGrid>
         {isLoading && (
           <>
