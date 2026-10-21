@@ -82,27 +82,25 @@ const ExploreEvents = () => {
   );
 
   return (
-    <div>
-      <PageHeading>Explore</PageHeading>
-      <PageSubHeading>Discover upcoming public events near you!</PageSubHeading>
-      <div className="col-span-full flex w-full flex-col gap-8">
-        <CardGrid>
-          {isLoading && (
-            <>
-              <EventCardSkeleton />
-              <EventCardSkeleton />
-              <EventCardSkeleton />
-              <EventCardSkeleton />
-            </>
-          )}
-
-          {errors ? (
-            <div>
-              <p>Uh oh!</p>
-              <p>There was an issue retrieving your events.</p>
-            </div>
-          ) : (
-            upcomingEvents?.map(({ id, title, date, body, owned_by }) => (
+    <div className="flex flex-col gap-10">
+      <section>
+        <PageHeading>Explore</PageHeading>
+        {errors ? (
+          <div>
+            <p>Uh oh!</p>
+            <p>There was an issue retrieving your events.</p>
+          </div>
+        ) : (
+          <CardGrid>
+            {isLoading && (
+              <>
+                <EventCardSkeleton />
+                <EventCardSkeleton />
+                <EventCardSkeleton />
+                <EventCardSkeleton />
+              </>
+            )}
+            {upcomingEvents?.map(({ id, title, date, body }) => (
               <EventCard
                 handleDelete={handleDelete}
                 key={id as Key}
@@ -110,43 +108,37 @@ const ExploreEvents = () => {
                 title={title}
                 date={date}
                 body={body}
-                isOwned={userID === owned_by}
+                isOwned={false}
                 isPast={false}
               />
-            ))
-          )}
-
-          {!isLoading && !errors && upcomingEvents?.length === 0 && (
-            <p>We could not find any upcoming events near you.</p>
-          )}
-        </CardGrid>
-
-        {!errors && pastEvents && pastEvents.length > 0 && (
-          <section>
-            <h2 className="mb-4 text-lg font-semibold">Past events</h2>
-            <CardGrid>
-              {pastEvents.map(({ id, title, date, body }) => (
-                <div
-                  key={id as Key}
-                  className="pointer-events-none opacity-50 grayscale select-none"
-                  aria-disabled="true"
-                  inert
-                >
-                  <EventCard
-                    handleDelete={handleDelete}
-                    id={id}
-                    title={title}
-                    date={date}
-                    body={body}
-                    isOwned={false}
-                    isPast={true}
-                  />
-                </div>
-              ))}
-            </CardGrid>
-          </section>
+            ))}
+            {!isLoading && upcomingEvents?.length === 0 && (
+              <p>We could not find any upcoming events near you.</p>
+            )}
+          </CardGrid>
         )}
-      </div>
+      </section>
+
+      {!errors && pastEvents && pastEvents.length > 0 && (
+        <section className="border-t pt-10">
+          <PageHeading>Past Events</PageHeading>
+          <CardGrid>
+            {pastEvents.map(({ id, title, date, body }) => (
+              <div key={id as Key}>
+                <EventCard
+                  handleDelete={handleDelete}
+                  id={id}
+                  title={title}
+                  date={date}
+                  body={body}
+                  isOwned={false}
+                  isPast
+                />
+              </div>
+            ))}
+          </CardGrid>
+        </section>
+      )}
     </div>
   );
 };

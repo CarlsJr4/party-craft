@@ -70,12 +70,17 @@ const ExploreEvents = () => {
       date && (owned_by === userID || signedUpEventIDs.includes(id)),
   );
 
+  // Events you created
   const ownedEvents = myEvents?.filter(
     ({ owned_by, date }) => owned_by === userID && !isPastEvent(date),
   );
+
+  // Events you didn't create, but are going to
   const upcomingEvents = myEvents?.filter(
     ({ owned_by, date }) => owned_by !== userID && !isPastEvent(date),
   );
+
+  // Events you didn't create, signed up for, and are in the past
   const pastEvents = myEvents?.filter(({ date }) => isPastEvent(date));
 
   const handleDelete = async (id: Key) => {
@@ -114,8 +119,7 @@ const ExploreEvents = () => {
       ) : (
         <>
           <section>
-            <PageHeading>My Events</PageHeading>
-            <PageSubHeading>Events you own will show up here!</PageSubHeading>
+            <PageHeading>My Owned Events</PageHeading>
             <CardGrid>
               {isLoading && (
                 <>
@@ -145,10 +149,7 @@ const ExploreEvents = () => {
           <Separator className="my-5" />
 
           <section>
-            <PageHeading>Upcoming Events</PageHeading>
-            <PageSubHeading>
-              Events you are invited to will show up here!
-            </PageSubHeading>
+            <PageHeading>My Upcoming Events</PageHeading>
             <CardGrid>
               {upcomingEvents?.map(({ id, title, date, body }) => (
                 <EventCard
@@ -171,7 +172,7 @@ const ExploreEvents = () => {
 
           {pastEvents && pastEvents.length > 0 && (
             <section>
-              <PageHeading>Past Events</PageHeading>
+              <PageHeading>My Past Events</PageHeading>
               <CardGrid>
                 {pastEvents.map(({ id, title, date, body, owned_by }) => (
                   <div key={id as Key}>
