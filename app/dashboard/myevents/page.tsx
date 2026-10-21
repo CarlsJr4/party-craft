@@ -12,6 +12,7 @@ import CardGrid from '@/components/custom/CardGrid';
 import PageHeading from '@/components/custom/PageHeading';
 import PageSubHeading from '@/components/custom/PageSubHeading';
 import EventCardSkeleton from '@/components/custom/EventCardSkeleton';
+import { Separator } from '@/components/ui/separator';
 
 const ExploreEvents = () => {
   const { toast } = useToast();
@@ -56,6 +57,27 @@ const ExploreEvents = () => {
     getSignedUpEvents();
   }, [userID]);
 
+  // For preventing events happening today from being hidden
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const isPastEvent = (date: Date | string | null) =>
+    !!date && new Date(date) < startOfToday;
+
+  // Everything relevant to this user: events they own or signed up for
+  const myEvents = events?.filter(
+    ({ owned_by, id, date }) =>
+      date && (owned_by === userID || signedUpEventIDs.includes(id)),
+  );
+
+  const ownedEvents = myEvents?.filter(
+    ({ owned_by, date }) => owned_by === userID && !isPastEvent(date),
+  );
+  const upcomingEvents = myEvents?.filter(
+    ({ owned_by, date }) => owned_by !== userID && !isPastEvent(date),
+  );
+  const pastEvents = myEvents?.filter(({ date }) => isPastEvent(date));
+
   const handleDelete = async (id: Key) => {
     if (events) {
       let filteredEvents = [...events];
@@ -83,46 +105,92 @@ const ExploreEvents = () => {
   };
 
   return (
-    <div>
-      <PageHeading>Your events</PageHeading>
-      <PageSubHeading>Create, view and edit events here!</PageSubHeading>
-      <CardGrid>
-        {isLoading && (
-          <>
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-          </>
-        )}
-        {errors ? (
-          <div>
-            <p>Uh oh!</p>
-            <p>There was an issue retrieving your events.</p>
-          </div>
-        ) : (
-          <>
-            {events
-              ?.filter(
-                ({ owned_by, id }) =>
-                  owned_by === userID || signedUpEventIDs.includes(id),
-              )
-              .map(({ id, title, date, body, owned_by }) => {
-                return (
-                  <EventCard
-                    handleDelete={handleDelete}
-                    key={id as Key}
-                    id={id}
-                    title={title}
-                    date={date}
-                    body={body}
-                    isOwned={userID === owned_by ? true : false}
-                  />
-                );
-              })}
-          </>
-        )}
-      </CardGrid>
+    <div className="flex flex-col gap-8">
+      {errors ? (
+        <div>
+          <p>Uh oh!</p>
+          <p>There was an issue retrieving your events.</p>
+        </div>
+      ) : (
+        <>
+          <section>
+            <PageHeading>My Events</PageHeading>
+            <PageSubHeading>Events you own will show up here!</PageSubHeading>
+            <CardGrid>
+              {isLoading && (
+                <>
+                  <EventCardSkeleton />
+                  <EventCardSkeleton />
+                  <EventCardSkeleton />
+                  <EventCardSkeleton />
+                </>
+              )}
+              {ownedEvents?.map(({ id, title, date, body }) => (
+                <EventCard
+                  handleDelete={handleDelete}
+                  key={id as Key}
+                  id={id}
+                  title={title}
+                  date={date}
+                  body={body}
+                  isOwned
+                />
+              ))}
+              {!isLoading && ownedEvents?.length === 0 && (
+                <p>Click the create button to get started.</p>
+              )}
+            </CardGrid>
+          </section>
+
+          <Separator className="my-5" />
+
+          <section>
+            <PageHeading>Upcoming Events</PageHeading>
+            <PageSubHeading>
+              Events you are invited to will show up here!
+            </PageSubHeading>
+            <CardGrid>
+              {upcomingEvents?.map(({ id, title, date, body }) => (
+                <EventCard
+                  handleDelete={handleDelete}
+                  key={id as Key}
+                  id={id}
+                  title={title}
+                  date={date}
+                  body={body}
+                  isOwned={false}
+                />
+              ))}
+              {!isLoading && upcomingEvents?.length === 0 && (
+                <p>You haven&apos;t signed up for any upcoming events.</p>
+              )}
+            </CardGrid>
+          </section>
+
+          <Separator className="my-5" />
+
+          {pastEvents && pastEvents.length > 0 && (
+            <section>
+              <PageHeading>Past Events</PageHeading>
+              <CardGrid>
+                {pastEvents.map(({ id, title, date, body, owned_by }) => (
+                  <div key={id as Key}>
+                    <EventCard
+                      handleDelete={handleDelete}
+                      id={id}
+                      title={title}
+                      date={date}
+                      body={body}
+                      isOwned={userID === owned_by}
+                      isPast
+                    />
+                  </div>
+                ))}
+              </CardGrid>
+            </section>
+          )}
+        </>
+      )}
     </div>
   );
 };
