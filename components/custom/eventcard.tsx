@@ -16,6 +16,7 @@ import Link from 'next/link';
 type EventCardProps = {
   title: string;
   isOwned: boolean;
+  isPast?: boolean;
   date: Date;
   body: string;
   id: Key;
@@ -29,6 +30,7 @@ const EventCard = ({
   handleDelete,
   id,
   isOwned,
+  isPast = false,
 }: EventCardProps) => {
   return (
     <Card>
@@ -41,7 +43,7 @@ const EventCard = ({
       <CardContent>
         {body.length > 99 ? <p>{body.substring(0, 100)}...</p> : <p>{body}</p>}
       </CardContent>
-      {isOwned ? (
+      {isOwned && !isPast ? (
         <CardFooter className="grid-cols-2 gap-1 mt-auto">
           <EditDialog
             id={id}
